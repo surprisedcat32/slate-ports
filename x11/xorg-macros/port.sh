@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /usr/ports/x11
+cd /usr/ports/x11/xorg-macros
 
 git clone https://gitlab.freedesktop.org/xorg/util/macros.git xorg-macros
 

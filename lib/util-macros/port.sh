@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /usr/ports/x11
+cd /usr/ports/lib/util-macros
 
 wget https://xorg.freedesktop.org/archive/individual/util/util-macros-1.20.2.tar.xz
 
