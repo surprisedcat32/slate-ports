@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /usr/ports/x11/libXext
+cd /usr/ports/x11/libXest
 
 git clone https://gitlab.freedesktop.org/xorg/lib/libXext.git
 

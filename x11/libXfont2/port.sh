@@ -2,9 +2,9 @@
 
 cd /usr/ports/x11/libXfont2
 
-git clone https://gitlab.freedesktop.org/xorg/lib/libXfont2.git
-
-cd libXfont2
+curl -LO https://mirror.csclub.uwaterloo.ca/x.org/individual/lib/libXfont2-2.0.6.tar.xz
+tar -xf libXfont2-2.0.6.tar.xz
+cd libXfont2-2.0.6
 
 ./autogen.sh
 

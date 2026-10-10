@@ -6,7 +6,7 @@ git clone https://gitlab.freedesktop.org/libevdev/libevdev.git
 
 cd libevdev
 
-meson setup build --prefix=/usr
+meson setup build --prefix=/usr -Ddocumentation=disabled -Dtests=disabled
 
 meson compile -C build -j"$(nproc)"
 

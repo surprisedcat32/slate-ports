@@ -1,13 +1,9 @@
 #!/bin/bash
 
-cd /usr/ports/x11/libxcb
+cd /usr/ports/x11
+curl -LO https://xorg.freedesktop.org/archive/individual/lib/libxcb-1.17.0.tar.xz
+tar -xf libxcb-1.17.0.tar.xz
+cd libxcb-1.17.0
+./configure  --without-doxygen --prefix=/usr
+make install
 
-git clone https://gitlab.freedesktop.org/xorg/lib/libxcb.git
-
-cd libxcb
-
-meson setup build --prefix=/usr
-
-meson compile -C build -j"$(nproc)"
-
-meson install -C build
