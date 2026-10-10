@@ -11,3 +11,4 @@ meson setup build --prefix=/usr
 meson compile -C build -j"$(nproc)"
 
 meson install -C build
+ln -sf /usr/lib64/pkgconfig/freetype2.pc /usr/lib64/pkgconfig/freetype.pc

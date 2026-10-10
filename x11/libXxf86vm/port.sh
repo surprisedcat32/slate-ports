@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-cd /usr/ports/x11libXxf86vm
+cd /usr/ports/x11/libXxf86vm
 
 git clone https://gitlab.freedesktop.org/xorg/lib/libXxf86vm.git
 cd libXxf86vm
