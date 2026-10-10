@@ -50,13 +50,13 @@ build_driver() {
 build_driver xf86-video-vesa 2.6.0
 
 # Linux framebuffer support, if the guest kernel exposes /dev/fb0.
-build_driver xf86-video-fbdev 0.5.0
+build_driver xf86-video-fbdev 0.5.1
 
 # Modern keyboard/mouse input through libinput.
 build_driver xf86-input-libinput 1.5.0
 
 # Fallback input driver using Linux input events.
-build_driver xf86-input-evdev 2.10.6
+build_driver xf86-input-evdev 2.11.0
 
 echo "Xorg drivers installed."
 
