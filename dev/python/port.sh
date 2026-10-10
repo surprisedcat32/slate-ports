@@ -24,3 +24,4 @@ export LD_LIBRARY_PATH=/usr/lib64:/usr/lib
 make -j"$(nproc)"
 make install
 ln -sf /usr/bin/python3.13 /usr/bin/python
+ln -sf /usr/bin/python3.13 /usr/bin/python3
