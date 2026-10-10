@@ -7,9 +7,8 @@ PREFIX=/usr
 LIBDIR=/usr/lib64
 MODULEDIR="$LIBDIR/xorg/modules"
 
-export CC="${CC:-cross-musl-gcc}"
 export PKG_CONFIG_PATH="/usr/lib64/pkgconfig:/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/share/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
-
+CC=gcc
 mkdir -p "$WORK"
 cd "$WORK"
 
