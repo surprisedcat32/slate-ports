@@ -5,7 +5,7 @@ cd /usr/ports/x11/xorg-server
 git clone https://gitlab.freedesktop.org/xorg/xserver.git xorg-server
 
 cd xorg-server
-
+export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/share/pkgconfig
 meson setup build   --prefix=/usr
 meson configure build \
   -Dsystemd_logind=false \
