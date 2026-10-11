@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /usr/ports
+cd /usr/ports/lib/libudev-zero
 git clone https://github.com/illiliti/libudev-zero.git
 cd libudev-zero
 meson setup build --prefix=/usr

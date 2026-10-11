@@ -7,6 +7,7 @@ git clone https://gitlab.freedesktop.org/mesa/mesa.git
 cd mesa
 export PYTHON=/usr/bin/python3.13
 export PYTHONPATH=/usr/lib/python3.13/site-packages
+export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/share/pkgconfig
 python3 -m pip install pyyaml mako
 meson setup build \
   --prefix=/usr \

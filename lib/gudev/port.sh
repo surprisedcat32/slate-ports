@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /usr/ports/system/gudev
+cd /usr/ports/lib/gudev
 git clone https://gitlab.gnome.org/GNOME/libgudev.git
 cd libgudev
 export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/share/pkgconfig
