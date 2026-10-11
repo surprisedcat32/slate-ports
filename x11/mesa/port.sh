@@ -2,7 +2,7 @@
 
 cd /usr/ports/x11/mesa
 
-git clone https://gitlab.freedesktop.org/mesa/mesa.git
+git clone --depth=1 https://gitlab.freedesktop.org/mesa/mesa.git
 
 cd mesa
 export PYTHON=/usr/bin/python3.13
@@ -14,7 +14,7 @@ meson setup build \
   -Dplatforms=x11 \
   -Dgallium-drivers=softpipe \
   -Dvulkan-drivers= \
-  -Dgbm=disabled \
+  -Dgbm=enabled \
   -Dglx=dri \
   -Dllvm=disabled \
   -Degl=enabled \
