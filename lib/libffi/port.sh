@@ -7,3 +7,4 @@ cd libffi-3.5.2
 make -j"$(nproc)"
 make install
 ln -sf /usr/lib64/libffi.so.8 /usr/lib/libffi.so.8
+touch /usr/ports/installed/libffi

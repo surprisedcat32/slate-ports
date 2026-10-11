@@ -11,3 +11,4 @@ CFLAGS="-fPIC" ./configure --prefix=/usr
 make -j"$(nproc)"
 
 make install
+touch /usr/ports/installed/readline

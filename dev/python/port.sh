@@ -1,5 +1,13 @@
 #!/bin/bash
-
+if [ ! -f "/usr/ports/installed/devel" ]; then
+    slate install dev/dev
+fi
+if [ ! -f "/usr/ports/installed/devel" ]; then
+    slate install lib/readline
+fi
+if [ ! -f "/usr/ports/installed/devel" ]; then
+    slate install lib/libffi 
+fi
 
 cd /usr/ports/dev/python
 
@@ -25,3 +33,5 @@ make -j"$(nproc)"
 make install
 ln -sf /usr/bin/python3.13 /usr/bin/python
 ln -sf /usr/bin/python3.13 /usr/bin/python3
+touch /usr/ports/installed/python
+touch /usr/ports/installed/python3

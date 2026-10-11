@@ -6,3 +6,4 @@ cd pcre2-10.44
 ./configure --prefix=/usr
 make -j"$(nproc)"
 make install
+touch /usr/ports/installed/pcre2
