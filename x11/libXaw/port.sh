@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /usr/ports/libXaw
+cd /usr/ports/x11/libXaw
 
 git clone https://gitlab.freedesktop.org/xorg/lib/libXaw.git
 

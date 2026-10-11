@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /usr/ports/xorg-clocks
+cd /usr/ports/x11/xclock
 
 git clone https://gitlab.freedesktop.org/xorg/app/xclock.git
 
