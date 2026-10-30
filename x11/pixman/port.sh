@@ -2,7 +2,7 @@
 
 cd /usr/ports/x11/pixman
 
-git clone https://gitlab.freedesktop.org/pixman/pixman.git
+git clone --depth 1 https://gitlab.freedesktop.org/pixman/pixman.git
 
 cd pixman
 

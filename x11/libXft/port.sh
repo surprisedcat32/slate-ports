@@ -2,7 +2,7 @@
 
 cd /usr/ports/x11/libXft
 
-git clone https://gitlab.freedesktop.org/xorg/lib/libXft.git
+git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libXft.git
 
 cd libXft
 export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/share/pkgconfig

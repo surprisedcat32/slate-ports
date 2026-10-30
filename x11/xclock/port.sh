@@ -2,7 +2,7 @@
 
 cd /usr/ports/x11/xclock
 
-git clone https://gitlab.freedesktop.org/xorg/app/xclock.git
+git clone --depth 1 https://gitlab.freedesktop.org/xorg/app/xclock.git
 
 cd xclock
 

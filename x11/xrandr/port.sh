@@ -2,7 +2,7 @@
 
 cd /usr/ports/x11/xrandr
 
-git clone https://gitlab.freedesktop.org/xorg/app/xrandr.git
+git clone --depth 1 https://gitlab.freedesktop.org/xorg/app/xrandr.git
 
 cd xrandr
 

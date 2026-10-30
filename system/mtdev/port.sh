@@ -1,6 +1,6 @@
 #!/bin/bash
 cd /usr/ports
-git clone https://bitmath.org/git/mtdev.git
+git clone --depth 1 https://bitmath.org/git/mtdev.git
 cd mtdev
 ./autogen.sh
 ./configure --prefix=/usr

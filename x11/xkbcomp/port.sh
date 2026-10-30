@@ -2,7 +2,7 @@
 
 cd /usr/ports/x11/xkbcomp
 
-git clone https://gitlab.freedesktop.org/xorg/app/xkbcomp.git
+git clone --depth 1 https://gitlab.freedesktop.org/xorg/app/xkbcomp.git
 
 cd xkbcomp
 

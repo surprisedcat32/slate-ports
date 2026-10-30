@@ -2,7 +2,7 @@
 
 cd /usr/ports/x11/libXi
 
-git clone https://gitlab.freedesktop.org/xorg/lib/libXi.git
+git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libXi.git
 
 cd libXi
 

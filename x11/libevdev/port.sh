@@ -2,7 +2,7 @@
 
 cd /usr/ports/x11/libevdev
 
-git clone https://gitlab.freedesktop.org/libevdev/libevdev.git
+git clone --depth 1 https://gitlab.freedesktop.org/libevdev/libevdev.git
 
 cd libevdev
 

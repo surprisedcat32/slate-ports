@@ -1,6 +1,6 @@
 #!/bin/bash
 cd /usr/ports/x11/xtrans
-git clone https://gitlab.freedesktop.org/xorg/lib/libxtrans.git
+git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libxtrans.git
 cd libxtrans
 ./autogen.sh
 ./configure --prefix=/usr

@@ -2,7 +2,7 @@
 
 cd /usr/ports/x11/libXrender
 
-git clone https://gitlab.freedesktop.org/xorg/lib/libXrender.git
+git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libXrender.git
 
 cd libXrender
 

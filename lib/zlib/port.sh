@@ -2,7 +2,7 @@
 
 cd /usr/ports/lib/zlib
 
-git clone https://github.com/madler/zlib.git
+git clone --depth 1 https://github.com/madler/zlib.git
 
 cd zlib
 

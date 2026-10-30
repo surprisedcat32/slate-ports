@@ -2,7 +2,7 @@
 
 cd /usr/ports/x11/libinput
 
-git clone https://gitlab.freedesktop.org/libinput/libinput.git
+git clone --depth 1 https://gitlab.freedesktop.org/libinput/libinput.git
 
 cd libinput
 export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/share/pkgconfig

@@ -2,7 +2,7 @@
 
 cd /usr/ports/x11/libxcvt
 
-git clone https://gitlab.freedesktop.org/xorg/lib/libxcvt.git
+git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libxcvt.git
 
 cd libxcvt
 

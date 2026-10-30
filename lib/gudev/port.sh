@@ -1,6 +1,6 @@
 #!/bin/bash
 cd /usr/ports/lib/gudev
-git clone https://gitlab.gnome.org/GNOME/libgudev.git
+git clone --depth 1 https://gitlab.gnome.org/GNOME/libgudev.git
 cd libgudev
 export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/share/pkgconfig
 meson setup build --prefix=/usr -Dtests=disabled -Dintrospection=disabled

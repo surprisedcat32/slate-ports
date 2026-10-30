@@ -2,7 +2,7 @@
 
 cd /usr/ports/x11/libXcursor
 
-git clone https://gitlab.freedesktop.org/xorg/lib/libXcursor.git
+git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libXcursor.git
 
 cd libXcursor
 

@@ -2,7 +2,7 @@
 
 cd /usr/ports/x11/libdrm
 
-git clone https://gitlab.freedesktop.org/mesa/drm.git libdrm
+git clone --depth 1 https://gitlab.freedesktop.org/mesa/drm.git libdrm
 
 cd libdrm
 

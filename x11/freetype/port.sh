@@ -2,7 +2,7 @@
 
 cd /usr/ports/x11/freetype
 
-git clone https://gitlab.freedesktop.org/freetype/freetype.git
+git clone --depth 1 https://gitlab.freedesktop.org/freetype/freetype.git
 
 cd freetype
 

@@ -2,7 +2,7 @@
 
 cd /usr/ports/x11/xorg-macros
 
-git clone https://gitlab.freedesktop.org/xorg/util/macros.git xorg-macros
+git clone --depth 1 https://gitlab.freedesktop.org/xorg/util/macros.git xorg-macros
 
 cd xorg-macros
 

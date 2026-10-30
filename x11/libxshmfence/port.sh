@@ -3,7 +3,7 @@ set -e
 
 cd /usr/ports/x11/libxshmfence
 
-git clone https://gitlab.freedesktop.org/xorg/lib/libxshmfence.git
+git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libxshmfence.git
 cd libxshmfence
 
 ./autogen.sh --prefix=/usr

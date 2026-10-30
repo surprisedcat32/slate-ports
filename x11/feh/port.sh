@@ -2,7 +2,7 @@
 
 cd /usr/ports/x11/feh
 
-git clone https://github.com/derf/feh.git
+git clone --depth 1 https://github.com/derf/feh.git
 
 cd feh
 

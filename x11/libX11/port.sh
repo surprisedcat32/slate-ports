@@ -2,7 +2,7 @@
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig
 cd /usr/ports/x11/libX11
 
-git clone https://gitlab.freedesktop.org/xorg/lib/libX11.git
+git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libX11.git
 
 cd libX11
 

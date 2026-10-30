@@ -3,7 +3,7 @@ set -e
 
 cd /usr/ports/x11/libXxf86vm
 
-git clone https://gitlab.freedesktop.org/xorg/lib/libXxf86vm.git
+git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libXxf86vm.git
 cd libXxf86vm
 
 ./autogen.sh --prefix=/usr

@@ -2,7 +2,7 @@
 
 cd /usr/ports/x11/libXau
 
-git clone https://gitlab.freedesktop.org/xorg/lib/libxau.git
+git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libxau.git
 
 cd libxau
 

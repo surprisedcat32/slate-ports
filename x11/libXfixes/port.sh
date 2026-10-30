@@ -2,7 +2,7 @@
 
 cd /usr/ports/x11/libXfixes
 
-git clone https://gitlab.freedesktop.org/xorg/lib/libXfixes.git
+git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libXfixes.git
 
 cd libXfixes
 

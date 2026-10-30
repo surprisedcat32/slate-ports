@@ -2,7 +2,7 @@
 
 cd /usr/ports/x11/libXpm
 
-git clone https://gitlab.freedesktop.org/xorg/lib/libXpm.git
+git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libXpm.git
 
 cd libXpm
 

@@ -2,7 +2,7 @@
 
 cd /usr/ports/x11/libxkbfile
 
-git clone https://gitlab.freedesktop.org/xorg/lib/libxkbfile.git
+git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libxkbfile.git
 
 cd libxkbfile
 meson setup build --prefix=/usr

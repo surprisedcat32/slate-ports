@@ -3,7 +3,7 @@ slate install dev/dev
 slate install dev/python
 cd /usr/ports/dev/meson
 
-git clone https://github.com/mesonbuild/meson.git
+git clone --depth 1 https://github.com/mesonbuild/meson.git
 
 cd meson
 
