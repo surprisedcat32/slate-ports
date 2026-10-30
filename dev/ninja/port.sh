@@ -5,10 +5,13 @@ fi
 if [ ! -f "/usr/ports/installed/python3" ]; then
     slate install dev/python
 fi
+if [ ! -f "/usr/ports/installed/unzip" ]; then
+    slate install utilities/unzip
+fi
 cd /usr/ports/dev/ninja
 
-git clone https://github.com/ninja-build/ninja.git
-
+curl -LO https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-linux.zip
+unzip ninja-linux.zip
 cd ninja
 
 python3 configure.py --bootstrap

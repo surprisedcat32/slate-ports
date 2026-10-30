@@ -2,10 +2,10 @@
 if [ ! -f "/usr/ports/installed/devel" ]; then
     slate install dev/dev
 fi
-if [ ! -f "/usr/ports/installed/devel" ]; then
+if [ ! -f "/usr/ports/installed/readline" ]; then
     slate install lib/readline
 fi
-if [ ! -f "/usr/ports/installed/devel" ]; then
+if [ ! -f "/usr/ports/installed/libffi" ]; then
     slate install lib/libffi 
 fi
 
