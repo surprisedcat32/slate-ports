@@ -12,14 +12,14 @@ fi
 
 cd linux-firmware
 
-mkdir -p /usr/lib/firmware
+mkdir -p ${DESTDIR:-}/usr/lib/firmware
 
-cp -a . /usr/lib/firmware/
+cp -a . ${DESTDIR:-}/usr/lib/firmware/
 
-rm -rf /usr/lib/firmware/.git
-rm -f /usr/lib/firmware/.gitignore
-rm -f /usr/lib/firmware/.gitattributes
-rm -f /usr/lib/firmware/README
-rm -f /usr/lib/firmware/WHENCE
+rm -rf ${DESTDIR:-}/usr/lib/firmware/.git
+rm -f ${DESTDIR:-}/usr/lib/firmware/.gitignore
+rm -f ${DESTDIR:-}/usr/lib/firmware/.gitattributes
+rm -f ${DESTDIR:-}/usr/lib/firmware/README
+rm -f ${DESTDIR:-}/usr/lib/firmware/WHENCE
 
 echo "Linux firmware installed successfully."

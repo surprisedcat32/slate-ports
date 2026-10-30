@@ -1,13 +1,7 @@
 #!/bin/bash
-if [ ! -f "/usr/ports/installed/devel" ]; then
-    slate install dev/dev
-fi
-if [ ! -f "/usr/ports/installed/readline" ]; then
-    slate install lib/readline
-fi
-if [ ! -f "/usr/ports/installed/libffi" ]; then
-    slate install lib/libffi 
-fi
+slate install dev/dev
+slate install lib/readline
+slate install lib/libffi
 
 cd /usr/ports/dev/python
 
@@ -31,7 +25,5 @@ sed -i 's/uuid_generate_time_safe(uuid)/0/' Modules/_uuidmodule.c
 export LD_LIBRARY_PATH=/usr/lib64:/usr/lib
 make -j"$(nproc)"
 make install
-ln -sf /usr/bin/python3.13 /usr/bin/python
-ln -sf /usr/bin/python3.13 /usr/bin/python3
-touch /usr/ports/installed/python
-touch /usr/ports/installed/python3
+ln -sf /usr/bin/python3.13 ${DESTDIR:-}/usr/bin/python
+ln -sf /usr/bin/python3.13 ${DESTDIR:-}/usr/bin/python3

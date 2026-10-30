@@ -6,5 +6,4 @@ cd libffi-3.5.2
 ./configure --prefix=/usr --enable-shared
 make -j"$(nproc)"
 make install
-ln -sf /usr/lib64/libffi.so.8 /usr/lib/libffi.so.8
-touch /usr/ports/installed/libffi
+ln -sf /usr/lib64/libffi.so.8 ${DESTDIR:-}/usr/lib/libffi.so.8

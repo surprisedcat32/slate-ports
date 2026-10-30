@@ -1,13 +1,7 @@
 #!/bin/bash
-if [ ! -f "/usr/ports/installed/devel" ]; then
-    slate install dev/dev
-fi
-if [ ! -f "/usr/ports/installed/python3" ]; then
-    slate install dev/python
-fi
-if [ ! -f "/usr/ports/installed/unzip" ]; then
-    slate install utilities/unzip
-fi
+slate install dev/dev
+slate install dev/python
+slate install utilities/unzip
 cd /usr/ports/dev/ninja
 
 curl -LO https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-linux.zip
@@ -16,5 +10,4 @@ cd ninja
 
 python3 configure.py --bootstrap
 
-install -Dm755 ninja /usr/bin/ninja
-touch /usr/ports/installed/ninja
+install -Dm755 ninja ${DESTDIR:-}/usr/bin/ninja

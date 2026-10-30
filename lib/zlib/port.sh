@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /usr/ports/x11/zlib
+cd /usr/ports/lib/zlib
 
 git clone https://github.com/madler/zlib.git
 

@@ -1,10 +1,6 @@
 #!/bin/bash
-if [ ! -f "/usr/ports/installed/devel" ]; then
-    slate install dev/dev
-fi
-if [ ! -f "/usr/ports/installed/zlib" ]; then
-    slate install lib/zlib
-fi
+slate install dev/dev
+slate install lib/zlib
 
 cd /usr/ports/utilities/zip
 
@@ -23,5 +19,3 @@ cd zip30
 make -f unix/Makefile generic
 make -f unix/Makefile prefix=/usr install
 
-touch /usr/ports/installed/unzip
-touch /usr/ports/installed/zip

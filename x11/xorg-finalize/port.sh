@@ -1,2 +1,2 @@
 #!/bin/sh
-ln -s /usr/lib64/lib* /usr/lib
+ln -s /usr/lib64/lib* ${DESTDIR:-}/usr/lib

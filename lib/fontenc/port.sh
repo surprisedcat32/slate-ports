@@ -1,7 +1,5 @@
 #!/bin/bash
-if [ ! -f "/usr/ports/installed/devel" ]; then
-    slate install dev/dev
-fi
+slate install dev/dev
 cd /usr/ports/x11
 curl -LO https://mirror.csclub.uwaterloo.ca/x.org/individual/lib/libfontenc-1.1.7.tar.xz
 tar -xf libfontenc-1.1.7.tar.xz

@@ -1,0 +1,171 @@
+#!/bin/bash
+
+PORTS_DIR="/usr/ports"
+PORTS_REPO="https://github.com/surprisedcat32/slate-ports.git"
+
+usage() {
+    echo "Usage:"
+    echo "  slate [--sysroot DIR] install <category>/<package>"
+    echo "  slate ports"
+    echo "  slate update"
+    echo ""
+    echo "  --sysroot DIR   install into DIR instead of / (alias: -S DIR)"
+    exit 1
+}
+
+# Pull --sysroot out of the arguments, wherever it appears.
+SYSROOT="/"
+ARGS=()
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --sysroot|-S)
+            [ -n "$2" ] || usage
+            SYSROOT="$2"
+            shift 2
+            ;;
+        --sysroot=*)
+            SYSROOT="${1#--sysroot=}"
+            shift
+            ;;
+        *)
+            ARGS+=("$1")
+            shift
+            ;;
+    esac
+done
+set -- "${ARGS[@]}"
+
+SYSROOT="${SYSROOT%/}"
+[ -n "$SYSROOT" ] || SYSROOT="/"
+
+if [ "$SYSROOT" != "/" ]; then
+    case "$SYSROOT" in
+        /*) ;;
+        *) echo "slate: sysroot must be an absolute path: $SYSROOT" >&2; exit 1 ;;
+    esac
+    mkdir -p "$SYSROOT"
+    export DESTDIR="$SYSROOT"
+fi
+
+export SLATE_SYSROOT="$SYSROOT"
+STATE_DIR="${SYSROOT%/}/var/lib/slate/installed"
+LOG_DIR="${SYSROOT%/}/var/log/slate"
+
+case "$1" in
+    install)
+        [ -n "$2" ] || usage
+
+        PORT_NAME="$2"
+
+        if [[ ! "$PORT_NAME" =~ ^[a-zA-Z0-9._+-]+/[a-zA-Z0-9._+-]+$ ]]; then
+            echo "slate: invalid port name: $PORT_NAME" >&2
+            exit 1
+        fi
+
+        PORT_DIR="$PORTS_DIR/$PORT_NAME"
+        PORT_SCRIPT="$PORT_DIR/port.sh"
+
+        if [ ! -d "$PORT_DIR" ]; then
+            echo "slate: port not found: $PORT_NAME" >&2
+            exit 1
+        fi
+
+        if [ ! -f "$PORT_SCRIPT" ]; then
+            echo "slate: missing port.sh in $PORT_NAME" >&2
+            exit 1
+        fi
+
+        if [ "$SYSROOT" = "/" ] && [ "$EUID" -ne 0 ]; then
+            echo "slate: installation requires root privileges" >&2
+            exit 1
+        fi
+
+        if [ -f "$STATE_DIR/$PORT_NAME" ]; then
+            echo "==> $PORT_NAME is already installed in $SYSROOT"
+            exit 0
+        fi
+
+        echo "==> Installing $PORT_NAME"
+        echo "==> Port directory: $PORT_DIR"
+        [ "$SYSROOT" = "/" ] || echo "==> Target sysroot: $SYSROOT"
+
+        mkdir -p "$LOG_DIR"
+        cd "$PORT_DIR" || exit 1
+
+        PORT_NAME="$PORT_NAME" \
+        PORT_DIR="$PORT_DIR" \
+        bash "$PORT_SCRIPT"
+
+        result=$?
+
+        if [ "$result" -ne 0 ]; then
+            echo "==> Failed to install $PORT_NAME"
+            exit "$result"
+        fi
+
+        mkdir -p "$(dirname "$STATE_DIR/$PORT_NAME")"
+        date -u +%Y-%m-%dT%H:%M:%SZ > "$STATE_DIR/$PORT_NAME"
+
+        echo "==> Finished installing $PORT_NAME"
+        ;;
+
+    ports)
+        if [ ! -d "$PORTS_DIR" ]; then
+            echo "slate: ports directory not found" >&2
+            exit 1
+        fi
+
+        find "$PORTS_DIR" -mindepth 2 -maxdepth 2 \
+            -type f -name port.sh |
+        while IFS= read -r recipe; do
+            port="${recipe#"$PORTS_DIR"/}"
+            echo "${port%/port.sh}"
+        done
+        ;;
+
+    update)
+        if [ "$SYSROOT" != "/" ]; then
+            echo "slate: update only works on the host, not with --sysroot" >&2
+            exit 1
+        fi
+
+        if [ "$EUID" -ne 0 ]; then
+            echo "slate: updating ports requires root privileges" >&2
+            exit 1
+        fi
+
+        if ! command -v git >/dev/null 2>&1; then
+            echo "slate: git is required to update ports" >&2
+            exit 1
+        fi
+
+        TMP_DIR="/tmp/slate-ports-update-$$"
+
+        echo "==> Downloading latest Slate ports..."
+        if ! git clone "$PORTS_REPO" "$TMP_DIR"; then
+            rm -rf "$TMP_DIR"
+            echo "slate: failed to download ports; existing ports preserved" >&2
+            exit 1
+        fi
+
+        if [ ! -d "$TMP_DIR/.git" ]; then
+            rm -rf "$TMP_DIR"
+            echo "slate: downloaded repository is invalid" >&2
+            exit 1
+        fi
+
+        echo "==> Replacing ports directory..."
+
+        rm -rf "$PORTS_DIR"
+
+        if ! mv "$TMP_DIR" "$PORTS_DIR"; then
+            echo "slate: failed to install updated ports" >&2
+            exit 1
+        fi
+        echo "==> Slate ports updated successfully."
+        ;;
+
+    *)
+        usage
+        ;;
+esac
