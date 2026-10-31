@@ -20,8 +20,8 @@ STAGE=""
 MANIFEST_TMP=""
 
 die() { echo "slate: $*" >&2; exit 1; }
-
-usage() {
+say() { [ "$SILENT" -eq 1 ] || echo "$@"; }
+usage_text() {
     echo "Usage:"
     echo "  slate [--sysroot DIR] install <category>/<package>"
     echo "  slate [--sysroot DIR] uninstall [--force] <category>/<package>"
@@ -31,12 +31,21 @@ usage() {
     echo ""
     echo "  --sysroot DIR   operate on DIR instead of / (alias: -S DIR)"
     echo "  --force, -f     uninstall even if installed files were modified"
-    exit 1
 }
 
+usage() {
+    usage_text
+    exit 1
+}
+# Print help and exit 0 when run with no arguments.
+if [ $# -eq 0 ]; then
+    usage_text
+    exit 0
+fi
 # Pull options out of the arguments, wherever they appear.
 SYSROOT="/"
 FORCE=0
+SILENT=0
 ARGS=()
 while [ $# -gt 0 ]; do
     case "$1" in
@@ -44,6 +53,10 @@ while [ $# -gt 0 ]; do
             [ -n "$2" ] || usage
             SYSROOT="$2"
             shift 2
+            ;;
+	--silent|-s)
+            SILENT=1
+            shift
             ;;
         --sysroot=*)
             SYSROOT="${1#--sysroot=}"
@@ -152,7 +165,7 @@ cleanup_install() {
 }
 
 case "$1" in
-    install)
+       install)
         [ -n "$2" ] || usage
         PORT_NAME="$2"
         check_name "$PORT_NAME"
@@ -165,13 +178,13 @@ case "$1" in
         require_root installation
 
         if [ -f "$STATE_DIR/$PORT_NAME" ]; then
-            echo "==> $PORT_NAME is already installed in $SYSROOT"
+            say "==> $PORT_NAME is already installed in $SYSROOT"
             exit 0
         fi
 
         echo "==> Installing $PORT_NAME"
-        echo "==> Port directory: $PORT_DIR"
-        [ "$SYSROOT" = "/" ] || echo "==> Target sysroot: $SYSROOT"
+        say "==> Port directory: $PORT_DIR"
+        [ "$SYSROOT" = "/" ] || say "==> Target sysroot: $SYSROOT"
 
         mkdir -p "$LOG_DIR" "$STAGE_PARENT" || die "cannot create $STAGE_PARENT"
 
@@ -181,16 +194,26 @@ case "$1" in
         MANIFEST_TMP=$(mktemp "$STAGE_PARENT/slate-manifest.XXXXXX") \
             || die "cannot create manifest file in $STAGE_PARENT"
 
-        # The port installs into a temporary root, not the real sysroot.
-        (cd "$PORT_DIR" &&
-            PORT_NAME="$PORT_NAME" \
-            PORT_DIR="$PORT_DIR" \
-            DESTDIR="$STAGE" \
-            bash "$PORT_SCRIPT")
+        LOG_FILE="$LOG_DIR/${PORT_NAME//\//_}.log"
+
+        if [ "$SILENT" -eq 1 ]; then
+            (cd "$PORT_DIR" &&
+                PORT_NAME="$PORT_NAME" \
+                PORT_DIR="$PORT_DIR" \
+                DESTDIR="$STAGE" \
+                bash "$PORT_SCRIPT") > "$LOG_FILE" 2>&1
+        else
+            (cd "$PORT_DIR" &&
+                PORT_NAME="$PORT_NAME" \
+                PORT_DIR="$PORT_DIR" \
+                DESTDIR="$STAGE" \
+                bash "$PORT_SCRIPT")
+        fi
         result=$?
 
         if [ "$result" -ne 0 ]; then
-            echo "==> Failed to install $PORT_NAME; nothing was copied into $SYSROOT"
+            echo "==> Failed to install $PORT_NAME; nothing was copied into $SYSROOT" >&2
+            [ "$SILENT" -eq 1 ] && echo "slate: see $LOG_FILE" >&2
             exit "$result"
         fi
 
@@ -207,10 +230,9 @@ case "$1" in
             exit 1
         fi
 
-        echo "==> Copying files into $SYSROOT"
+        say "==> Copying files into $SYSROOT"
         if ! transplant "$STAGE"; then
             echo "slate: copy failed; rolling back" >&2
-            # Conflicts were ruled out above, so anything present now is ours.
             remove_manifest "$MANIFEST_TMP"
             exit 1
         fi
@@ -222,8 +244,7 @@ case "$1" in
 
         count=$(grep -c '^[fl]' "$MANIFEST_DIR/$PORT_NAME")
         echo "==> Finished installing $PORT_NAME ($count files)"
-        ;;
-
+        ;; 
     uninstall)
         [ -n "$2" ] || usage
         PORT_NAME="$2"
