@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-cd /usr/ports/dev/perl-xml-parser
+cd /usr/ports/perl/perl-xml-parser
 curl -LO https://www.cpan.org/authors/id/T/TO/TODDR/XML-Parser-2.59.tar.gz
 tar -xf XML-Parser-2.59.tar.gz
 cd XML-Parser-2.59

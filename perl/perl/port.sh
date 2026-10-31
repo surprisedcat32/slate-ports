@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /usr/ports/dev/perl
+cd /usr/ports/perl/perl
 
 curl -LO https://www.cpan.org/src/5.0/perl-5.42.0.tar.gz
 
