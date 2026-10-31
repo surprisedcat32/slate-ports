@@ -276,7 +276,6 @@ case "$1" in
             echo "${port%/port.sh}"
         done
         ;;
-
     update)
         if [ "$SYSROOT" != "/" ]; then
             die "update only works on the host, not with --sysroot"
@@ -290,19 +289,32 @@ case "$1" in
             die "git is required to update ports"
         fi
 
-        # Release to install, e.g. 0.4. Override the file path with SLATE_VER_FILE=...
+        # Release channel: a version number (0.4), "testing", or a branch name.
+        # Override the file path with SLATE_VER_FILE=...
         VER_FILE="${SLATE_VER_FILE:-/etc/slate.conf/ver}"
         [ -r "$VER_FILE" ] || die "cannot read release version from $VER_FILE"
 
         TAG=$(tr -d '[:space:]' < "$VER_FILE")
-        [[ "$TAG" =~ ^[0-9]+(\.[0-9]+)*$ ]] || die "invalid release version in $VER_FILE: '$TAG'"
+
+        if [[ "$TAG" =~ ^[0-9]+(\.[0-9]+)*$ ]]; then
+            # Numeric value: pin to that release tag.
+            CLONE_ARGS=(--branch "$TAG")
+        elif [ "$TAG" = "testing" ] || [ "$TAG" = "Testing" ]; then
+            # Testing: always take the latest commit on main.
+            CLONE_ARGS=(--branch main)
+        elif [[ "$TAG" =~ ^[a-zA-Z][a-zA-Z0-9._-]*$ ]]; then
+            # Named value such as "experimental": use the branch with that name.
+            CLONE_ARGS=(--branch "$TAG")
+        else
+            die "invalid release value in $VER_FILE: '$TAG'"
+        fi
 
         TMP_DIR="/tmp/slate-ports-update-$$"
 
-        echo "==> Downloading Slate ports, release $TAG..."
-        if ! git clone --depth 1 --branch "$TAG" "$PORTS_REPO" "$TMP_DIR"; then
+        echo "==> Downloading Slate ports ($TAG)..."
+        if ! git clone --depth 1 "${CLONE_ARGS[@]}" "$PORTS_REPO" "$TMP_DIR"; then
             rm -rf "$TMP_DIR"
-            die "failed to download release $TAG; existing ports preserved"
+            die "failed to download '$TAG'; existing ports preserved"
         fi
 
         if [ ! -d "$TMP_DIR/.git" ]; then
@@ -316,6 +328,6 @@ case "$1" in
         if ! mv "$TMP_DIR" "$PORTS_DIR"; then
             die "failed to install updated ports"
         fi
-        echo "==> Slate ports updated to release $TAG."
+        echo "==> Slate ports updated to '$TAG'."
         ;;
 esac
