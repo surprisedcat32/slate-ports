@@ -2,9 +2,9 @@
 set -e
 
 cd /usr/ports/dev/perl-file-sharedir
-curl -LO https://cpan.metacpan.org/authors/id/E/ET/ETHER/File-ShareDir-Install-0.14.tar.gz
-tar -xf File-ShareDir-Install-0.14.tar.gz
-cd File-ShareDir-Install-0.14
+curl -LO https://cpan.metacpan.org/authors/id/R/RE/REHSACK/File-ShareDir-1.118.tar.gz
+tar -xf File-ShareDir-1.118.tar.gz
+cd File-ShareDir-1.118
 
 perl Makefile.PL PREFIX=/usr
 
