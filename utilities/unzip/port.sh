@@ -1,7 +1,4 @@
 #!/bin/bash
-slate install dev/dev
-slate install lib/zlib
-
 cd /usr/ports/utilities/zip
 
 curl -LO https://downloads.sourceforge.net/infozip/unzip60.tgz

@@ -1,6 +1,4 @@
 #!/bin/bash
-slate install dev/dev
-
 cd /usr/ports/dev/gperf
 
 curl -LO https://ftp.gnu.org/gnu/gperf/gperf-3.1.tar.gz

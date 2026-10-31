@@ -1,8 +1,4 @@
 #!/bin/bash
-slate install dev/dev
-slate install lib/readline
-slate install lib/libffi
-
 cd /usr/ports/dev/python
 
 curl -LO https://www.python.org/ftp/python/3.13.7/Python-3.13.7.tgz

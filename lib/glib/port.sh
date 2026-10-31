@@ -1,7 +1,4 @@
 #!/bin/bash
-slate install dev/dev
-slate install dev/meson
-slate install lib/pcre2
 cd /usr/ports/lib/glib
 curl -LO https://download.gnome.org/sources/glib/2.86/glib-2.86.1.tar.xz
 tar -xf glib-2.86.1.tar.xz

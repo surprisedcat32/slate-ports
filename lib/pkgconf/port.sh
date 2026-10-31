@@ -1,5 +1,4 @@
 #!/bin/bash
-slate install dev/dev
 
 cd /usr/ports/lib/pkgconf
 
