@@ -6,6 +6,6 @@ tar -xf musl-1.2.6.tar.gz
 cd musl-1.2.6
 ./configure
 make -j$(nproc)
-make install
+make DESTDIR="$DESTDIR" install
 
 

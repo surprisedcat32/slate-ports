@@ -12,10 +12,10 @@ tar -xf zip30.tar.gz
 
 cd unzip60
 make -f unix/Makefile generic
-make -f unix/Makefile prefix=/usr install
+make DESTDIR="$DESTDIR" -f unix/Makefile prefix=/usr install
 cd ..
 
 cd zip30
 make -f unix/Makefile generic
-make -f unix/Makefile prefix=/usr install
+make DESTDIR="$DESTDIR" -f unix/Makefile prefix=/usr install
 

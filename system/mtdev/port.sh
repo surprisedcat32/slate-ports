@@ -5,4 +5,4 @@ cd mtdev
 ./autogen.sh
 ./configure --prefix=/usr
 make -j"$(nproc)"
-make install
+make DESTDIR="$DESTDIR" install

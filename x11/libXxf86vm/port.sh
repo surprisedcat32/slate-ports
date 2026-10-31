@@ -8,4 +8,4 @@ cd libXxf86vm
 
 ./autogen.sh --prefix=/usr
 make -j"$(nproc)"
-make install
+make DESTDIR="$DESTDIR" install

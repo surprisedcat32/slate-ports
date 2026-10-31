@@ -12,4 +12,4 @@ export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/lib/pkgconfig:/usr/local/lib/pk
 
 make -j"$(nproc)"
 
-make install
+make DESTDIR="$DESTDIR" install

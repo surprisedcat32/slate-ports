@@ -5,5 +5,5 @@ tar -xf opendoas-6.8.2.tar.gz
 ./configure --prefix=/usr --sysconfdir=/etc --with-shadow --without-pam
 make clean
 make -j"$(toybox nproc)"
-make install
+make DESTDIR="$DESTDIR" install
 echo "Doas install completed"

@@ -6,4 +6,4 @@ export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/lib/pkgconfig:/usr/local/lib/pk
 meson setup build --prefix=/usr -Dtests=disabled -Dintrospection=disabled
 export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/share/pkgconfig
 meson compile -C build -j"$(nproc)"
-meson install -C build
+DESTDIR="$DESTDIR" meson install -C build

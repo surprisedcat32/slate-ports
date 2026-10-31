@@ -10,5 +10,5 @@ tar -xf perl-5.42.0.tar.gz
 cd perl-5.42.0
 sh Configure -des -Dprefix=/usr
 make -j"$(nproc)"
-make install
+make DESTDIR="$DESTDIR" install
 

@@ -10,5 +10,5 @@ tar -xf procps-ng-4.0.4.tar.xz
 cd procps-ng-4.0.4
 ./configure --prefix=/usr
 make -j"$(nproc)"
-make install
+make DESTDIR="$DESTDIR" install
 

@@ -10,4 +10,4 @@ make clean
 
 make -j"$(nproc)" PREFIX=/usr
 
-make install PREFIX=/usr
+make DESTDIR="$DESTDIR" install PREFIX=/usr

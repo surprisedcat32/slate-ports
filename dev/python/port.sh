@@ -24,6 +24,6 @@ export LD_LIBRARY_PATH=/usr/lib64:/usr/lib
 sed -i 's/uuid_generate_time_safe(uuid)/0/' Modules/_uuidmodule.c
 export LD_LIBRARY_PATH=/usr/lib64:/usr/lib
 make -j"$(nproc)"
-make install
+make DESTDIR="$DESTDIR" install
 ln -sf /usr/bin/python3.13 ${DESTDIR:-}/usr/bin/python
 ln -sf /usr/bin/python3.13 ${DESTDIR:-}/usr/bin/python3

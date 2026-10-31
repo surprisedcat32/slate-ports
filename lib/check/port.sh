@@ -6,4 +6,4 @@ tar -xf check-0.15.2.tar.gz
 cd check-0.15.2
 ./configure --prefix=/usr
 make -j"$(nproc)"
-make install
+make DESTDIR="$DESTDIR" install

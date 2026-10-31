@@ -10,4 +10,4 @@ cd libXdmcp-1.1.5
 
 make -j"$(nproc)"
 
-make install
+make DESTDIR="$DESTDIR" install

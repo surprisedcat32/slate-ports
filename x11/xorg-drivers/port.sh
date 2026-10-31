@@ -37,7 +37,7 @@ build_driver() {
             --with-xorg-module-dir="$MODULEDIR"
 
         make -j"$(nproc)"
-        make install
+        make DESTDIR="$DESTDIR" install
     else
         echo "ERROR: $src has no configure script"
         exit 1

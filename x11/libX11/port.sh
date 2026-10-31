@@ -12,4 +12,4 @@ cd libX11
 
 make -j"$(nproc)"
 
-make install
+make DESTDIR="$DESTDIR" install

@@ -9,4 +9,4 @@ python3 -m pip install libevdev pyudev pytest evdev
 sed -i "s/if get_option('b_sanitize') == 'none'/if false/" meson.build
 meson setup build --prefix=/usr -Dtests=disabled
 meson compile -C build -j"$(nproc)"
-meson install -C build
+DESTDIR="$DESTDIR" meson install -C build

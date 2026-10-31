@@ -10,5 +10,5 @@ tar -xf openssl-3.5.4.tar.gz
 cd openssl-3.5.4
 ./Configure --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared
 make -j"$(nproc)"
-make install
+make DESTDIR="$DESTDIR" install
 

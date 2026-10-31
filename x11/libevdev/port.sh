@@ -10,4 +10,4 @@ meson setup build --prefix=/usr -Ddocumentation=disabled -Dtests=disabled
 
 meson compile -C build -j"$(nproc)"
 
-meson install -C build
+DESTDIR="$DESTDIR" meson install -C build

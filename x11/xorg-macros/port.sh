@@ -10,4 +10,4 @@ cd xorg-macros
 
 make -j"$(nproc)"
 
-make install
+make DESTDIR="$DESTDIR" install

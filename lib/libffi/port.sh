@@ -5,5 +5,5 @@ tar -xf libffi-3.5.2.tar.gz
 cd libffi-3.5.2
 ./configure --prefix=/usr --enable-shared
 make -j"$(nproc)"
-make install
+make DESTDIR="$DESTDIR" install
 ln -sf /usr/lib64/libffi.so.8 ${DESTDIR:-}/usr/lib/libffi.so.8

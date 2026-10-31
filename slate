@@ -1,20 +1,42 @@
 #!/bin/bash
+set -o pipefail
 
 PORTS_DIR="/usr/ports"
 PORTS_REPO="https://github.com/surprisedcat32/slate-ports.git"
 
+# Scratch space for staging installs. Override with SLATE_TMPDIR=...
+STAGE_PARENT="${SLATE_TMPDIR:-/var/tmp}"
+
+# Per-package state, relative to the sysroot:
+#   var/lib/slate/installed/<cat>/<pkg>   install timestamp (marks "installed")
+#   var/lib/slate/manifests/<cat>/<pkg>   every path the package placed
+#
+# Manifest format, one entry per line, tab-separated:
+#   f<TAB>sha256<TAB>path   regular file (hash lets uninstall spot later edits)
+#   l<TAB>-<TAB>path        symlink
+#   d<TAB>-<TAB>path        directory the package created (removed only if empty)
+
+STAGE=""
+MANIFEST_TMP=""
+
+die() { echo "slate: $*" >&2; exit 1; }
+
 usage() {
     echo "Usage:"
     echo "  slate [--sysroot DIR] install <category>/<package>"
+    echo "  slate [--sysroot DIR] uninstall [--force] <category>/<package>"
+    echo "  slate [--sysroot DIR] installed"
     echo "  slate ports"
     echo "  slate update"
     echo ""
-    echo "  --sysroot DIR   install into DIR instead of / (alias: -S DIR)"
+    echo "  --sysroot DIR   operate on DIR instead of / (alias: -S DIR)"
+    echo "  --force, -f     uninstall even if installed files were modified"
     exit 1
 }
 
-# Pull --sysroot out of the arguments, wherever it appears.
+# Pull options out of the arguments, wherever they appear.
 SYSROOT="/"
+FORCE=0
 ARGS=()
 while [ $# -gt 0 ]; do
     case "$1" in
@@ -25,6 +47,10 @@ while [ $# -gt 0 ]; do
             ;;
         --sysroot=*)
             SYSROOT="${1#--sysroot=}"
+            shift
+            ;;
+        --force|-f)
+            FORCE=1
             shift
             ;;
         *)
@@ -41,44 +67,102 @@ SYSROOT="${SYSROOT%/}"
 if [ "$SYSROOT" != "/" ]; then
     case "$SYSROOT" in
         /*) ;;
-        *) echo "slate: sysroot must be an absolute path: $SYSROOT" >&2; exit 1 ;;
+        *) die "sysroot must be an absolute path: $SYSROOT" ;;
     esac
     mkdir -p "$SYSROOT"
-    export DESTDIR="$SYSROOT"
 fi
 
 export SLATE_SYSROOT="$SYSROOT"
 STATE_DIR="${SYSROOT%/}/var/lib/slate/installed"
+MANIFEST_DIR="${SYSROOT%/}/var/lib/slate/manifests"
 LOG_DIR="${SYSROOT%/}/var/log/slate"
+
+check_name() {
+    if [[ ! "$1" =~ ^[a-zA-Z0-9._+-]+/[a-zA-Z0-9._+-]+$ ]]; then
+        die "invalid port name: $1"
+    fi
+}
+
+require_root() {
+    if [ "$SYSROOT" = "/" ] && [ "$EUID" -ne 0 ]; then
+        die "$1 requires root privileges"
+    fi
+}
+
+# Build a manifest describing what the staged tree contains.
+# $1 = staging root, $2 = output file
+write_manifest() {
+    (cd "$1" && find . -mindepth 1 -print0) |
+    while IFS= read -r -d '' entry; do
+        rel="${entry#./}"
+        src="$1/$rel"
+        if [ -L "$src" ]; then
+            printf 'l\t-\t%s\n' "$rel"
+        elif [ -d "$src" ]; then
+            # Only claim directories that don't already exist in the sysroot.
+            if [ ! -e "$SYSROOT/$rel" ] && [ ! -L "$SYSROOT/$rel" ]; then
+                printf 'd\t-\t%s\n' "$rel"
+            fi
+        elif [ -f "$src" ]; then
+            sum=$(sha256sum -- "$src" | cut -d' ' -f1)
+            printf 'f\t%s\t%s\n' "$sum" "$rel"
+        fi
+    done | sort -t$'\t' -k3,3 > "$2"
+}
+
+# Print any manifest file entries that already exist in the sysroot.
+# $1 = manifest
+find_conflicts() {
+    while IFS=$'\t' read -r type _ rel; do
+        [ "$type" = d ] && continue
+        if [ -e "$SYSROOT/$rel" ] || [ -L "$SYSROOT/$rel" ]; then
+            echo "  /$rel"
+        fi
+    done < "$1"
+}
+
+# Copy the staged tree into the sysroot, preserving modes and symlinks.
+# $1 = staging root
+transplant() {
+    (cd "$1" && tar -cf - .) | (cd "$SYSROOT" && tar -xpf -)
+}
+
+# Remove everything a manifest lists: files and links first, then
+# package-created directories deepest-first, each only if empty.
+# $1 = manifest
+remove_manifest() {
+    while IFS=$'\t' read -r type _ rel; do
+        [ "$type" = d ] || rm -f -- "$SYSROOT/$rel"
+    done < "$1"
+
+    awk -F'\t' '$1 == "d" { print $3 }' "$1" | sort -r |
+    while IFS= read -r rel; do
+        rmdir -- "$SYSROOT/$rel" 2>/dev/null
+    done
+    return 0
+}
+
+cleanup_install() {
+    if [ -n "$STAGE" ] && [ -d "$STAGE" ]; then
+        rm -rf -- "$STAGE"
+    fi
+    if [ -n "$MANIFEST_TMP" ] && [ -f "$MANIFEST_TMP" ]; then
+        rm -f -- "$MANIFEST_TMP"
+    fi
+}
 
 case "$1" in
     install)
         [ -n "$2" ] || usage
-
         PORT_NAME="$2"
-
-        if [[ ! "$PORT_NAME" =~ ^[a-zA-Z0-9._+-]+/[a-zA-Z0-9._+-]+$ ]]; then
-            echo "slate: invalid port name: $PORT_NAME" >&2
-            exit 1
-        fi
+        check_name "$PORT_NAME"
 
         PORT_DIR="$PORTS_DIR/$PORT_NAME"
         PORT_SCRIPT="$PORT_DIR/port.sh"
 
-        if [ ! -d "$PORT_DIR" ]; then
-            echo "slate: port not found: $PORT_NAME" >&2
-            exit 1
-        fi
-
-        if [ ! -f "$PORT_SCRIPT" ]; then
-            echo "slate: missing port.sh in $PORT_NAME" >&2
-            exit 1
-        fi
-
-        if [ "$SYSROOT" = "/" ] && [ "$EUID" -ne 0 ]; then
-            echo "slate: installation requires root privileges" >&2
-            exit 1
-        fi
+        [ -d "$PORT_DIR" ] || die "port not found: $PORT_NAME"
+        [ -f "$PORT_SCRIPT" ] || die "missing port.sh in $PORT_NAME"
+        require_root installation
 
         if [ -f "$STATE_DIR/$PORT_NAME" ]; then
             echo "==> $PORT_NAME is already installed in $SYSROOT"
@@ -89,30 +173,100 @@ case "$1" in
         echo "==> Port directory: $PORT_DIR"
         [ "$SYSROOT" = "/" ] || echo "==> Target sysroot: $SYSROOT"
 
-        mkdir -p "$LOG_DIR"
-        cd "$PORT_DIR" || exit 1
+        mkdir -p "$LOG_DIR" "$STAGE_PARENT" || die "cannot create $STAGE_PARENT"
 
-        PORT_NAME="$PORT_NAME" \
-        PORT_DIR="$PORT_DIR" \
-        bash "$PORT_SCRIPT"
+        trap cleanup_install EXIT
+        STAGE=$(mktemp -d "$STAGE_PARENT/slate-stage.XXXXXX") \
+            || die "cannot create staging root in $STAGE_PARENT"
+        MANIFEST_TMP=$(mktemp "$STAGE_PARENT/slate-manifest.XXXXXX") \
+            || die "cannot create manifest file in $STAGE_PARENT"
 
+        # The port installs into a temporary root, not the real sysroot.
+        (cd "$PORT_DIR" &&
+            PORT_NAME="$PORT_NAME" \
+            PORT_DIR="$PORT_DIR" \
+            DESTDIR="$STAGE" \
+            bash "$PORT_SCRIPT")
         result=$?
 
         if [ "$result" -ne 0 ]; then
-            echo "==> Failed to install $PORT_NAME"
+            echo "==> Failed to install $PORT_NAME; nothing was copied into $SYSROOT"
             exit "$result"
         fi
 
-        mkdir -p "$(dirname "$STATE_DIR/$PORT_NAME")"
+        if [ -z "$(find "$STAGE" -mindepth 1 -print -quit)" ]; then
+            die "$PORT_NAME installed no files"
+        fi
+
+        write_manifest "$STAGE" "$MANIFEST_TMP"
+
+        conflicts=$(find_conflicts "$MANIFEST_TMP")
+        if [ -n "$conflicts" ]; then
+            echo "slate: refusing to install $PORT_NAME; these paths already exist in $SYSROOT:" >&2
+            echo "$conflicts" >&2
+            exit 1
+        fi
+
+        echo "==> Copying files into $SYSROOT"
+        if ! transplant "$STAGE"; then
+            echo "slate: copy failed; rolling back" >&2
+            # Conflicts were ruled out above, so anything present now is ours.
+            remove_manifest "$MANIFEST_TMP"
+            exit 1
+        fi
+
+        mkdir -p "$(dirname "$MANIFEST_DIR/$PORT_NAME")" "$(dirname "$STATE_DIR/$PORT_NAME")"
+        chmod 644 "$MANIFEST_TMP"
+        mv -f "$MANIFEST_TMP" "$MANIFEST_DIR/$PORT_NAME"
         date -u +%Y-%m-%dT%H:%M:%SZ > "$STATE_DIR/$PORT_NAME"
 
-        echo "==> Finished installing $PORT_NAME"
+        count=$(grep -c '^[fl]' "$MANIFEST_DIR/$PORT_NAME")
+        echo "==> Finished installing $PORT_NAME ($count files)"
+        ;;
+
+    uninstall)
+        [ -n "$2" ] || usage
+        PORT_NAME="$2"
+        check_name "$PORT_NAME"
+        require_root uninstallation
+
+        [ -f "$STATE_DIR/$PORT_NAME" ] || die "$PORT_NAME is not installed in $SYSROOT"
+
+        MANIFEST="$MANIFEST_DIR/$PORT_NAME"
+        [ -f "$MANIFEST" ] || die "no file manifest for $PORT_NAME (installed before tracking existed); remove it by hand"
+
+        # Find files whose contents differ from what was installed.
+        modified=$(
+            while IFS=$'\t' read -r type sum rel; do
+                [ "$type" = f ] || continue
+                [ -f "$SYSROOT/$rel" ] || continue
+                cur=$(sha256sum -- "$SYSROOT/$rel" | cut -d' ' -f1)
+                [ "$cur" = "$sum" ] || echo "  /$rel"
+            done < "$MANIFEST"
+        )
+
+        if [ -n "$modified" ] && [ "$FORCE" -ne 1 ]; then
+            echo "slate: these files changed since $PORT_NAME was installed:" >&2
+            echo "$modified" >&2
+            die "refusing to uninstall; rerun with --force to remove them anyway"
+        fi
+
+        echo "==> Uninstalling $PORT_NAME"
+        remove_manifest "$MANIFEST"
+        rm -f -- "$MANIFEST" "$STATE_DIR/$PORT_NAME"
+        rmdir "$(dirname "$MANIFEST")" "$(dirname "$STATE_DIR/$PORT_NAME")" 2>/dev/null
+
+        echo "==> Finished uninstalling $PORT_NAME"
+        ;;
+
+    installed)
+        [ -d "$STATE_DIR" ] || exit 0
+        (cd "$STATE_DIR" && find . -type f | sed 's|^\./||' | sort)
         ;;
 
     ports)
         if [ ! -d "$PORTS_DIR" ]; then
-            echo "slate: ports directory not found" >&2
-            exit 1
+            die "ports directory not found"
         fi
 
         find "$PORTS_DIR" -mindepth 2 -maxdepth 2 \
@@ -125,18 +279,15 @@ case "$1" in
 
     update)
         if [ "$SYSROOT" != "/" ]; then
-            echo "slate: update only works on the host, not with --sysroot" >&2
-            exit 1
+            die "update only works on the host, not with --sysroot"
         fi
 
         if [ "$EUID" -ne 0 ]; then
-            echo "slate: updating ports requires root privileges" >&2
-            exit 1
+            die "updating ports requires root privileges"
         fi
 
         if ! command -v git >/dev/null 2>&1; then
-            echo "slate: git is required to update ports" >&2
-            exit 1
+            die "git is required to update ports"
         fi
 
         TMP_DIR="/tmp/slate-ports-update-$$"
@@ -144,24 +295,21 @@ case "$1" in
         echo "==> Downloading latest Slate ports..."
         if ! git clone "$PORTS_REPO" "$TMP_DIR"; then
             rm -rf "$TMP_DIR"
-            echo "slate: failed to download ports; existing ports preserved" >&2
-            exit 1
+            die "failed to download ports; existing ports preserved"
         fi
 
         if [ ! -d "$TMP_DIR/.git" ]; then
             rm -rf "$TMP_DIR"
-            echo "slate: downloaded repository is invalid" >&2
-            exit 1
+            die "downloaded repository is invalid"
         fi
 
         echo "==> Replacing ports directory..."
-
         rm -rf "$PORTS_DIR"
 
         if ! mv "$TMP_DIR" "$PORTS_DIR"; then
-            echo "slate: failed to install updated ports" >&2
-            exit 1
+            die "failed to install updated ports"
         fi
+	cp /usr/ports/slate /usr/bin/slate
         echo "==> Slate ports updated successfully."
         ;;
 

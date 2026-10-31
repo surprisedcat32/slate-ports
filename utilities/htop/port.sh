@@ -6,4 +6,4 @@ cd htop
 make clean
 ./configure --disable-unicode
 make -j"$(nproc)"
-make install
+make DESTDIR="$DESTDIR" install

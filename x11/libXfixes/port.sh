@@ -12,4 +12,4 @@ cd libXfixes
 
 make -j"$(nproc)"
 
-make install
+make DESTDIR="$DESTDIR" install
