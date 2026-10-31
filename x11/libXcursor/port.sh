@@ -3,7 +3,7 @@
 cd /usr/ports/x11/libXcursor
 
 curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXcursor-1.2.3.tar.xz
-tar -xf libXcursor-1.2.3.tar.gz
+tar -xf libXcursor-1.2.3.tar.xz
 cd libXcursor-1.2.3
 
 ./autogen.sh
