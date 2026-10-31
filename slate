@@ -290,12 +290,19 @@ case "$1" in
             die "git is required to update ports"
         fi
 
+        # Release to install, e.g. 0.4. Override the file path with SLATE_VER_FILE=...
+        VER_FILE="${SLATE_VER_FILE:-/etc/slate.conf/ver}"
+        [ -r "$VER_FILE" ] || die "cannot read release version from $VER_FILE"
+
+        TAG=$(tr -d '[:space:]' < "$VER_FILE")
+        [[ "$TAG" =~ ^[0-9]+(\.[0-9]+)*$ ]] || die "invalid release version in $VER_FILE: '$TAG'"
+
         TMP_DIR="/tmp/slate-ports-update-$$"
 
-        echo "==> Downloading latest Slate ports..."
-        if ! git clone "$PORTS_REPO" "$TMP_DIR"; then
+        echo "==> Downloading Slate ports, release $TAG..."
+        if ! git clone --depth 1 --branch "$TAG" "$PORTS_REPO" "$TMP_DIR"; then
             rm -rf "$TMP_DIR"
-            die "failed to download ports; existing ports preserved"
+            die "failed to download release $TAG; existing ports preserved"
         fi
 
         if [ ! -d "$TMP_DIR/.git" ]; then
@@ -309,11 +316,6 @@ case "$1" in
         if ! mv "$TMP_DIR" "$PORTS_DIR"; then
             die "failed to install updated ports"
         fi
-	cp /usr/ports/slate /usr/bin/slate
-        echo "==> Slate ports updated successfully."
-        ;;
-
-    *)
-        usage
+        echo "==> Slate ports updated to release $TAG."
         ;;
 esac
