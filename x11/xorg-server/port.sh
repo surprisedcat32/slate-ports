@@ -17,4 +17,3 @@ meson configure build \
 meson compile -C build -j"$(nproc)"
 
 DESTDIR="$DESTDIR" meson install -C build
-ln -s /usr/lib64/lib* ${DESTDIR:-}/usr/lib/
