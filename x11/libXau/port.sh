@@ -2,10 +2,9 @@
 
 cd /usr/ports/x11/libXau
 
-git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libxau.git
-
-cd libxau
-
+curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXau-1.0.12.tar.xz
+tar -xf libXau-1.0.12.tar.xz
+cd libXau-1.0.12
 ./autogen.sh
 
 ./configure --prefix=/usr

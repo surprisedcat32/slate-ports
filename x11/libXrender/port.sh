@@ -2,9 +2,9 @@
 
 cd /usr/ports/x11/libXrender
 
-git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libXrender.git
-
-cd libXrender
+curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXrender-0.9.13.tar.xz
+tar -xf libXrender-0.9.13.tar.xz
+cd libXrender-0.9.13
 
 ./autogen.sh
 

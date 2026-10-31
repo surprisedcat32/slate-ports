@@ -2,9 +2,9 @@
 
 cd /usr/ports/x11/libXpm
 
-git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libXpm.git
-
-cd libXpm
+curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXpm-3.5.20.tar.xz
+tar -xf libXpm-3.5.20.tar.xz
+cd libXpm-3.5.20.tar.xz
 
 ./autogen.sh
 

@@ -2,9 +2,9 @@
 
 cd /usr/ports/x11/libXinerama
 
-git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libXinerama.git
-
-cd libXinerama
+curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXinerama-1.1.tar.gz
+tar -xf libXinerama-1.1.tar.gz
+cd libXinerama-1.1
 
 ./autogen.sh
 

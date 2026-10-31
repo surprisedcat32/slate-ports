@@ -2,9 +2,9 @@
 
 cd /usr/ports/x11/xinit
 
-git clone --depth 1 https://gitlab.freedesktop.org/xorg/app/xinit.git
-
-cd xinit
+curl -LO https://xorg.freedesktop.org/releases/individual/app/xinit-1.4.4.tar.xz
+tar -xf xinit-1.4.4.tar.xz
+cd xinit-1.4.4
 
 ./autogen.sh
 
