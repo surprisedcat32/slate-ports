@@ -2,9 +2,9 @@
 
 cd /usr/ports/x11/libXfixes
 
-git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libXfixes.git
-
-cd libXfixes
+curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXfixes-6.0.2.tar.xz
+tar -xf libXfixes-6.0.2.tar.xz
+cd libXfixes-6.0.2
 
 ./autogen.sh
 

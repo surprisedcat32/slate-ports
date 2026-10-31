@@ -2,9 +2,9 @@
 
 cd /usr/ports/x11/libSM
 
-git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libSM.git
-
-cd libSM
+curl -LO https://xorg.freedesktop.org/releases/individual/lib/libSM-1.2.6.tar.xz
+tar -xf libSM-1.2.6.tar.xz
+cd libSM-1.2.6
 
 ./autogen.sh
 

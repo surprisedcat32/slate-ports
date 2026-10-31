@@ -2,9 +2,9 @@
 set -e
 
 cd /usr/ports/x11/xauth
-
-git clone --depth 1 https://gitlab.freedesktop.org/xorg/app/xauth.git
-cd xauth
+curl -LO https://xorg.freedesktop.org/releases/individual/app/xauth-1.1.tar.gz
+tar -xf xauth-1.1.tar.gz
+cd xauth-1.1
 
 ./autogen.sh --prefix=/usr
 make -j"$(nproc)"

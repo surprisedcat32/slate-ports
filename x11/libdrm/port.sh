@@ -1,10 +1,10 @@
 #!/bin/bash
 
 cd /usr/ports/x11/libdrm
-
-git clone --depth 1 https://gitlab.freedesktop.org/mesa/drm.git libdrm
-
-cd libdrm
+#thanks LFS for this!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111!1!
+curl -LO https://dri.freedesktop.org/libdrm/libdrm-2.4.134.tar.xz
+tar -xf libdrm-2.4.134.tar.xz
+cd libdrm-2.4.134
 
 meson setup build --prefix=/usr
 

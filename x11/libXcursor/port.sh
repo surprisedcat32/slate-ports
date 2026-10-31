@@ -2,9 +2,9 @@
 
 cd /usr/ports/x11/libXcursor
 
-git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libXcursor.git
-
-cd libXcursor
+curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXcursor-1.2.3.tar.xz
+tar -xf libXcursor-1.2.3.tar.gz
+cd libXcursor-1.2.3
 
 ./autogen.sh
 

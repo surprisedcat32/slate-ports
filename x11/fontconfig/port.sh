@@ -1,9 +1,9 @@
 #!/bin/bash
 
 cd /usr/ports/x11/fontconfig
-git clone --depth 1 https://gitlab.freedesktop.org/fontconfig/fontconfig.git
-
-cd fontconfig
+curl -LO https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.16.0.tar.xz
+tar -xf fontconfig-2.16.0.tar.xz
+cd fontconfig-2.16.0
 export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/lib64/pkgconfig:/usr/share/pkgconfig
 
 meson setup build --prefix=/usr

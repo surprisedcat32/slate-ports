@@ -2,9 +2,9 @@
 
 cd /usr/ports/x11/xkeyboard-config
 
-git clone --depth 1 https://gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config.git
-
-cd xkeyboard-config
+curl -LO https://xorg.freedesktop.org/releases/individual/data/xkeyboard-config-2.5.1.tar.gz
+tar -xf xkeyboard-config-2.5.1.tar.gz
+cd xkeyboard-config-2.5.1
 
 meson setup build --prefix=/usr
 
