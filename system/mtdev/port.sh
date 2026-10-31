@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /usr/ports
+cd /usr/ports/system/mtdev
 git clone --depth 1 https://bitmath.se/org/git/mtdev.git/ 
 cd mtdev
 ./autogen.sh
