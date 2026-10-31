@@ -18,9 +18,11 @@ STAGE_PARENT="${SLATE_TMPDIR:-/var/tmp}"
 
 STAGE=""
 MANIFEST_TMP=""
+SILENT=0
 
 die() { echo "slate: $*" >&2; exit 1; }
 say() { [ "$SILENT" -eq 1 ] || echo "$@"; }
+
 usage_text() {
     echo "Usage:"
     echo "  slate [--sysroot DIR] install <category>/<package>"
@@ -31,21 +33,23 @@ usage_text() {
     echo ""
     echo "  --sysroot DIR   operate on DIR instead of / (alias: -S DIR)"
     echo "  --force, -f     uninstall even if installed files were modified"
+    echo "  --silent, -s    only print install start and finish messages"
 }
 
 usage() {
     usage_text
     exit 1
 }
+
 # Print help and exit 0 when run with no arguments.
 if [ $# -eq 0 ]; then
     usage_text
     exit 0
 fi
+
 # Pull options out of the arguments, wherever they appear.
 SYSROOT="/"
 FORCE=0
-SILENT=0
 ARGS=()
 while [ $# -gt 0 ]; do
     case "$1" in
@@ -54,16 +58,16 @@ while [ $# -gt 0 ]; do
             SYSROOT="$2"
             shift 2
             ;;
-	--silent|-s)
-            SILENT=1
-            shift
-            ;;
         --sysroot=*)
             SYSROOT="${1#--sysroot=}"
             shift
             ;;
         --force|-f)
             FORCE=1
+            shift
+            ;;
+        --silent|-s)
+            SILENT=1
             shift
             ;;
         *)
@@ -123,21 +127,10 @@ write_manifest() {
     done | sort -t$'\t' -k3,3 > "$2"
 }
 
-# Print any manifest file entries that already exist in the sysroot.
-# $1 = manifest
-find_conflicts() {
-    while IFS=$'\t' read -r type _ rel; do
-        [ "$type" = d ] && continue
-        if [ -e "$SYSROOT/$rel" ] || [ -L "$SYSROOT/$rel" ]; then
-            echo "  /$rel"
-        fi
-    done < "$1"
-}
-
 # Copy the staged tree into the sysroot, preserving modes and symlinks.
 # $1 = staging root
 transplant() {
-    (cd "$1" && tar -cf - .) | (cd "$SYSROOT" && tar -xpf -)
+    cp -a "$1"/. "$SYSROOT"/
 }
 
 # Remove everything a manifest lists: files and links first, then
@@ -165,7 +158,7 @@ cleanup_install() {
 }
 
 case "$1" in
-       install)
+    install)
         [ -n "$2" ] || usage
         PORT_NAME="$2"
         check_name "$PORT_NAME"
@@ -182,7 +175,7 @@ case "$1" in
             exit 0
         fi
 
-        echo "==> Installing $PORT_NAME"
+        say "==> Installing $PORT_NAME"
         say "==> Port directory: $PORT_DIR"
         [ "$SYSROOT" = "/" ] || say "==> Target sysroot: $SYSROOT"
 
@@ -223,17 +216,9 @@ case "$1" in
 
         write_manifest "$STAGE" "$MANIFEST_TMP"
 
-        conflicts=$(find_conflicts "$MANIFEST_TMP")
-        if [ -n "$conflicts" ]; then
-            echo "slate: refusing to install $PORT_NAME; these paths already exist in $SYSROOT:" >&2
-            echo "$conflicts" >&2
-            exit 1
-        fi
-
         say "==> Copying files into $SYSROOT"
         if ! transplant "$STAGE"; then
-            echo "slate: copy failed; rolling back" >&2
-            remove_manifest "$MANIFEST_TMP"
+            echo "slate: copy failed; some files may be partly copied into $SYSROOT" >&2
             exit 1
         fi
 
@@ -243,8 +228,9 @@ case "$1" in
         date -u +%Y-%m-%dT%H:%M:%SZ > "$STATE_DIR/$PORT_NAME"
 
         count=$(grep -c '^[fl]' "$MANIFEST_DIR/$PORT_NAME")
-        echo "==> Finished installing $PORT_NAME ($count files)"
-        ;; 
+        say "==> Finished installing $PORT_NAME ($count files)"
+        ;;
+
     uninstall)
         [ -n "$2" ] || usage
         PORT_NAME="$2"
@@ -272,12 +258,12 @@ case "$1" in
             die "refusing to uninstall; rerun with --force to remove them anyway"
         fi
 
-        echo "==> Uninstalling $PORT_NAME"
+        say "==> Uninstalling $PORT_NAME"
         remove_manifest "$MANIFEST"
         rm -f -- "$MANIFEST" "$STATE_DIR/$PORT_NAME"
         rmdir "$(dirname "$MANIFEST")" "$(dirname "$STATE_DIR/$PORT_NAME")" 2>/dev/null
 
-        echo "==> Finished uninstalling $PORT_NAME"
+        say "==> Finished uninstalling $PORT_NAME"
         ;;
 
     installed)
@@ -297,6 +283,7 @@ case "$1" in
             echo "${port%/port.sh}"
         done
         ;;
+
     update)
         if [ "$SYSROOT" != "/" ]; then
             die "update only works on the host, not with --sysroot"
@@ -355,5 +342,9 @@ case "$1" in
             die "failed to install updated ports"
         fi
         say "==> Slate ports updated to '$TAG'."
+        ;;
+
+    *)
+        usage
         ;;
 esac
