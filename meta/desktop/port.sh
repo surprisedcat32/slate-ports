@@ -40,6 +40,9 @@ slate install x11/xrandr
 slate install x11/mesa
 slate install lib/libepoxy
 slate install x11/libXfixes
+slate install lib/libmd
+slate install lib/libbsd
+slate install lib/libtirpc
 slate install x11/xorg-server
 slate install x11/libXinerama
 slate install x11/libXi
