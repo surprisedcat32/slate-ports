@@ -39,6 +39,7 @@ slate install x11/libXrandr
 slate install x11/xrandr
 slate install x11/mesa
 slate install lib/libepoxy
+slate install x11/libXfixes
 slate install x11/xorg-server
 slate install x11/libXinerama
 slate install x11/libXi
@@ -62,3 +63,4 @@ slate install x11/font-misc-misc
 slate install x11/libXpm
 slate install x11/libXaw
 slate install x11/xterm
+slate install x11/xauth
