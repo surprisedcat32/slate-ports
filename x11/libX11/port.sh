@@ -2,9 +2,9 @@
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig
 cd /usr/ports/x11/libX11
 
-git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libX11.git
-
-cd libX11
+curl -LO https://xorg.freedesktop.org/releases/individual/lib/libX11-1.8.tar.xz
+tar -xf libX11-1.8.tar.xz
+cd libX11-1.8
 
 ./autogen.sh
 
