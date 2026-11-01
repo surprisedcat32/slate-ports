@@ -15,4 +15,19 @@ meson setup .. \
 
 ninja -j"$(nproc)"
 DESTDIR="$DESTDIR" ninja install
+echo '#!/bin/sh
 
+case "$1" in
+    stop)
+        killall seatd
+        ;;
+    restart)
+        killall seatd
+        /usr/bin/seatd -g video
+        ;;
+    *)
+        /usr/bin/seatd -g video
+        ;;
+esac' > /etc/init.d/seatd
+
+chmod +x /etc/init.d/seatd
