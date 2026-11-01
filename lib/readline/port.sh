@@ -2,9 +2,9 @@
 
 cd /usr/ports/lib/readline
 
-git clone --depth 1 https://git.savannah.gnu.org/git/readline.git
-
-cd readline
+curl -LO https://ftp.gnu.org/gnu/readline/readline-8.3.tar.gz
+tar -xf readline-8.3.tar.gz
+cd readline-8.3
 
 CFLAGS="-fPIC" ./configure --prefix=/usr
 

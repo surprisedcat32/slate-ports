@@ -1,10 +1,9 @@
 #!/bin/bash
 
 cd /usr/ports/x11/libXinerama
-
-curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXinerama-1.1.tar.gz
-tar -xf libXinerama-1.1.tar.gz
-cd libXinerama-1.1
+https://xorg.freedesktop.org/releases/individual/lib/libXinerama-1.1.6.tar.xz
+tar -xf libXinerama-1.1.6.tar.xz
+cd libXinerama-1.1.6
 
 ./autogen.sh
 

@@ -1,10 +1,9 @@
 #!/bin/bash
 
 cd /usr/ports/x11/freetype
-
-git clone --depth 1 https://gitlab.freedesktop.org/freetype/freetype.git
-
-cd freetype
+curl -LO https://download.savannah.gnu.org/releases/freetype/freetype-2.15.0.tar.xz
+tar -xf freetype-2.15.0.tar.xz
+cd freetype-2.15.0
 
 meson setup build --prefix=/usr
 

@@ -2,9 +2,9 @@
 
 cd /usr/ports/lib/zlib
 
-git clone --depth 1 https://github.com/madler/zlib.git
-
-cd zlib
+curl -LO https://www.zlib.net/zlib-1.3.2.tar.xz
+tar -xf zlib-1.3.2.tar.xz
+cd zlib-1.3.2
 
 ./configure --prefix=/usr
 

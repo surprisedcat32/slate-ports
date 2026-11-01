@@ -67,3 +67,5 @@ slate install x11/libXpm
 slate install x11/libXaw
 slate install x11/xterm
 slate install x11/xauth
+slate install x11/xorg-server
+slate install x11/xorg-drivers

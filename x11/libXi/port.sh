@@ -1,10 +1,9 @@
 #!/bin/bash
 
 cd /usr/ports/x11/libXi
-
-git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libXi.git
-
-cd libXi
+curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXi-1.8.4.tar.xz
+tar -xf libXi-1.8.4.tar.xz
+cd libXi-1.8.4
 
 ./autogen.sh
 

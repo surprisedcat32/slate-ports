@@ -1,0 +1,427 @@
+diff --git a/dev/README.md b/dev/README.md
+deleted file mode 100755
+index 1a9d790..0000000
+--- a/dev/README.md
++++ /dev/null
+@@ -1 +0,0 @@
+-devports
+diff --git a/dev/meson/port.sh b/dev/meson/port.sh
+index f4a8da2..0811a9a 100755
+--- a/dev/meson/port.sh
++++ b/dev/meson/port.sh
+@@ -2,7 +2,7 @@
+ cd /usr/ports/dev/meson
+ 
+ curl -LO https://github.com/mesonbuild/meson/archive/refs/tags/1.12.1.tar.gz
+-tar -xf 1.21.1.tar.gz
++tar -xf 1.12.1.tar.gz
+ cd meson-1.12.1
+ 
+ python3 -m pip install .
+diff --git a/lib/alsa-lib/port.sh b/lib/alsa-lib/port.sh
+new file mode 100644
+index 0000000..a7be9c1
+--- /dev/null
++++ b/lib/alsa-lib/port.sh
+@@ -0,0 +1,14 @@
++#!/bin/bash
++set -e
++cd /usr/ports/lib/alsa-lib
++
++curl -LO https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.16.1.tar.bz2
++tar -xf alsa-lib-1.2.16.1.tar.bz2
++cd alsa-lib-1.2.16.1
++
++./configure \
++    --prefix=/usr \
++    --disable-static
++
++make
++make DESTDIR="$DESTDIR" install
+diff --git a/lib/libbsd/port.sh b/lib/libbsd/port.sh
+new file mode 100644
+index 0000000..2d0a30d
+--- /dev/null
++++ b/lib/libbsd/port.sh
+@@ -0,0 +1,14 @@
++#!/bin/bash
++set -e
++cd /usr/ports/lib/libbsd
++
++curl -LO https://libbsd.freedesktop.org/releases/libbsd-0.12.2.tar.xz
++tar -xf libbsd-0.12.2.tar.xz
++cd libbsd-0.12.2
++./configure \
++    --prefix=/usr \
++    --disable-static
++
++make
++make DESTDIR="$DESTDIR" install
++echo "#include <bsd/sys/queue.h>" > /usr/include/sys/queue.h
+diff --git a/lib/libmd/port.sh b/lib/libmd/port.sh
+new file mode 100644
+index 0000000..150cee4
+--- /dev/null
++++ b/lib/libmd/port.sh
+@@ -0,0 +1,13 @@
++#!/bin/bash
++cd /usr/ports/lib/libmd
++
++curl -LO https://libbsd.freedesktop.org/releases/libmd-1.1.0.tar.xz
++tar -xf libmd-1.1.0.tar.xz
++cd libmd-1.1.0
++
++./configure \
++    --prefix=/usr \
++    --disable-static
++
++make
++make DESTDIR="$DESTDIR" install
+diff --git a/lib/libtirpc/port.sh b/lib/libtirpc/port.sh
+new file mode 100644
+index 0000000..c59d25c
+--- /dev/null
++++ b/lib/libtirpc/port.sh
+@@ -0,0 +1,15 @@
++#!/bin/bash
++cd /usr/ports/lib/libtirpc
++
++curl -LO https://downloads.sourceforge.net/project/libtirpc/libtirpc/1.3.8/libtirpc-1.3.8.tar.bz2
++tar -xf libtirpc-1.3.8.tar.bz2
++cd libtirpc-1.3.8
++sed -i 's|#include <sys/queue.h>|#include <bsd/sys/queue.h>|' $(grep -rl '#include <sys/queue.h>' .)
++./configure \
++    --prefix=/usr \
++    --sysconfdir=/etc \
++    --disable-gssapi \
++    --disable-authdes
++
++make
++make DESTDIR="$DESTDIR" install
+diff --git a/meta/desktop/port.sh b/meta/desktop/port.sh
+index f1cc7e3..4c965b6 100644
+--- a/meta/desktop/port.sh
++++ b/meta/desktop/port.sh
+@@ -39,6 +39,10 @@ slate install x11/libXrandr
+ slate install x11/xrandr
+ slate install x11/mesa
+ slate install lib/libepoxy
++slate install x11/libXfixes
++slate install lib/libmd
++slate install lib/libbsd
++slate install lib/libtirpc
+ slate install x11/xorg-server
+ slate install x11/libXinerama
+ slate install x11/libXi
+@@ -62,3 +66,4 @@ slate install x11/font-misc-misc
+ slate install x11/libXpm
+ slate install x11/libXaw
+ slate install x11/xterm
++slate install x11/xauth
+diff --git a/meta/dillo-web/port.sh b/meta/dillo-web/port.sh
+new file mode 100644
+index 0000000..74bda33
+--- /dev/null
++++ b/meta/dillo-web/port.sh
+@@ -0,0 +1,6 @@
++slate install lib/zlib
++slate install x11/fltk
++slate install lib/libjpeg-turbo
++slate install x11/libpng
++slate install lib/brotli
++slate install x11/dillo
+diff --git a/meta/ssh-full/port.sh b/meta/ssh-full/port.sh
+new file mode 100644
+index 0000000..a6224ef
+--- /dev/null
++++ b/meta/ssh-full/port.sh
+@@ -0,0 +1,50 @@
++#!/bin/bash
++set -e
++slate install net/openssl
++slate install lib/zlib
++slate install net/openssh
++echo '#!/bin/sh
++
++PIDFILE=/run/sshd.pid
++SSHD=/usr/sbin/sshd
++
++case "$1" in
++    start)
++        if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
++            echo "sshd is already running."
++            exit 0
++        fi
++        mkdir -p /run /var/empty
++        id sshd >/dev/null 2>&1 || exit 1
++        ssh-keygen -A || exit 1
++        echo "Starting sshd..."
++        "$SSHD" -o PidFile="$PIDFILE"
++        ;;
++    stop)
++        if [ -f "$PIDFILE" ]; then
++            echo "Stopping sshd..."
++            kill "$(cat "$PIDFILE")"
++            rm -f "$PIDFILE"
++        else
++            echo "sshd is not running."
++        fi
++        ;;
++    restart)
++        "$0" stop
++        "$0" start
++        ;;
++    status)
++        if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
++            echo "sshd is running."
++        else
++            echo "sshd is not running."
++            exit 1
++        fi
++        ;;
++    *)
++        echo "Usage: $0 {start|stop|restart|status}"
++        exit 1
++        ;;
++esac' > /etc/init.d/sshd
++
++chmod +x /etc/init.d/sshd
+diff --git a/system/README.md b/system/README.md
+deleted file mode 100755
+index a8ebb36..0000000
+--- a/system/README.md
++++ /dev/null
+@@ -1,3 +0,0 @@
+-# System
+-
+-System ports for Slate Linux.
+diff --git a/system/kmod/port.sh b/system/kmod/port.sh
+new file mode 100644
+index 0000000..994464f
+--- /dev/null
++++ b/system/kmod/port.sh
+@@ -0,0 +1,19 @@
++#!/bin/bash
++set -e
++cd /usr/ports/system/kmod
++
++curl -LO https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-34.2.tar.xz
++tar -xf kmod-34.2.tar.xz
++cd kmod-34.2
++
++./configure \
++    --prefix=/usr \
++    --sysconfdir=/etc \
++    --with-rootlibdir=/lib \
++    --with-zlib \
++    --with-xz \
++    --with-zstd \
++    --disable-manpages
++
++make
++make DESTDIR="$DESTDIR" install
+diff --git a/system/polkit/port.sh b/system/polkit/port.sh
+new file mode 100644
+index 0000000..e519c63
+--- /dev/null
++++ b/system/polkit/port.sh
+@@ -0,0 +1,19 @@
++#!/bin/bash
++set -e
++cd /usr/ports/system/polkit
++
++curl -LO https://github.com/polkit-org/polkit/archive/refs/tags/127.tar.gz
++tar -xf 127.tar.gz
++cd polkit-127
++
++meson setup build \
++    --prefix=/usr \
++    --sysconfdir=/etc \
++    -Dauthfw=shadow \
++    -Dsession_tracking=ConsoleKit \
++    -Dintrospection=false \
++    -Dman=false \
++    -Dtests=false
++
++ninja -C build
++DESTDIR="$DESTDIR" ninja -C build install
+diff --git a/utilities/README.md b/utilities/README.md
+deleted file mode 100755
+index 5e7e6db..0000000
+--- a/utilities/README.md
++++ /dev/null
+@@ -1,3 +0,0 @@
+-# Utilities
+-
+-Utility ports for Slate Linux.
+diff --git a/utilities/alsa-utils/port.sh b/utilities/alsa-utils/port.sh
+new file mode 100644
+index 0000000..1fe015e
+--- /dev/null
++++ b/utilities/alsa-utils/port.sh
+@@ -0,0 +1,16 @@
++#!/bin/bash
++set -e
++cd /usr/ports/utilities/alsa-utils
++
++curl -LO https://www.alsa-project.org/files/pub/utils/alsa-utils-1.2.16.tar.bz2
++tar -xf alsa-utils-1.2.16.tar.bz2
++cd alsa-utils-1.2.16
++
++./configure \
++    --prefix=/usr \
++    --disable-alsaconf \
++    --disable-xmlto \
++    --with-curses=ncursesw
++
++make
++make DESTDIR="$DESTDIR" install
+diff --git a/utilities/man/port.sh b/utilities/man/port.sh
+new file mode 100644
+index 0000000..02aab56
+--- /dev/null
++++ b/utilities/man/port.sh
+@@ -0,0 +1,21 @@
++
++#!/bin/bash
++cd /usr/ports/utilities/mandoc
++
++curl -LO https://mandoc.bsd.lv/snapshots/mandoc-1.14.6.tar.gz
++tar -xf mandoc-1.14.6.tar.gz
++cd mandoc-1.14.6
++
++cat > configure.local <<'EOF'
++PREFIX="/usr"
++BINDIR="${PREFIX}/bin"
++SBINDIR="${PREFIX}/sbin"
++MANDIR="${PREFIX}/share/man"
++BINM_PAGER="less"
++LN="ln -sf"
++EOF
++
++./configure
++make
++make DESTDIR="$DESTDIR" install
++
+diff --git a/x11/dunst/port.sh b/x11/dunst/port.sh
+new file mode 100644
+index 0000000..f08f7e7
+--- /dev/null
++++ b/x11/dunst/port.sh
+@@ -0,0 +1,16 @@
++#!/bin/bash
++set -e
++cd /usr/ports/x11/dunst
++
++curl -LO https://github.com/dunst-project/dunst/archive/refs/tags/v1.13.2.tar.gz
++tar -xf v1.13.2.tar.gz
++cd dunst-1.13.2
++
++meson setup build \
++    --prefix=/usr \
++    -Dwayland=disabled \
++    -Ddocs=disabled \
++    -Dtests=disabled
++
++ninja -C build
++DESTDIR="$DESTDIR" ninja -C build install
+diff --git a/x11/libXcomposite/port.sh b/x11/libXcomposite/port.sh
+new file mode 100644
+index 0000000..10956b2
+--- /dev/null
++++ b/x11/libXcomposite/port.sh
+@@ -0,0 +1,12 @@
++#!/bin/bash
++set -e
++cd /usr/ports/x11/libXcomposite
++
++curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXcomposite-0.4.7.tar.xz
++tar -xf libXcomposite-0.4.7.tar.xz
++cd libXcomposite-0.4.7
++
++./configure --prefix=/usr
++
++make
++make DESTDIR="$DESTDIR" install
+diff --git a/x11/libXdamage/port.sh b/x11/libXdamage/port.sh
+new file mode 100644
+index 0000000..f7dea34
+--- /dev/null
++++ b/x11/libXdamage/port.sh
+@@ -0,0 +1,12 @@
++#!/bin/bash
++set -e
++cd /usr/ports/x11/libXdamage
++
++curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXdamage-1.2.1.tar.xz
++tar -xf libXdamage-1.2.1.tar.xz
++cd libXdamage-1.2.1
++
++./configure --prefix=/usr
++
++make
++make DESTDIR="$DESTDIR" install
+diff --git a/x11/libXres/port.sh b/x11/libXres/port.sh
+new file mode 100644
+index 0000000..b50927f
+--- /dev/null
++++ b/x11/libXres/port.sh
+@@ -0,0 +1,12 @@
++#!/bin/bash
++set -e
++cd /usr/ports/x11/libXres
++
++curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXres-1.2.3.tar.xz
++tar -xf libXres-1.2.3.tar.xz
++cd libXres-1.2.3
++
++./configure --prefix=/usr
++
++make
++make DESTDIR="$DESTDIR" install
+diff --git a/x11/picom/port.sh b/x11/picom/port.sh
+new file mode 100644
+index 0000000..554db4a
+--- /dev/null
++++ b/x11/picom/port.sh
+@@ -0,0 +1,16 @@
++#!/bin/bash
++set -e
++cd /usr/ports/x11/picom
++
++curl -LO https://github.com/yshui/picom/archive/refs/tags/v13.tar.gz
++tar -xf v13.tar.gz
++cd picom-13
++
++meson setup build \
++    --prefix=/usr \
++    -Ddbus=false \
++    -Dopengl=false \
++    -Dregex=false
++
++ninja -C build
++DESTDIR="$DESTDIR" ninja -C build install
+diff --git a/x11/seatd/port.sh b/x11/seatd/port.sh
+index 5ef46bc..9b6974d 100644
+--- a/x11/seatd/port.sh
++++ b/x11/seatd/port.sh
+@@ -15,4 +15,19 @@ meson setup .. \
+ 
+ ninja -j"$(nproc)"
+ DESTDIR="$DESTDIR" ninja install
++echo '#!/bin/sh
+ 
++case "$1" in
++    stop)
++        killall seatd
++        ;;
++    restart)
++        killall seatd
++        /usr/bin/seatd -g video
++        ;;
++    *)
++        /usr/bin/seatd -g video
++        ;;
++esac' > /etc/init.d/seatd
++
++chmod +x /etc/init.d/seatd
