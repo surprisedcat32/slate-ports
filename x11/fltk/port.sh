@@ -4,7 +4,7 @@ set -e
 
 cd /usr/ports/x11/fltk
 
-curl -LO https://www.fltk.org/pub/fltk/1.4.5/fltk-1.4.5-source.tar.gz
+curl -LO https://github.com/fltk/fltk/releases/download/release-1.4.5/fltk-1.4.5-source.tar.gz 
 tar -xf fltk-1.4.5-source.tar.gz
 cd fltk-1.4.5
 
