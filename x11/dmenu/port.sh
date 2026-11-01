@@ -1,6 +1,7 @@
 #!/bin/sh
 cd /usr/ports/x11/dmenu
-git clone --depth 1 https://git.suckless.org/dmenu
-cd dmenu
+curl -LO https://dl.suckless.org/tools/dmenu-5.4.tar.gz
+tar -xf dmenu-5.4.tar.gz
+cd dmenu-5.4
 make
 make DESTDIR="$DESTDIR" install

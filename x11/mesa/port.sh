@@ -2,9 +2,10 @@
 
 cd /usr/ports/x11/mesa
 
-git clone --depth=1 https://gitlab.freedesktop.org/mesa/mesa.git
+curl -LO https://archive.mesa3d.org/mesa-26.2.6.tar.xz
+tar -xf mesa-26.2.6.tar.xz
+cd mesa-26.2.6
 
-cd mesa
 export PYTHON=/usr/bin/python3.13
 export PYTHONPATH=/usr/lib/python3.13/site-packages
 export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/share/pkgconfig
