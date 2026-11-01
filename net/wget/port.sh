@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /usr/ports/utilities/wget
+cd /usr/ports/net/wget
 
 git clone --depth=1 https://git.savannah.gnu.org/git/wget.git
 

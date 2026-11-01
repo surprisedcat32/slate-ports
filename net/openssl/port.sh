@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /usr/ports/lib/openssl
+cd /usr/ports/net/openssl
 
 curl -LO https://www.openssl.org/source/openssl-3.5.4.tar.gz
 

@@ -1,0 +1,23 @@
+#!/bin/bash
+set -e
+
+cd /usr/ports/dev/pkgconf
+
+curl -LO https://distfiles.ariadne.space/pkgconf/pkgconf-3.0.10.tar.xz
+tar -xf pkgconf-3.0.10.tar.xz
+
+cd pkgconf-3.0.10
+
+CC=cross-musl-gcc \
+./configure \
+    --build="$(./config.guess)" \
+    --host=x86_64-linux-musl \
+    --prefix=/usr \
+    --with-sysroot=/ \
+    --with-system-libdir=/usr/lib \
+    --with-system-includedir=/usr/include \
+    --with-pkg-config-dir=/usr/lib/pkgconfig:/usr/share/pkgconfig
+
+make -j"$(nproc)"
+make install DESTDIR="${DESTDIR:-}"
+
