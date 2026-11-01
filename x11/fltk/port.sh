@@ -3,10 +3,9 @@
 set -e
 
 cd /usr/ports/x11/fltk
-
-curl -LO https://github.com/fltk/fltk/releases/download/release-1.4.5/fltk-1.4.5-source.tar.gz 
-tar -xf fltk-1.4.5-source.tar.gz
-cd fltk-1.4.5
+curl -LO https://github.com/fltk/fltk/releases/download/release-1.3.11/fltk-1.3.11-source.tar.gz
+tar -xf fltk-1.3.11-source.tar.gz
+cd fltk-1.3.11
 
 cmake -S . -B build \
     -DCMAKE_BUILD_TYPE=Release \
