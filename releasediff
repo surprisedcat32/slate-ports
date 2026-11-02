@@ -1,0 +1,864 @@
+diff --git a/diff b/diff
+new file mode 100644
+index 0000000..c6c44a3
+--- /dev/null
++++ b/diff
+@@ -0,0 +1,427 @@
++diff --git a/dev/README.md b/dev/README.md
++deleted file mode 100755
++index 1a9d790..0000000
++--- a/dev/README.md
+++++ /dev/null
++@@ -1 +0,0 @@
++-devports
++diff --git a/dev/meson/port.sh b/dev/meson/port.sh
++index f4a8da2..0811a9a 100755
++--- a/dev/meson/port.sh
+++++ b/dev/meson/port.sh
++@@ -2,7 +2,7 @@
++ cd /usr/ports/dev/meson
++ 
++ curl -LO https://github.com/mesonbuild/meson/archive/refs/tags/1.12.1.tar.gz
++-tar -xf 1.21.1.tar.gz
+++tar -xf 1.12.1.tar.gz
++ cd meson-1.12.1
++ 
++ python3 -m pip install .
++diff --git a/lib/alsa-lib/port.sh b/lib/alsa-lib/port.sh
++new file mode 100644
++index 0000000..a7be9c1
++--- /dev/null
+++++ b/lib/alsa-lib/port.sh
++@@ -0,0 +1,14 @@
+++#!/bin/bash
+++set -e
+++cd /usr/ports/lib/alsa-lib
+++
+++curl -LO https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.16.1.tar.bz2
+++tar -xf alsa-lib-1.2.16.1.tar.bz2
+++cd alsa-lib-1.2.16.1
+++
+++./configure \
+++    --prefix=/usr \
+++    --disable-static
+++
+++make
+++make DESTDIR="$DESTDIR" install
++diff --git a/lib/libbsd/port.sh b/lib/libbsd/port.sh
++new file mode 100644
++index 0000000..2d0a30d
++--- /dev/null
+++++ b/lib/libbsd/port.sh
++@@ -0,0 +1,14 @@
+++#!/bin/bash
+++set -e
+++cd /usr/ports/lib/libbsd
+++
+++curl -LO https://libbsd.freedesktop.org/releases/libbsd-0.12.2.tar.xz
+++tar -xf libbsd-0.12.2.tar.xz
+++cd libbsd-0.12.2
+++./configure \
+++    --prefix=/usr \
+++    --disable-static
+++
+++make
+++make DESTDIR="$DESTDIR" install
+++echo "#include <bsd/sys/queue.h>" > /usr/include/sys/queue.h
++diff --git a/lib/libmd/port.sh b/lib/libmd/port.sh
++new file mode 100644
++index 0000000..150cee4
++--- /dev/null
+++++ b/lib/libmd/port.sh
++@@ -0,0 +1,13 @@
+++#!/bin/bash
+++cd /usr/ports/lib/libmd
+++
+++curl -LO https://libbsd.freedesktop.org/releases/libmd-1.1.0.tar.xz
+++tar -xf libmd-1.1.0.tar.xz
+++cd libmd-1.1.0
+++
+++./configure \
+++    --prefix=/usr \
+++    --disable-static
+++
+++make
+++make DESTDIR="$DESTDIR" install
++diff --git a/lib/libtirpc/port.sh b/lib/libtirpc/port.sh
++new file mode 100644
++index 0000000..c59d25c
++--- /dev/null
+++++ b/lib/libtirpc/port.sh
++@@ -0,0 +1,15 @@
+++#!/bin/bash
+++cd /usr/ports/lib/libtirpc
+++
+++curl -LO https://downloads.sourceforge.net/project/libtirpc/libtirpc/1.3.8/libtirpc-1.3.8.tar.bz2
+++tar -xf libtirpc-1.3.8.tar.bz2
+++cd libtirpc-1.3.8
+++sed -i 's|#include <sys/queue.h>|#include <bsd/sys/queue.h>|' $(grep -rl '#include <sys/queue.h>' .)
+++./configure \
+++    --prefix=/usr \
+++    --sysconfdir=/etc \
+++    --disable-gssapi \
+++    --disable-authdes
+++
+++make
+++make DESTDIR="$DESTDIR" install
++diff --git a/meta/desktop/port.sh b/meta/desktop/port.sh
++index f1cc7e3..4c965b6 100644
++--- a/meta/desktop/port.sh
+++++ b/meta/desktop/port.sh
++@@ -39,6 +39,10 @@ slate install x11/libXrandr
++ slate install x11/xrandr
++ slate install x11/mesa
++ slate install lib/libepoxy
+++slate install x11/libXfixes
+++slate install lib/libmd
+++slate install lib/libbsd
+++slate install lib/libtirpc
++ slate install x11/xorg-server
++ slate install x11/libXinerama
++ slate install x11/libXi
++@@ -62,3 +66,4 @@ slate install x11/font-misc-misc
++ slate install x11/libXpm
++ slate install x11/libXaw
++ slate install x11/xterm
+++slate install x11/xauth
++diff --git a/meta/dillo-web/port.sh b/meta/dillo-web/port.sh
++new file mode 100644
++index 0000000..74bda33
++--- /dev/null
+++++ b/meta/dillo-web/port.sh
++@@ -0,0 +1,6 @@
+++slate install lib/zlib
+++slate install x11/fltk
+++slate install lib/libjpeg-turbo
+++slate install x11/libpng
+++slate install lib/brotli
+++slate install x11/dillo
++diff --git a/meta/ssh-full/port.sh b/meta/ssh-full/port.sh
++new file mode 100644
++index 0000000..a6224ef
++--- /dev/null
+++++ b/meta/ssh-full/port.sh
++@@ -0,0 +1,50 @@
+++#!/bin/bash
+++set -e
+++slate install net/openssl
+++slate install lib/zlib
+++slate install net/openssh
+++echo '#!/bin/sh
+++
+++PIDFILE=/run/sshd.pid
+++SSHD=/usr/sbin/sshd
+++
+++case "$1" in
+++    start)
+++        if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
+++            echo "sshd is already running."
+++            exit 0
+++        fi
+++        mkdir -p /run /var/empty
+++        id sshd >/dev/null 2>&1 || exit 1
+++        ssh-keygen -A || exit 1
+++        echo "Starting sshd..."
+++        "$SSHD" -o PidFile="$PIDFILE"
+++        ;;
+++    stop)
+++        if [ -f "$PIDFILE" ]; then
+++            echo "Stopping sshd..."
+++            kill "$(cat "$PIDFILE")"
+++            rm -f "$PIDFILE"
+++        else
+++            echo "sshd is not running."
+++        fi
+++        ;;
+++    restart)
+++        "$0" stop
+++        "$0" start
+++        ;;
+++    status)
+++        if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
+++            echo "sshd is running."
+++        else
+++            echo "sshd is not running."
+++            exit 1
+++        fi
+++        ;;
+++    *)
+++        echo "Usage: $0 {start|stop|restart|status}"
+++        exit 1
+++        ;;
+++esac' > /etc/init.d/sshd
+++
+++chmod +x /etc/init.d/sshd
++diff --git a/system/README.md b/system/README.md
++deleted file mode 100755
++index a8ebb36..0000000
++--- a/system/README.md
+++++ /dev/null
++@@ -1,3 +0,0 @@
++-# System
++-
++-System ports for Slate Linux.
++diff --git a/system/kmod/port.sh b/system/kmod/port.sh
++new file mode 100644
++index 0000000..994464f
++--- /dev/null
+++++ b/system/kmod/port.sh
++@@ -0,0 +1,19 @@
+++#!/bin/bash
+++set -e
+++cd /usr/ports/system/kmod
+++
+++curl -LO https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-34.2.tar.xz
+++tar -xf kmod-34.2.tar.xz
+++cd kmod-34.2
+++
+++./configure \
+++    --prefix=/usr \
+++    --sysconfdir=/etc \
+++    --with-rootlibdir=/lib \
+++    --with-zlib \
+++    --with-xz \
+++    --with-zstd \
+++    --disable-manpages
+++
+++make
+++make DESTDIR="$DESTDIR" install
++diff --git a/system/polkit/port.sh b/system/polkit/port.sh
++new file mode 100644
++index 0000000..e519c63
++--- /dev/null
+++++ b/system/polkit/port.sh
++@@ -0,0 +1,19 @@
+++#!/bin/bash
+++set -e
+++cd /usr/ports/system/polkit
+++
+++curl -LO https://github.com/polkit-org/polkit/archive/refs/tags/127.tar.gz
+++tar -xf 127.tar.gz
+++cd polkit-127
+++
+++meson setup build \
+++    --prefix=/usr \
+++    --sysconfdir=/etc \
+++    -Dauthfw=shadow \
+++    -Dsession_tracking=ConsoleKit \
+++    -Dintrospection=false \
+++    -Dman=false \
+++    -Dtests=false
+++
+++ninja -C build
+++DESTDIR="$DESTDIR" ninja -C build install
++diff --git a/utilities/README.md b/utilities/README.md
++deleted file mode 100755
++index 5e7e6db..0000000
++--- a/utilities/README.md
+++++ /dev/null
++@@ -1,3 +0,0 @@
++-# Utilities
++-
++-Utility ports for Slate Linux.
++diff --git a/utilities/alsa-utils/port.sh b/utilities/alsa-utils/port.sh
++new file mode 100644
++index 0000000..1fe015e
++--- /dev/null
+++++ b/utilities/alsa-utils/port.sh
++@@ -0,0 +1,16 @@
+++#!/bin/bash
+++set -e
+++cd /usr/ports/utilities/alsa-utils
+++
+++curl -LO https://www.alsa-project.org/files/pub/utils/alsa-utils-1.2.16.tar.bz2
+++tar -xf alsa-utils-1.2.16.tar.bz2
+++cd alsa-utils-1.2.16
+++
+++./configure \
+++    --prefix=/usr \
+++    --disable-alsaconf \
+++    --disable-xmlto \
+++    --with-curses=ncursesw
+++
+++make
+++make DESTDIR="$DESTDIR" install
++diff --git a/utilities/man/port.sh b/utilities/man/port.sh
++new file mode 100644
++index 0000000..02aab56
++--- /dev/null
+++++ b/utilities/man/port.sh
++@@ -0,0 +1,21 @@
+++
+++#!/bin/bash
+++cd /usr/ports/utilities/mandoc
+++
+++curl -LO https://mandoc.bsd.lv/snapshots/mandoc-1.14.6.tar.gz
+++tar -xf mandoc-1.14.6.tar.gz
+++cd mandoc-1.14.6
+++
+++cat > configure.local <<'EOF'
+++PREFIX="/usr"
+++BINDIR="${PREFIX}/bin"
+++SBINDIR="${PREFIX}/sbin"
+++MANDIR="${PREFIX}/share/man"
+++BINM_PAGER="less"
+++LN="ln -sf"
+++EOF
+++
+++./configure
+++make
+++make DESTDIR="$DESTDIR" install
+++
++diff --git a/x11/dunst/port.sh b/x11/dunst/port.sh
++new file mode 100644
++index 0000000..f08f7e7
++--- /dev/null
+++++ b/x11/dunst/port.sh
++@@ -0,0 +1,16 @@
+++#!/bin/bash
+++set -e
+++cd /usr/ports/x11/dunst
+++
+++curl -LO https://github.com/dunst-project/dunst/archive/refs/tags/v1.13.2.tar.gz
+++tar -xf v1.13.2.tar.gz
+++cd dunst-1.13.2
+++
+++meson setup build \
+++    --prefix=/usr \
+++    -Dwayland=disabled \
+++    -Ddocs=disabled \
+++    -Dtests=disabled
+++
+++ninja -C build
+++DESTDIR="$DESTDIR" ninja -C build install
++diff --git a/x11/libXcomposite/port.sh b/x11/libXcomposite/port.sh
++new file mode 100644
++index 0000000..10956b2
++--- /dev/null
+++++ b/x11/libXcomposite/port.sh
++@@ -0,0 +1,12 @@
+++#!/bin/bash
+++set -e
+++cd /usr/ports/x11/libXcomposite
+++
+++curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXcomposite-0.4.7.tar.xz
+++tar -xf libXcomposite-0.4.7.tar.xz
+++cd libXcomposite-0.4.7
+++
+++./configure --prefix=/usr
+++
+++make
+++make DESTDIR="$DESTDIR" install
++diff --git a/x11/libXdamage/port.sh b/x11/libXdamage/port.sh
++new file mode 100644
++index 0000000..f7dea34
++--- /dev/null
+++++ b/x11/libXdamage/port.sh
++@@ -0,0 +1,12 @@
+++#!/bin/bash
+++set -e
+++cd /usr/ports/x11/libXdamage
+++
+++curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXdamage-1.2.1.tar.xz
+++tar -xf libXdamage-1.2.1.tar.xz
+++cd libXdamage-1.2.1
+++
+++./configure --prefix=/usr
+++
+++make
+++make DESTDIR="$DESTDIR" install
++diff --git a/x11/libXres/port.sh b/x11/libXres/port.sh
++new file mode 100644
++index 0000000..b50927f
++--- /dev/null
+++++ b/x11/libXres/port.sh
++@@ -0,0 +1,12 @@
+++#!/bin/bash
+++set -e
+++cd /usr/ports/x11/libXres
+++
+++curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXres-1.2.3.tar.xz
+++tar -xf libXres-1.2.3.tar.xz
+++cd libXres-1.2.3
+++
+++./configure --prefix=/usr
+++
+++make
+++make DESTDIR="$DESTDIR" install
++diff --git a/x11/picom/port.sh b/x11/picom/port.sh
++new file mode 100644
++index 0000000..554db4a
++--- /dev/null
+++++ b/x11/picom/port.sh
++@@ -0,0 +1,16 @@
+++#!/bin/bash
+++set -e
+++cd /usr/ports/x11/picom
+++
+++curl -LO https://github.com/yshui/picom/archive/refs/tags/v13.tar.gz
+++tar -xf v13.tar.gz
+++cd picom-13
+++
+++meson setup build \
+++    --prefix=/usr \
+++    -Ddbus=false \
+++    -Dopengl=false \
+++    -Dregex=false
+++
+++ninja -C build
+++DESTDIR="$DESTDIR" ninja -C build install
++diff --git a/x11/seatd/port.sh b/x11/seatd/port.sh
++index 5ef46bc..9b6974d 100644
++--- a/x11/seatd/port.sh
+++++ b/x11/seatd/port.sh
++@@ -15,4 +15,19 @@ meson setup .. \
++ 
++ ninja -j"$(nproc)"
++ DESTDIR="$DESTDIR" ninja install
+++echo '#!/bin/sh
++ 
+++case "$1" in
+++    stop)
+++        killall seatd
+++        ;;
+++    restart)
+++        killall seatd
+++        /usr/bin/seatd -g video
+++        ;;
+++    *)
+++        /usr/bin/seatd -g video
+++        ;;
+++esac' > /etc/init.d/seatd
+++
+++chmod +x /etc/init.d/seatd
+diff --git a/lib/readline/port.sh b/lib/readline/port.sh
+index 02d19f7..b23943b 100755
+--- a/lib/readline/port.sh
++++ b/lib/readline/port.sh
+@@ -2,9 +2,9 @@
+ 
+ cd /usr/ports/lib/readline
+ 
+-git clone --depth 1 https://git.savannah.gnu.org/git/readline.git
+-
+-cd readline
++curl -LO https://ftp.gnu.org/gnu/readline/readline-8.3.tar.gz
++tar -xf readline-8.3.tar.gz
++cd readline-8.3
+ 
+ CFLAGS="-fPIC" ./configure --prefix=/usr
+ 
+diff --git a/lib/zlib/port.sh b/lib/zlib/port.sh
+index fd516f6..e93e2d9 100755
+--- a/lib/zlib/port.sh
++++ b/lib/zlib/port.sh
+@@ -2,9 +2,9 @@
+ 
+ cd /usr/ports/lib/zlib
+ 
+-git clone --depth 1 https://github.com/madler/zlib.git
+-
+-cd zlib
++curl -LO https://www.zlib.net/zlib-1.3.2.tar.xz
++tar -xf zlib-1.3.2.tar.xz
++cd zlib-1.3.2
+ 
+ ./configure --prefix=/usr
+ 
+diff --git a/meta/desktop/port.sh b/meta/desktop/port.sh
+index 4c965b6..6a56ee2 100644
+--- a/meta/desktop/port.sh
++++ b/meta/desktop/port.sh
+@@ -67,3 +67,5 @@ slate install x11/libXpm
+ slate install x11/libXaw
+ slate install x11/xterm
+ slate install x11/xauth
++slate install x11/xorg-server
++slate install x11/xorg-drivers
+diff --git a/net/ethtool/port.sh b/net/ethtool/port.sh
+new file mode 100755
+index 0000000..4f8ad41
+--- /dev/null
++++ b/net/ethtool/port.sh
+@@ -0,0 +1,9 @@
++#!/bin/bash
++set -e
++cd /usr/ports/net/ethtool
++curl -LO https://kernel.org/pub/software/network/ethtool/ethtool-7.2.tar.xz
++tar -xf ethtool-7.2.tar.xz
++cd ethtool-7.2
++./configure --prefix=/usr
++make
++make DESTDIR="$DESTDIR" install
+diff --git a/net/iw/port.sh b/net/iw/port.sh
+new file mode 100755
+index 0000000..a705f22
+--- /dev/null
++++ b/net/iw/port.sh
+@@ -0,0 +1,8 @@
++#!/bin/bash
++set -e
++cd /usr/ports/net/iw
++curl -LO https://www.kernel.org/pub/software/network/iw/iw-6.17.tar.xz
++tar -xf iw-6.17.tar.xz
++cd iw-6.17
++make
++make PREFIX=/usr DESTDIR="$DESTDIR" install
+diff --git a/slate b/slate
+index d18cce2..020a6de 100755
+--- a/slate
++++ b/slate
+@@ -2,7 +2,6 @@
+ set -o pipefail
+ 
+ PORTS_DIR="/usr/ports"
+-PORTS_REPO="https://github.com/surprisedcat32/slate-ports.git"
+ 
+ # Scratch space for staging installs. Override with SLATE_TMPDIR=...
+ STAGE_PARENT="${SLATE_TMPDIR:-/var/tmp}"
+@@ -15,9 +14,19 @@ STAGE_PARENT="${SLATE_TMPDIR:-/var/tmp}"
+ #   f<TAB>sha256<TAB>path   regular file (hash lets uninstall spot later edits)
+ #   l<TAB>-<TAB>path        symlink
+ #   d<TAB>-<TAB>path        directory the package created (removed only if empty)
++#
++# Repository list, /etc/slate.conf/repos (override with SLATE_REPOS_FILE=...):
++#   <url> <version|testing>
++#   https://github.com/surprisedcat32/slate-ports.git 0.42
++#   https://gitlab.com/guy/my-slate-ports testing
++# A version (0.42 or v0.42) pins to that git tag. "testing" takes the latest
++# commit on main. Blank lines and # comments are ignored, as is any text after
++# the second field. If two repositories provide the same <category>/<package>,
++# the one listed first wins.
+ 
+ STAGE=""
+ MANIFEST_TMP=""
++UPDATE_WORK=""
+ SILENT=0
+ 
+ die() { echo "slate: $*" >&2; exit 1; }
+@@ -157,6 +166,26 @@ cleanup_install() {
+     fi
+ }
+ 
++cleanup_update() {
++    if [ -n "$UPDATE_WORK" ] && [ -d "$UPDATE_WORK" ]; then
++        rm -rf -- "$UPDATE_WORK"
++    fi
++}
++
++# Turn a release value into a git ref: a version tag (0.42 or v0.42), or
++# "testing" for the latest commit on main. Anything else is invalid.
++# $1 = release value; prints the ref, returns 1 if the value is invalid.
++channel_to_ref() {
++    local tag="$1"
++    if [[ "${tag,,}" == "testing" ]]; then
++        echo "main"
++    elif [[ "$tag" =~ ^v?[0-9]+(\.[0-9]+)*$ ]]; then
++        echo "$tag"
++    else
++        return 1
++    fi
++}
++
+ case "$1" in
+     install)
+         [ -n "$2" ] || usage
+@@ -297,51 +326,109 @@ case "$1" in
+             die "git is required to update ports"
+         fi
+ 
+-        # Release channel: a version (0.4 or v0.4), "testing", or a branch name.
+-        # Override the file path with SLATE_VER_FILE=...
+-        VER_FILE="${SLATE_VER_FILE:-/etc/slate.conf/ver}"
+-        [ -r "$VER_FILE" ] || die "cannot read release version from $VER_FILE"
+-
+-        # Keep only the first line, and drop whitespace, quotes, and CR characters.
+-        TAG=$(head -n 1 "$VER_FILE" | tr -d '[:space:]"'"'"'\r')
+-        [ -n "$TAG" ] || die "release version in $VER_FILE is empty"
+-
+-        shopt -s nocasematch
+-        if [[ "$TAG" =~ ^v?[0-9]+(\.[0-9]+)*$ ]]; then
+-            # Version number: pin to that release tag.
+-            CLONE_ARGS=(--branch "$TAG")
+-        elif [[ "$TAG" == "testing" ]]; then
+-            # Testing: always take the latest commit on main.
+-            CLONE_ARGS=(--branch main)
+-        elif [[ "$TAG" =~ ^[a-z][a-z0-9._-]*$ ]]; then
+-            # Named channel such as "experimental": use the branch with that name.
+-            CLONE_ARGS=(--branch "$TAG")
+-        else
+-            shopt -u nocasematch
+-            die "invalid release value in $VER_FILE: '$TAG'"
+-        fi
+-        shopt -u nocasematch
+-
+-        TMP_DIR="/tmp/slate-ports-update-$$"
++        # One repository per line: <url> <version|testing>
++        # Override the file path with SLATE_REPOS_FILE=...
++        REPOS_FILE="${SLATE_REPOS_FILE:-/etc/slate.conf/repos}"
++        [ -r "$REPOS_FILE" ] || die "cannot read repository list from $REPOS_FILE"
++
++        REPO_URLS=()
++        REPO_TAGS=()
++        REPO_REFS=()
++        lineno=0
++        while IFS= read -r line || [ -n "$line" ]; do
++            lineno=$((lineno + 1))
++            line="${line%%#*}"          # strip comments
++            line="${line//$'\r'/}"      # strip CRs
++            url=""; tag=""
++            read -r url tag _ <<< "$line"
++            [ -n "$url" ] || continue   # blank line
++            tag="${tag//[\"\']/}"       # drop quotes
++
++            [[ "$url" =~ ^(https?|git|ssh)://[^[:space:]]+$ ]] \
++                || die "$REPOS_FILE:$lineno: invalid repository URL: '$url'"
++            [ -n "$tag" ] \
++                || die "$REPOS_FILE:$lineno: missing release (a version tag or 'testing')"
++            ref=$(channel_to_ref "$tag") \
++                || die "$REPOS_FILE:$lineno: invalid release '$tag' (use a version tag like 0.42, or 'testing')"
++
++            REPO_URLS+=("$url")
++            REPO_TAGS+=("$tag")
++            REPO_REFS+=("$ref")
++        done < "$REPOS_FILE"
++
++        [ "${#REPO_URLS[@]}" -gt 0 ] || die "no repositories listed in $REPOS_FILE"
++
++        # Build the new ports tree next to the old one so the final swap is
++        # a rename. The old tree is only touched once everything downloaded.
++        UPDATE_WORK=$(mktemp -d "$(dirname "$PORTS_DIR")/.slate-update.XXXXXX") \
++            || die "cannot create work directory next to $PORTS_DIR"
++        trap cleanup_update EXIT
++        NEW_PORTS="$UPDATE_WORK/new"
++        mkdir "$NEW_PORTS" || die "cannot create $NEW_PORTS"
++        chmod 755 "$NEW_PORTS"
++        : > "$NEW_PORTS/.sources"
++
++        shopt -s nullglob
++        for i in "${!REPO_URLS[@]}"; do
++            url="${REPO_URLS[$i]}"
++            tag="${REPO_TAGS[$i]}"
++            ref="${REPO_REFS[$i]}"
++            dest="$UPDATE_WORK/clone-$i"
++
++            # A version must be a real tag; git clone --branch alone would
++            # also accept a branch with that name.
++            if [[ "${tag,,}" != "testing" ]]; then
++                GIT_TERMINAL_PROMPT=0 git ls-remote --exit-code -q --tags -- \
++                    "$url" "refs/tags/$ref" </dev/null >/dev/null 2>&1 \
++                    || die "no tag '$ref' in $url; existing ports preserved"
++            fi
+ 
+-        say "==> Downloading Slate ports ($TAG)..."
+-        if ! git clone --depth 1 -q "${CLONE_ARGS[@]}" "$PORTS_REPO" "$TMP_DIR"; then
+-            rm -rf "$TMP_DIR"
+-            die "failed to download '$TAG'; existing ports preserved"
+-        fi
++            say "==> Downloading $url ($tag)..."
++            if ! GIT_TERMINAL_PROMPT=0 git clone --depth 1 -q \
++                    --branch "$ref" -- "$url" "$dest" </dev/null; then
++                die "failed to download '$tag' from $url; existing ports preserved"
++            fi
+ 
+-        if [ ! -d "$TMP_DIR/.git" ]; then
+-            rm -rf "$TMP_DIR"
+-            die "downloaded repository is invalid"
+-        fi
++            commit=$(git -C "$dest" rev-parse --short HEAD 2>/dev/null)
++            printf '%s\t%s\t%s\n' "$url" "$tag" "$commit" >> "$NEW_PORTS/.sources"
++
++            # Merge <category>/<package> dirs; earlier repositories win.
++            for catdir in "$dest"/*/; do
++                catdir="${catdir%/}"
++                [ -L "$catdir" ] && continue
++                cname="${catdir##*/}"
++                for pkgdir in "$catdir"/*/; do
++                    pkgdir="${pkgdir%/}"
++                    [ -L "$pkgdir" ] && continue
++                    [ -f "$pkgdir/port.sh" ] || continue
++                    pname="${pkgdir##*/}"
++
++                    if [ -e "$NEW_PORTS/$cname/$pname" ]; then
++                        say "==> Skipping $cname/$pname from $url (provided by an earlier repository)"
++                        continue
++                    fi
++                    mkdir -p "$NEW_PORTS/$cname" \
++                        && cp -a -- "$pkgdir" "$NEW_PORTS/$cname/" \
++                        || die "failed to copy $cname/$pname from $url; existing ports preserved"
++                done
++            done
++
++            rm -rf -- "$dest"
++        done
++        shopt -u nullglob
+ 
+         say "==> Replacing ports directory..."
+-        rm -rf "$PORTS_DIR"
+-
+-        if ! mv "$TMP_DIR" "$PORTS_DIR"; then
+-            die "failed to install updated ports"
++        OLD_PORTS="$UPDATE_WORK/old"
++        if [ -e "$PORTS_DIR" ]; then
++            mv -- "$PORTS_DIR" "$OLD_PORTS" || die "failed to move old ports aside; existing ports preserved"
+         fi
+-        say "==> Slate ports updated to '$TAG'."
++        if ! mv -- "$NEW_PORTS" "$PORTS_DIR"; then
++            [ -e "$OLD_PORTS" ] && mv -- "$OLD_PORTS" "$PORTS_DIR"
++            die "failed to install updated ports; previous ports restored"
++        fi
++
++        count=$(find "$PORTS_DIR" -mindepth 2 -maxdepth 2 -type f -name port.sh | wc -l)
++        say "==> Slate ports updated ($count ports from ${#REPO_URLS[@]} repositories)."
+         ;;
+ 
+     *)
+diff --git a/system/gptfdisk/port.sh b/system/gptfdisk/port.sh
+new file mode 100755
+index 0000000..9e52951
+--- /dev/null
++++ b/system/gptfdisk/port.sh
+@@ -0,0 +1,8 @@
++#!/bin/bash
++set -e
++cd /usr/ports/system/gptfdisk
++curl -LO https://downloads.sourceforge.net/project/gptfdisk/gptfdisk/1.0.10/gptfdisk-1.0.10.tar.gz
++tar -xf gptfdisk-1.0.10.tar.gz
++cd gptfdisk-1.0.10
++make
++make PREFIX=/usr DESTDIR="$DESTDIR" install
+diff --git a/system/grub/port.sh b/system/grub/port.sh
+new file mode 100755
+index 0000000..78e6bba
+--- /dev/null
++++ b/system/grub/port.sh
+@@ -0,0 +1,15 @@
++#!/bin/bash
++set -e
++cd /usr/ports/system/grub
++curl -LO https://ftp.gnu.org/gnu/grub/grub-2.14.tar.xz
++tar -xf grub-2.14.tar.xz
++cd grub-2.14
++./configure --prefix=/usr --sysconfdir=/etc --disable-werror --disable-nls --with-platform=efi --target=x86_64
++make
++make DESTDIR="$DESTDIR" install
++make distclean
++./configure --prefix=/usr --sysconfdir=/etc --disable-werror --disable-nls --with-platform=pc --target=i386
++make
++make DESTDIR="$DESTDIR" install
++make distclean
++make install DESTDIR="$DESTDIR"
+diff --git a/system/kbd/port.sh b/system/kbd/port.sh
+new file mode 100755
+index 0000000..832027a
+--- /dev/null
++++ b/system/kbd/port.sh
+@@ -0,0 +1,9 @@
++#!/bin/bash
++set -e
++cd /usr/ports/system/kbd
++curl -LO https://www.kernel.org/pub/linux/utils/kbd/kbd-2.10.0.tar.xz
++tar -xf kbd-2.10.0.tar.xz
++cd kbd-2.10.0
++./configure --prefix=/usr
++make
++make DESTDIR="$DESTDIR" install
+diff --git a/system/parted/port.sh b/system/parted/port.sh
+new file mode 100755
+index 0000000..bad5949
+--- /dev/null
++++ b/system/parted/port.sh
+@@ -0,0 +1,9 @@
++#!/bin/bash
++set -e
++cd /usr/ports/system/parted
++curl -LO https://ftp.gnu.org/gnu/parted/parted-3.8.tar.xz
++tar -xf parted-3.8.tar.xz
++cd parted-3.8
++./configure --prefix=/usr --disable-nls --disable-readline
++make
++make DESTDIR="$DESTDIR" install
+diff --git a/utilities/lsof/port.sh b/utilities/lsof/port.sh
+new file mode 100755
+index 0000000..e9ce575
+--- /dev/null
++++ b/utilities/lsof/port.sh
+@@ -0,0 +1,9 @@
++#!/bin/bash
++set -e
++cd /usr/ports/utilities/lsof
++curl -LO https://github.com/lsof-org/lsof/releases/download/4.99.5/lsof-4.99.5.tar.gz
++tar -xf lsof-4.99.5.tar.gz
++cd lsof-4.99.5
++./configure --prefix=/usr --disable-static
++make
++make DESTDIR="$DESTDIR" install
+diff --git a/utilities/nano/port.sh b/utilities/nano/port.sh
+new file mode 100755
+index 0000000..186af57
+--- /dev/null
++++ b/utilities/nano/port.sh
+@@ -0,0 +1,9 @@
++#!/bin/bash
++set -e
++cd /usr/ports/utilities/nano
++curl -LO https://ftp.gnu.org/gnu/nano/nano-9.3.tar.xz
++tar -xf nano-9.3.tar.xz
++cd nano-9.3
++./configure --prefix=/usr --disable-nls
++make
++make DESTDIR="$DESTDIR" install
+diff --git a/x11/freetype/port.sh b/x11/freetype/port.sh
+index d3feb5c..ef280e4 100755
+--- a/x11/freetype/port.sh
++++ b/x11/freetype/port.sh
+@@ -1,10 +1,9 @@
+ #!/bin/bash
+ 
+ cd /usr/ports/x11/freetype
+-
+-git clone --depth 1 https://gitlab.freedesktop.org/freetype/freetype.git
+-
+-cd freetype
++curl -LO https://download.savannah.gnu.org/releases/freetype/freetype-2.15.0.tar.xz
++tar -xf freetype-2.15.0.tar.xz
++cd freetype-2.15.0
+ 
+ meson setup build --prefix=/usr
+ 
+diff --git a/x11/libXi/port.sh b/x11/libXi/port.sh
+index 6544bd7..1914f73 100755
+--- a/x11/libXi/port.sh
++++ b/x11/libXi/port.sh
+@@ -1,10 +1,9 @@
+ #!/bin/bash
+ 
+ cd /usr/ports/x11/libXi
+-
+-git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libXi.git
+-
+-cd libXi
++curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXi-1.8.4.tar.xz
++tar -xf libXi-1.8.4.tar.xz
++cd libXi-1.8.4
+ 
+ ./autogen.sh
+ 
+diff --git a/x11/libXinerama/port.sh b/x11/libXinerama/port.sh
+index a941d2d..8a7182a 100755
+--- a/x11/libXinerama/port.sh
++++ b/x11/libXinerama/port.sh
+@@ -1,10 +1,9 @@
+ #!/bin/bash
+ 
+ cd /usr/ports/x11/libXinerama
+-
+-curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXinerama-1.1.tar.gz
+-tar -xf libXinerama-1.1.tar.gz
+-cd libXinerama-1.1
++https://xorg.freedesktop.org/releases/individual/lib/libXinerama-1.1.6.tar.xz
++tar -xf libXinerama-1.1.6.tar.xz
++cd libXinerama-1.1.6
+ 
+ ./autogen.sh
+ 
