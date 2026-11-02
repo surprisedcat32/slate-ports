@@ -431,10 +431,25 @@ case "$1" in
         say "==> Slate ports updated ($count ports from ${#REPO_URLS[@]} repositories)."
         ;;
     list)
-        if [ -n "@2" ]; then
-            for f in $(ls $PORT_DIR); do
+        if [ ! -d "$PORTS_DIR" ]; then
+            die "ports directory not found"
+        fi
+
+        if [ -z "$2" ]; then
+            for f in "$PORTS_DIR"/*; do
                 if [ -d "$f" ] && [ "$f" != "installed" ]; then
-                    echo $f | grep -v "^[.]"
+                    echo $(basename $f) | grep -v "^[.]"
+                fi
+            done
+        elif [ -z "$3"]; then
+            case "$2" in
+                */*)
+                    die "invalid input $2"
+                ;;
+            esac
+            for f in "$PORTS_DIR"/$2/*; do
+                if [ -d "$f" ]; then
+                    echo $(basename $f) | grep -v "^[.]"
                 fi
             done
         fi
