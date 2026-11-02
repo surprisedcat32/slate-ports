@@ -37,6 +37,7 @@ usage_text() {
     echo "  slate [--sysroot DIR] install <category>/<package>"
     echo "  slate [--sysroot DIR] uninstall [--force] <category>/<package>"
     echo "  slate [--sysroot DIR] installed"
+    echo "  slate list [<category>]"
 #   echo "  slate ports"
     echo "  slate update"
     echo ""
