@@ -430,7 +430,15 @@ case "$1" in
         count=$(find "$PORTS_DIR" -mindepth 2 -maxdepth 2 -type f -name port.sh | wc -l)
         say "==> Slate ports updated ($count ports from ${#REPO_URLS[@]} repositories)."
         ;;
-
+    list)
+        if [ -n "@2" ]; then
+            for f in $(ls $PORT_DIR); do
+                if [ -d "$f" ] && [ "$f" != "installed" ]; then
+                    echo $f | grep -v "^[.]"
+                fi
+            done
+        fi
+        ;;
     *)
         usage
         ;;
