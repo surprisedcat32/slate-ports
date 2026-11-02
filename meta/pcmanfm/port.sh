@@ -1,0 +1,11 @@
+slate install perl/perl
+slate install lib/expat
+slate install perl/perl-file-sharedir-install
+slate install perl/perl-file-sharedir
+slate install perl/perl-class-inspector
+slate install perl/perl-xml-parser
+slate install dev/intltool
+slate install x11/libfm-extra
+slate install x11/menu-cache
+slate install x11/libfm
+slate install x11/pcmanfm
