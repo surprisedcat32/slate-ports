@@ -437,7 +437,7 @@ case "$1" in
 
         if [ -z "$2" ]; then
             for f in "$PORTS_DIR"/*; do
-                if [ -d "$f" ] && [ "$f" != "installed" ]; then
+                if [ -d "$f" ] && [ "$f" != "$PORTS_DIR/installed" ]; then
                     echo $(basename $f) | grep -v "^[.]"
                 fi
             done
