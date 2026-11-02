@@ -452,6 +452,8 @@ case "$1" in
                     echo $(basename $f) | grep -v "^[.]"
                 fi
             done
+        else
+            die "invalid amount of options"
         fi
         ;;
     *)
