@@ -37,7 +37,7 @@ usage_text() {
     echo "  slate [--sysroot DIR] install <category>/<package>"
     echo "  slate [--sysroot DIR] uninstall [--force] <category>/<package>"
     echo "  slate [--sysroot DIR] installed"
-    echo "  slate ports"
+    echo "  slate list [<category>]"
     echo "  slate update"
     echo ""
     echo "  --sysroot DIR   operate on DIR instead of / (alias: -S DIR)"
@@ -300,19 +300,6 @@ case "$1" in
         (cd "$STATE_DIR" && find . -type f | sed 's|^\./||' | sort)
         ;;
 
-    ports)
-        if [ ! -d "$PORTS_DIR" ]; then
-            die "ports directory not found"
-        fi
-
-        find "$PORTS_DIR" -mindepth 2 -maxdepth 2 \
-            -type f -name port.sh |
-        while IFS= read -r recipe; do
-            port="${recipe#"$PORTS_DIR"/}"
-            echo "${port%/port.sh}"
-        done
-        ;;
-
     update)
         if [ "$SYSROOT" != "/" ]; then
             die "update only works on the host, not with --sysroot"
@@ -430,7 +417,43 @@ case "$1" in
         count=$(find "$PORTS_DIR" -mindepth 2 -maxdepth 2 -type f -name port.sh | wc -l)
         say "==> Slate ports updated ($count ports from ${#REPO_URLS[@]} repositories)."
         ;;
+    list)
+        if [ ! -d "$PORTS_DIR" ]; then
+            die "ports directory not found"
+        fi
 
+        if [ -z "$2" ]; then
+            for f in "$PORTS_DIR"/*; do
+                if [ -d "$f" ] && [ "$f" != "$PORTS_DIR/installed" ]; then
+                    echo $(basename $f) | grep -v "^[.]"
+                fi
+            done
+        elif [ -z "$3"]; then
+            case "$2" in
+                */*)
+                    die "invalid input '$2'"
+                ;;
+
+                installed)
+                    die "category '$2' not found"
+                ;;
+            esac
+
+            CATEGORY_DIR="$PORTS_DIR/$2"
+
+            if [ ! -d "$CATEGORY_DIR" ]; then
+                die "category '$2' not found"
+            fi
+
+            for f in "$CATEGORY_DIR"/*; do
+                if [ -d "$f" ]; then
+                    echo $(basename $f) | grep -v "^[.]"
+                fi
+            done
+        else
+            die "invalid amount of options"
+        fi
+        ;;
     *)
         usage
         ;;
