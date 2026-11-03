@@ -2,9 +2,9 @@
 
 cd /usr/ports/x11/libxcvt
 
-git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libxcvt.git
-
-cd libxcvt
+curl -LO https://xorg.freedesktop.org/releases/individual/lib/libxcvt-0.1.3.tar.xz
+tar -xf libxcvt-0.1.3.tar.xz
+cd libxcvt-0.1.3
 
 meson setup build --prefix=/usr
 

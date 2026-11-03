@@ -69,3 +69,5 @@ slate install x11/xterm
 slate install x11/xauth
 slate install x11/xorg-server
 slate install x11/xorg-drivers
+slate install x11/xeyes
+slate install x11/xclock

@@ -14,7 +14,6 @@ meson setup .. \
     --wrap-mode=nofallback \
     -Ddocs=false \
     -Dmans=false
-
 ninja -j"$(nproc)"
 DESTDIR="$DESTDIR" ninja install
 

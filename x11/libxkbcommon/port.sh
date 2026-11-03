@@ -12,7 +12,7 @@ meson setup build \
     --prefix=/usr \
     --libdir=lib \
     --buildtype=release \
-    -Denable-x11=false \
+    -Denable-x11=true \
     -Denable-wayland=false \
     -Denable-docs=false \
     -Denable-tools=true \

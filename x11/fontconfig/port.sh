@@ -1,13 +1,15 @@
 #!/bin/bash
 
 cd /usr/ports/x11/fontconfig
-curl -LO https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.16.0.tar.xz
-tar -xf fontconfig-2.16.0.tar.xz
-cd fontconfig-2.16.0
+curl -LO https://gitlab.freedesktop.org/api/v4/projects/890/packages/generic/fontconfig/2.17.1/fontconfig-2.17.1.tar.xz
+tar -xf fontconfig-2.17.1.tar.xz
+cd fontconfig-2.17.1
 export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/lib64/pkgconfig:/usr/share/pkgconfig
 
-meson setup build --prefix=/usr
-
+meson setup build \
+    --prefix=/usr \
+    --buildtype=release \
+    -Dtests=disabled
 meson compile -C build -j"$(nproc)"
 
 DESTDIR="$DESTDIR" meson install -C build
