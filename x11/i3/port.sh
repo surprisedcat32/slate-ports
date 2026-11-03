@@ -14,8 +14,6 @@ meson setup .. \
     --wrap-mode=nofallback \
     -Ddocs=false \
     -Dmans=false
-sed -i "/run_command.*hacking-howto.html/c\if fs.exists('docs/hacking-howto.html')" meson.build
-grep -q "fs = import('fs')" meson.build || sed -i '1ifs = import('\''fs'\'')' meson.build
 ninja -j"$(nproc)"
 DESTDIR="$DESTDIR" ninja install
 
