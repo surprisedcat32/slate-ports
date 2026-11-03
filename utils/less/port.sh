@@ -1,6 +1,5 @@
 #!/bin/bash
-
-cd /usr/ports/utilities/less
+cd /usr/ports/utils/less
 
 curl -LO https://www.greenwoodsoftware.com/less/less-668.tar.gz
 

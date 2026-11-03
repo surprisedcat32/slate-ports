@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /usr/ports/utilities/zip
+cd /usr/ports/utils/zip
 
 curl -LO https://downloads.sourceforge.net/infozip/unzip60.tgz
 curl -LO https://downloads.sourceforge.net/infozip/zip30.tar.gz
