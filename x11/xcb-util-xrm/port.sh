@@ -1,11 +1,11 @@
 #!/bin/bash
 set -e
 cd /usr/ports/x11/xcb-util-xrm
-curl -LO https://archive.ubuntu.com/ubuntu/pool/universe/x/xcb-util-xrm/xcb-util-xrm_1.3+git20230724.a17de57.orig.tar.xz
-tar -xf xcb-util-xrm_1.3+git20230724.a17de57.orig.tar.xz
-cd xcb-util-xrm-1.3+git20230724.a17de57 
+curl -LO https://github.com/Airblader/xcb-util-xrm/releases/download/v1.3/xcb-util-xrm-1.3.tar.bz2
+tar -xf xcb-util-xrm-1.3.tar.bz2
+cd xcb-util-xrm-1.3
 
-./autogen.sh --prefix=/usr --disable-static
+./configure --prefix=/usr --disable-static
 
-make -j"$(nproc)"
+make
 make DESTDIR="$DESTDIR" install
