@@ -7,7 +7,6 @@ PORTS_DIR="${SLATE_PORTS_DIR:-/usr/ports}"
 STAGE_PARENT="${SLATE_TMPDIR:-/var/tmp}"
 CACHE_DIR="${SLATE_CACHE_DIR:-/var/cache/slate}"
 REPOS_FILE="${SLATE_REPOS_FILE:-/etc/slate.conf/repos}"
-
 # ---------------------------------------------------------------------------
 # Runtime state
 # ---------------------------------------------------------------------------
@@ -35,7 +34,7 @@ REPO_TAGS=()
 REPO_REFS=()
 REPO_TYPES=()
 REPO_SUMS=()
-
+rm /var/lib/slate/lock
 # ---------------------------------------------------------------------------
 # Output helpers
 # ---------------------------------------------------------------------------
@@ -1489,3 +1488,4 @@ main() {
 if [ "${BASH_SOURCE[0]}" = "$0" ]; then
     main "$@"
 fi
+rm /var/lib/slate/lock
