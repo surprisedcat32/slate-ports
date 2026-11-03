@@ -38,7 +38,6 @@ usage_text() {
     echo "  slate [--sysroot DIR] uninstall [--force] <category>/<package>"
     echo "  slate [--sysroot DIR] installed"
     echo "  slate list [<category>]"
-#   echo "  slate ports"
     echo "  slate update"
     echo ""
     echo "  --sysroot DIR   operate on DIR instead of / (alias: -S DIR)"
@@ -300,19 +299,6 @@ case "$1" in
         [ -d "$STATE_DIR" ] || exit 0
         (cd "$STATE_DIR" && find . -type f | sed 's|^\./||' | sort)
         ;;
-
-#   ports)
-#       if [ ! -d "$PORTS_DIR" ]; then
-#           die "ports directory not found"
-#       fi
-#
-#       find "$PORTS_DIR" -mindepth 2 -maxdepth 2 \
-#           -type f -name port.sh |
-#       while IFS= read -r recipe; do
-#           port="${recipe#"$PORTS_DIR"/}"
-#           echo "${port%/port.sh}"
-#       done
-#       ;;
 
     update)
         if [ "$SYSROOT" != "/" ]; then
