@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+cd /usr/ports/lib/libev
+
+curl -LO https://dist.schmorp.de/libev/Attic/libev-4.33.tar.gz
+tar -xf libev-4.33.tar.gz
+cd libev-4.33
+
+./configure --prefix=/usr
+
+make
+make DESTDIR="$DESTDIR" install
