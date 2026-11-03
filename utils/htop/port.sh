@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /usr/ports/utilities/htop
+cd /usr/ports/utils/htop
 git clone --depth=1 https://github.com/htop-dev/htop.git
 cd htop
 ./autogen.sh

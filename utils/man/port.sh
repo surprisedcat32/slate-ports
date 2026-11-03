@@ -1,6 +1,6 @@
 
 #!/bin/bash
-cd /usr/ports/utilities/mandoc
+cd /usr/ports/utils/mandoc
 
 curl -LO https://mandoc.bsd.lv/snapshots/mandoc-1.14.6.tar.gz
 tar -xf mandoc-1.14.6.tar.gz

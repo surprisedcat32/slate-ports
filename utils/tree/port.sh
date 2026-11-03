@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /usr/ports/utilities/tree
+cd /usr/ports/utils/tree
 
 git clone --depth=1 https://gitlab.com/OldManProgrammer/unix-tree.git
 

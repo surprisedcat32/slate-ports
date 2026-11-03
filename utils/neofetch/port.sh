@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /usr/ports/utilities/neofetch
+cd /usr/ports/utils/neofetch
 
 git clone --depth=1 https://github.com/dylanaraps/neofetch.git
 
