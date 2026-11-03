@@ -431,10 +431,21 @@ case "$1" in
         elif [ -z "$3"]; then
             case "$2" in
                 */*)
-                    die "invalid input $2"
+                    die "invalid input '$2'"
+                ;;
+
+                installed)
+                    die "category '$2' not found"
                 ;;
             esac
-            for f in "$PORTS_DIR"/$2/*; do
+
+            CATEGORY_DIR="$PORTS_DIR/$2"
+
+            if [ ! -d "$CATEGORY_DIR" ]; then
+                die "category '$2' not found"
+            fi
+
+            for f in "$CATEGORY_DIR"/*; do
                 if [ -d "$f" ]; then
                     echo $(basename $f) | grep -v "^[.]"
                 fi
