@@ -11,13 +11,11 @@ meson setup build \
     --prefix=/usr \
     --buildtype=release \
     -Dintrospection=disabled \
-    -Ddocumentation=false \
     -Dman=false \
     -Dtests=false \
     -Dinstalled_tests=false \
     -Dpng=enabled \
     -Djpeg=enabled \
-    -Dgif=enabled \
     -Dtiff=disabled \
     -Dthumbnailer=disabled
 
