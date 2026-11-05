@@ -13,4 +13,4 @@ cd alsa-utils-1.2.16
     --with-curses=ncursesw
 
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

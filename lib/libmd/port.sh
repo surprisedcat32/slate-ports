@@ -10,4 +10,4 @@ cd libmd-1.1.0
     --disable-static
 
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

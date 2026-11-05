@@ -23,5 +23,5 @@ cd openssh-10.6p1
 
 make -j"$MAKETHREADS"
 
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install
 

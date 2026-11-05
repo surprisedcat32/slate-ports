@@ -12,4 +12,4 @@ cd libXcursor-1.2.3
 
 make -j"$MAKETHREADS"
 
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

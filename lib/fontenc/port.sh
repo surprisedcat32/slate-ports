@@ -5,4 +5,4 @@ tar -xf libfontenc-1.1.7.tar.xz
 cd libfontenc-1.1.7
 ./configure --prefix=/usr
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

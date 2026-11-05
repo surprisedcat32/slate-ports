@@ -8,5 +8,5 @@ tar -xf zstd-1.5.7.tar.gz
 
 cd zstd-1.5.7
 make PREFIX=/usr -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install PREFIX=/usr -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install PREFIX=/usr
 

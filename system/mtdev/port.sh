@@ -5,4 +5,4 @@ cd mtdev
 ./autogen.sh
 ./configure --prefix=/usr
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

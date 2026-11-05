@@ -9,4 +9,4 @@ cd bdftopcf-1.1.2
 ./configure --prefix=/usr
 
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

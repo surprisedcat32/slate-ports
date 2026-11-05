@@ -9,4 +9,4 @@ cd libXi-1.8.4
 
 make -j"$MAKETHREADS"
 
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

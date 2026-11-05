@@ -9,4 +9,4 @@ cd libXcomposite-0.4.7
 ./configure --prefix=/usr
 
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

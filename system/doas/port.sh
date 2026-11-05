@@ -6,5 +6,5 @@ cd opendoas-6.8.2
 ./configure --prefix=/usr --sysconfdir=/etc --with-shadow --without-pam
 make clean -j"$MAKETHREADS"
 make nproc)" -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install
 echo "Doas install completed"

@@ -6,4 +6,4 @@ tar -xf lsof-4.99.5.tar.gz
 cd lsof-4.99.5
 ./configure --prefix=/usr --disable-static
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

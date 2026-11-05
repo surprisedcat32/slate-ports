@@ -19,5 +19,5 @@ CC=cross-musl-gcc \
     --with-pkg-config-dir=/usr/lib/pkgconfig:/usr/share/pkgconfig
 
 make  -j"$MAKETHREADS"
-make install DESTDIR="${DESTDIR:-}" -j"$MAKETHREADS"
+make install DESTDIR="${DESTDIR:-}"
 

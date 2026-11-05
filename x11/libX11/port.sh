@@ -12,4 +12,4 @@ cd libX11-1.8
 
 make -j"$MAKETHREADS"
 
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

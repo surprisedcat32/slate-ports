@@ -13,4 +13,4 @@ tar -xzf "$WORK/src.tar.gz" -C "$WORK" --strip-components=1
 cd "$WORK"
 make PREFIX=/usr -j"$MAKETHREADS"
 
-make DESTDIR="$DESTDIR" PREFIX=/usr install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" PREFIX=/usr install

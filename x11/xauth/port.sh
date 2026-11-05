@@ -7,4 +7,4 @@ tar -xf xauth-1.1.tar.gz
 cd xauth-1.1
 ./configure --prefix=/usr
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

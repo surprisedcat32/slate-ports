@@ -9,7 +9,7 @@ cd linux-6.18.60
 
 make mrproper -j"$MAKETHREADS"
 
-make headers_install \ -j"$MAKETHREADS"
+make headers_install \
     ARCH=x86 \
     INSTALL_HDR_PATH=/usr \
     DESTDIR="$DESTDIR"

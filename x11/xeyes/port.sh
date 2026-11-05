@@ -13,4 +13,4 @@ cd xeyes-1.3.0
     --localstatedir=/var
 
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

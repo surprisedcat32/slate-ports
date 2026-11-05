@@ -10,4 +10,4 @@ cd libXdmcp-1.1.5
 
 make -j"$MAKETHREADS"
 
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

@@ -13,5 +13,5 @@ cd libtool-2.5.4
     --disable-nls
 
 make  -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install
 

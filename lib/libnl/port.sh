@@ -13,4 +13,4 @@ cd libnl-3.11.0
     --disable-cli
 
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

@@ -4,4 +4,4 @@ tar -xf intltool-0.40.6.tar.gz
 cd intltool-0.40.6
 ./configure --prefix=/usr
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

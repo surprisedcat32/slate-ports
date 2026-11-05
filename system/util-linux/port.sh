@@ -28,5 +28,5 @@ cd util-linux-2.42.4
     --without-utempter
 
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install
 

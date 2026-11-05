@@ -16,4 +16,4 @@ cd kmod-34.2
     --disable-manpages
 
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

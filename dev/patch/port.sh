@@ -12,4 +12,4 @@ cd patch-2.8
     --disable-nls
 
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

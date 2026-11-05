@@ -26,4 +26,4 @@ CONFIG_BACKEND=file
 EOF
 
 make BINDIR=/usr/sbin -j"$MAKETHREADS"
-make BINDIR=/usr/sbin DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make BINDIR=/usr/sbin DESTDIR="$DESTDIR" install

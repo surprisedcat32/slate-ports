@@ -19,4 +19,4 @@ cd libxml2-2.15.4
     --without-docs
 
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

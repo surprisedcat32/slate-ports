@@ -12,4 +12,4 @@ cd expat-2.9.0
     --enable-shared
 
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

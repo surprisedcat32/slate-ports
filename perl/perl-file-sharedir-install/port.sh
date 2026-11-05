@@ -9,4 +9,4 @@ cd File-ShareDir-Install-0.14
 perl Makefile.PL PREFIX=/usr
 
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

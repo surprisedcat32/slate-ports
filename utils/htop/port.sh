@@ -6,4 +6,4 @@ cd htop
 make clean -j"$MAKETHREADS"
 ./configure --disable-unicode
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

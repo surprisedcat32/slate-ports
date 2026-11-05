@@ -8,4 +8,4 @@ cd libXxf86vm
 
 ./autogen.sh --prefix=/usr
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

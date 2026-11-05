@@ -9,4 +9,4 @@ cd pcmanfm-1.3.2
 ./configure --prefix=/usr --sysconfdir=/etc --with-gtk=3
 
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

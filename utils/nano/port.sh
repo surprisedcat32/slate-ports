@@ -6,4 +6,4 @@ tar -xf nano-9.3.tar.xz
 cd nano-9.3
 ./configure --prefix=/usr --disable-nls
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

@@ -11,4 +11,4 @@ autoreconf -fi
 ./configure --prefix=/usr
 
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install install.man -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install install.man

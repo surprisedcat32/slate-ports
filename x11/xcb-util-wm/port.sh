@@ -9,4 +9,4 @@ cd xcb-util-wm-0.4.2
 ./configure --prefix=/usr --disable-static
 
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

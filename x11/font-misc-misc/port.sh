@@ -11,4 +11,4 @@ cd font-misc-misc-1.1.3
     --with-fontrootdir=/usr/share/fonts/X11
 
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

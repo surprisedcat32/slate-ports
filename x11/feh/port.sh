@@ -10,4 +10,4 @@ make clean -j"$MAKETHREADS"
 
 make PREFIX=/usr -j"$MAKETHREADS"
 
-make DESTDIR="$DESTDIR" install PREFIX=/usr -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install PREFIX=/usr

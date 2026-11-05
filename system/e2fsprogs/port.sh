@@ -18,5 +18,5 @@ cd e2fsprogs-1.47.4
     --disable-fuse2fs
 
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install
 

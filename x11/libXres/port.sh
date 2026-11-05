@@ -9,4 +9,4 @@ cd libXres-1.2.3
 ./configure --prefix=/usr
 
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

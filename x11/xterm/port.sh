@@ -5,4 +5,4 @@ tar -xf xterm-412.tgz
 cd xterm-412
 ./configure --prefix=/usr --enable-256-color --enable-load-vt-fonts --disable-imake 
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

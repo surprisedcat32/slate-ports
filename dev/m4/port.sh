@@ -13,5 +13,5 @@ cd m4-1.4.21
     --disable-nls
 
 make  -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install
 

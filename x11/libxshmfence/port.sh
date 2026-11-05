@@ -7,4 +7,4 @@ tar -xf libxshmfence-1.3.tar.gz
 cd libxshmfence-1.3
 ./configure --prefix=/usr
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

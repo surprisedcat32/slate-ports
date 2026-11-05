@@ -14,4 +14,4 @@ cd libxcrypt-4.4.38
     --disable-static
 
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

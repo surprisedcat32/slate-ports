@@ -5,4 +5,4 @@ tar -xf check-0.15.2.tar.gz
 cd check-0.15.2
 ./configure --prefix=/usr
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

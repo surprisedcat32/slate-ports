@@ -24,5 +24,5 @@ cd build
     --without-lzma
 
 make  -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install
 

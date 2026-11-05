@@ -5,4 +5,4 @@ tar -xjf pcre2-10.44.tar.bz2
 cd pcre2-10.44
 ./configure --prefix=/usr
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

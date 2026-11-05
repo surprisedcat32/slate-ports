@@ -6,4 +6,4 @@ tar -xf ethtool-7.2.tar.xz
 cd ethtool-7.2
 ./configure --prefix=/usr
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

@@ -14,5 +14,5 @@ cd cmake-4.4.5
     -- -DCMAKE_USE_OPENSSL=OFF
 
 make  -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install
 

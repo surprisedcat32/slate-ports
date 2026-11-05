@@ -9,4 +9,4 @@ cd xcb-util-renderutil-0.3.10
 ./configure --prefix=/usr --disable-static
 
 make -j"$MAKETHREADS"
-make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install
