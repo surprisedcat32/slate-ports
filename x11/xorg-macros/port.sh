@@ -8,6 +8,6 @@ cd util-macros-1.20.2
 
 ./autogen.sh --prefix=/usr
 
-make -j"$(nproc)"
+make -j"$MAKETHREADS"
 
 make DESTDIR="$DESTDIR" install

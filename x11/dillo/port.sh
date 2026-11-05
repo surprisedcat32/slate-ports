@@ -15,6 +15,6 @@ LIBS="-lssl -lcrypto" ./configure \
     --enable-openssl \
     --disable-mbedtls 
 
-make -j"$(nproc)"
+make -j"$MAKETHREADS"
 make DESTDIR="$DESTDIR" install
 

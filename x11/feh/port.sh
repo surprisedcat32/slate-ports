@@ -8,6 +8,6 @@ cd feh
 
 make clean
 
-make -j"$(nproc)" PREFIX=/usr
+make -j"$MAKETHREADS" PREFIX=/usr
 
 make DESTDIR="$DESTDIR" install PREFIX=/usr

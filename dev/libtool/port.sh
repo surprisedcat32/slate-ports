@@ -12,6 +12,6 @@ cd libtool-2.5.4
     --prefix=/usr \
     --disable-nls
 
-make -j"$(nproc)"
+make -j"$MAKETHREADS" 
 make DESTDIR="$DESTDIR" install
 

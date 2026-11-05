@@ -10,6 +10,6 @@ cd libXfixes-6.0.2
 
 ./configure --prefix=/usr
 
-make -j"$(nproc)"
+make -j"$MAKETHREADS"
 
 make DESTDIR="$DESTDIR" install

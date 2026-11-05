@@ -8,5 +8,5 @@ cd font-util-1.4.2
 
 ./configure --prefix=/usr
 
-make -j"$(nproc)"
+make -j"$MAKETHREADS"
 make DESTDIR="$DESTDIR" install

@@ -12,6 +12,6 @@ cd wget
     --prefix=/usr \
     --with-ssl=openssl
 
-make -j"$(nproc)"
+make -j"$MAKETHREADS"
 
 make DESTDIR="$DESTDIR" install

@@ -21,6 +21,6 @@ meson setup build \
   -Degl=enabled \
   -Dbuild-tests=false
 
-meson compile -C build -j"$(nproc)"
+meson compile -C build -j"$MAKETHREADS" -j"$(nproc)"
 
 DESTDIR="$DESTDIR" meson install -C build

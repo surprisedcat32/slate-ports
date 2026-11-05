@@ -1,36 +1,29 @@
+
 #!/bin/bash
 set -o pipefail
 
 PORTS_DIR="/usr/ports"
 
-# Scratch space for staging installs. Override with SLATE_TMPDIR=...
+# Scratch space for staging installs.
 STAGE_PARENT="${SLATE_TMPDIR:-/var/tmp}"
 
-# Per-package state, relative to the sysroot:
-#   var/lib/slate/installed/<cat>/<pkg>   install timestamp (marks "installed")
-#   var/lib/slate/manifests/<cat>/<pkg>   every path the package placed
-#
-# Manifest format, one entry per line, tab-separated:
-#   f<TAB>sha256<TAB>path   regular file (hash lets uninstall spot later edits)
-#   l<TAB>-<TAB>path        symlink
-#   d<TAB>-<TAB>path        directory the package created (removed only if empty)
-#
-# Repository list, /etc/slate.conf/repos (override with SLATE_REPOS_FILE=...):
-#   <url> <version|testing>
-#   https://github.com/surprisedcat32/slate-ports.git 0.42
-#   https://gitlab.com/guy/my-slate-ports testing
-# A version (0.42 or v0.42) pins to that git tag. "testing" takes the latest
-# commit on main. Blank lines and # comments are ignored, as is any text after
-# the second field. If two repositories provide the same <category>/<package>,
-# the one listed first wins.
+# Build configuration.
+# /etc/slate.conf/makeopts:
+# MAKETHREADS="8"
 
 STAGE=""
 MANIFEST_TMP=""
 UPDATE_WORK=""
 SILENT=0
 
-die() { echo "slate: $*" >&2; exit 1; }
-say() { [ "$SILENT" -eq 1 ] || echo "$@"; }
+die() {
+    echo "slate: $*" >&2
+    exit 1
+}
+
+say() {
+    [ "$SILENT" -eq 1 ] || echo "$@"
+}
 
 usage_text() {
     echo "Usage:"
@@ -50,16 +43,19 @@ usage() {
     exit 1
 }
 
-# Print help and exit 0 when run with no arguments.
 if [ $# -eq 0 ]; then
     usage_text
     exit 0
 fi
 
-# Pull options out of the arguments, wherever they appear.
+# --------------------------------------------------
+# Argument parsing
+# --------------------------------------------------
+
 SYSROOT="/"
 FORCE=0
 ARGS=()
+
 while [ $# -gt 0 ]; do
     case "$1" in
         --sysroot|-S)
@@ -85,6 +81,7 @@ while [ $# -gt 0 ]; do
             ;;
     esac
 done
+
 set -- "${ARGS[@]}"
 
 SYSROOT="${SYSROOT%/}"
@@ -99,9 +96,62 @@ if [ "$SYSROOT" != "/" ]; then
 fi
 
 export SLATE_SYSROOT="$SYSROOT"
+
 STATE_DIR="${SYSROOT%/}/var/lib/slate/installed"
 MANIFEST_DIR="${SYSROOT%/}/var/lib/slate/manifests"
 LOG_DIR="${SYSROOT%/}/var/log/slate"
+
+# --------------------------------------------------
+# Build options
+# --------------------------------------------------
+
+MAKEOPTS_FILE="$SYSROOT/etc/slate.conf/makeopts"
+MAKETHREADS=1
+
+if [ -e "$MAKEOPTS_FILE" ] && [ ! -r "$MAKEOPTS_FILE" ]; then
+    die "cannot read $MAKEOPTS_FILE"
+fi
+
+if [ -r "$MAKEOPTS_FILE" ]; then
+    while IFS= read -r line || [ -n "$line" ]; do
+        # Remove comments.
+        line="${line%%#*}"
+
+        # Ignore blank lines.
+        [[ "$line" =~ ^[[:space:]]*$ ]] && continue
+
+        # Read MAKETHREADS.
+        if [[ "$line" =~ ^[[:space:]]*MAKETHREADS[[:space:]]*=[[:space:]]*(.*)$ ]]; then
+            value="${BASH_REMATCH[1]}"
+
+            # Trim whitespace.
+            value="${value#"${value%%[![:space:]]*}"}"
+            value="${value%"${value##*[![:space:]]}"}"
+
+            # Remove surrounding quotes.
+            if [[ "$value" == \"*\" ]]; then
+                value="${value#\"}"
+                value="${value%\"}"
+            elif [[ "$value" == \'*\' ]]; then
+                value="${value#\'}"
+                value="${value%\'}"
+            fi
+
+            # Validate thread count.
+            if [[ ! "$value" =~ ^[1-9][0-9]*$ ]]; then
+                die "$MAKEOPTS_FILE: invalid MAKETHREADS value: '$value'"
+            fi
+
+            MAKETHREADS="$value"
+        fi
+    done < "$MAKEOPTS_FILE"
+fi
+
+export MAKETHREADS
+
+# --------------------------------------------------
+# General helpers
+# --------------------------------------------------
 
 check_name() {
     if [[ ! "$1" =~ ^[a-zA-Z0-9._+-]+/[a-zA-Z0-9._+-]+$ ]]; then
@@ -115,20 +165,27 @@ require_root() {
     fi
 }
 
-# Build a manifest describing what the staged tree contains.
-# $1 = staging root, $2 = output file
+# --------------------------------------------------
+# Manifest handling
+# --------------------------------------------------
+
 write_manifest() {
-    (cd "$1" && find . -mindepth 1 -print0) |
+    (
+        cd "$1" &&
+        find . -mindepth 1 -print0
+    ) |
     while IFS= read -r -d '' entry; do
         rel="${entry#./}"
         src="$1/$rel"
+
         if [ -L "$src" ]; then
             printf 'l\t-\t%s\n' "$rel"
+
         elif [ -d "$src" ]; then
-            # Only claim directories that don't already exist in the sysroot.
             if [ ! -e "$SYSROOT/$rel" ] && [ ! -L "$SYSROOT/$rel" ]; then
                 printf 'd\t-\t%s\n' "$rel"
             fi
+
         elif [ -f "$src" ]; then
             sum=$(sha256sum -- "$src" | cut -d' ' -f1)
             printf 'f\t%s\t%s\n' "$sum" "$rel"
@@ -136,24 +193,21 @@ write_manifest() {
     done | sort -t$'\t' -k3,3 > "$2"
 }
 
-# Copy the staged tree into the sysroot, preserving modes and symlinks.
-# $1 = staging root
 transplant() {
     cp -a "$1"/. "$SYSROOT"/
 }
 
-# Remove everything a manifest lists: files and links first, then
-# package-created directories deepest-first, each only if empty.
-# $1 = manifest
 remove_manifest() {
     while IFS=$'\t' read -r type _ rel; do
         [ "$type" = d ] || rm -f -- "$SYSROOT/$rel"
     done < "$1"
 
-    awk -F'\t' '$1 == "d" { print $3 }' "$1" | sort -r |
-    while IFS= read -r rel; do
-        rmdir -- "$SYSROOT/$rel" 2>/dev/null
-    done
+    awk -F'\t' '$1 == "d" { print $3 }' "$1" |
+        sort -r |
+        while IFS= read -r rel; do
+            rmdir -- "$SYSROOT/$rel" 2>/dev/null
+        done
+
     return 0
 }
 
@@ -161,6 +215,7 @@ cleanup_install() {
     if [ -n "$STAGE" ] && [ -d "$STAGE" ]; then
         rm -rf -- "$STAGE"
     fi
+
     if [ -n "$MANIFEST_TMP" ] && [ -f "$MANIFEST_TMP" ]; then
         rm -f -- "$MANIFEST_TMP"
     fi
@@ -172,23 +227,37 @@ cleanup_update() {
     fi
 }
 
-# Turn a release value into a git ref: a version tag (0.42 or v0.42), or
-# "testing" for the latest commit on main. Anything else is invalid.
-# $1 = release value; prints the ref, returns 1 if the value is invalid.
+# --------------------------------------------------
+# Repository helpers
+# --------------------------------------------------
+
 channel_to_ref() {
     local tag="$1"
+
     if [[ "${tag,,}" == "testing" ]]; then
         echo "main"
+
     elif [[ "$tag" =~ ^v?[0-9]+(\.[0-9]+)*$ ]]; then
         echo "$tag"
+
     else
         return 1
     fi
 }
 
+# --------------------------------------------------
+# Commands
+# --------------------------------------------------
+
 case "$1" in
+
+    # ==============================================
+    # INSTALL
+    # ==============================================
+
     install)
         [ -n "$2" ] || usage
+
         PORT_NAME="$2"
         check_name "$PORT_NAME"
 
@@ -197,6 +266,7 @@ case "$1" in
 
         [ -d "$PORT_DIR" ] || die "port not found: $PORT_NAME"
         [ -f "$PORT_SCRIPT" ] || die "missing port.sh in $PORT_NAME"
+
         require_root installation
 
         if [ -f "$STATE_DIR/$PORT_NAME" ]; then
@@ -206,31 +276,44 @@ case "$1" in
 
         say "==> Installing $PORT_NAME"
         say "==> Port directory: $PORT_DIR"
+        say "==> Build threads: $MAKETHREADS"
+
         [ "$SYSROOT" = "/" ] || say "==> Target sysroot: $SYSROOT"
 
-        mkdir -p "$LOG_DIR" "$STAGE_PARENT" || die "cannot create $STAGE_PARENT"
+        mkdir -p "$LOG_DIR" "$STAGE_PARENT" ||
+            die "cannot create $STAGE_PARENT"
 
         trap cleanup_install EXIT
-        STAGE=$(mktemp -d "$STAGE_PARENT/slate-stage.XXXXXX") \
-            || die "cannot create staging root in $STAGE_PARENT"
-        MANIFEST_TMP=$(mktemp "$STAGE_PARENT/slate-manifest.XXXXXX") \
-            || die "cannot create manifest file in $STAGE_PARENT"
+
+        STAGE=$(mktemp -d "$STAGE_PARENT/slate-stage.XXXXXX") ||
+            die "cannot create staging root in $STAGE_PARENT"
+
+        MANIFEST_TMP=$(mktemp "$STAGE_PARENT/slate-manifest.XXXXXX") ||
+            die "cannot create manifest file in $STAGE_PARENT"
 
         LOG_FILE="$LOG_DIR/${PORT_NAME//\//_}.log"
 
+        # Execute the port.
         if [ "$SILENT" -eq 1 ]; then
-            (cd "$PORT_DIR" &&
+            (
+                cd "$PORT_DIR" &&
                 PORT_NAME="$PORT_NAME" \
                 PORT_DIR="$PORT_DIR" \
                 DESTDIR="$STAGE" \
-                bash "$PORT_SCRIPT") > "$LOG_FILE" 2>&1
+                MAKETHREADS="$MAKETHREADS" \
+                bash "$PORT_SCRIPT"
+            ) > "$LOG_FILE" 2>&1
         else
-            (cd "$PORT_DIR" &&
+            (
+                cd "$PORT_DIR" &&
                 PORT_NAME="$PORT_NAME" \
                 PORT_DIR="$PORT_DIR" \
                 DESTDIR="$STAGE" \
-                bash "$PORT_SCRIPT")
+                MAKETHREADS="$MAKETHREADS" \
+                bash "$PORT_SCRIPT"
+            )
         fi
+
         result=$?
 
         if [ "$result" -ne 0 ]; then
@@ -246,37 +329,54 @@ case "$1" in
         write_manifest "$STAGE" "$MANIFEST_TMP"
 
         say "==> Copying files into $SYSROOT"
+
         if ! transplant "$STAGE"; then
             echo "slate: copy failed; some files may be partly copied into $SYSROOT" >&2
             exit 1
         fi
 
-        mkdir -p "$(dirname "$MANIFEST_DIR/$PORT_NAME")" "$(dirname "$STATE_DIR/$PORT_NAME")"
+        mkdir -p \
+            "$(dirname "$MANIFEST_DIR/$PORT_NAME")" \
+            "$(dirname "$STATE_DIR/$PORT_NAME")"
+
         chmod 644 "$MANIFEST_TMP"
+
         mv -f "$MANIFEST_TMP" "$MANIFEST_DIR/$PORT_NAME"
+
         date -u +%Y-%m-%dT%H:%M:%SZ > "$STATE_DIR/$PORT_NAME"
 
         count=$(grep -c '^[fl]' "$MANIFEST_DIR/$PORT_NAME")
+
         say "==> Finished installing $PORT_NAME ($count files)"
         ;;
 
+    # ==============================================
+    # UNINSTALL
+    # ==============================================
+
     uninstall)
         [ -n "$2" ] || usage
+
         PORT_NAME="$2"
         check_name "$PORT_NAME"
+
         require_root uninstallation
 
-        [ -f "$STATE_DIR/$PORT_NAME" ] || die "$PORT_NAME is not installed in $SYSROOT"
+        [ -f "$STATE_DIR/$PORT_NAME" ] ||
+            die "$PORT_NAME is not installed in $SYSROOT"
 
         MANIFEST="$MANIFEST_DIR/$PORT_NAME"
-        [ -f "$MANIFEST" ] || die "no file manifest for $PORT_NAME (installed before tracking existed); remove it by hand"
 
-        # Find files whose contents differ from what was installed.
+        [ -f "$MANIFEST" ] ||
+            die "no file manifest for $PORT_NAME (installed before tracking existed); remove it by hand"
+
         modified=$(
             while IFS=$'\t' read -r type sum rel; do
                 [ "$type" = f ] || continue
                 [ -f "$SYSROOT/$rel" ] || continue
+
                 cur=$(sha256sum -- "$SYSROOT/$rel" | cut -d' ' -f1)
+
                 [ "$cur" = "$sum" ] || echo "  /$rel"
             done < "$MANIFEST"
         )
@@ -288,173 +388,236 @@ case "$1" in
         fi
 
         say "==> Uninstalling $PORT_NAME"
+
         remove_manifest "$MANIFEST"
+
         rm -f -- "$MANIFEST" "$STATE_DIR/$PORT_NAME"
-        rmdir "$(dirname "$MANIFEST")" "$(dirname "$STATE_DIR/$PORT_NAME")" 2>/dev/null
+
+        rmdir \
+            "$(dirname "$MANIFEST")" \
+            "$(dirname "$STATE_DIR/$PORT_NAME")" \
+            2>/dev/null
 
         say "==> Finished uninstalling $PORT_NAME"
         ;;
 
+    # ==============================================
+    # INSTALLED
+    # ==============================================
+
     installed)
         [ -d "$STATE_DIR" ] || exit 0
-        (cd "$STATE_DIR" && find . -type f | sed 's|^\./||' | sort)
+
+        (
+            cd "$STATE_DIR" &&
+            find . -type f | sed 's|^\./||' | sort
+        )
         ;;
+
+    # ==============================================
+    # UPDATE REPOSITORIES
+    # ==============================================
 
     update)
         if [ "$SYSROOT" != "/" ]; then
             die "update only works on the host, not with --sysroot"
         fi
 
-        if [ "$EUID" -ne 0 ]; then
+        [ "$EUID" -eq 0 ] ||
             die "updating ports requires root privileges"
-        fi
 
-        if ! command -v git >/dev/null 2>&1; then
+        command -v git >/dev/null 2>&1 ||
             die "git is required to update ports"
-        fi
 
-        # One repository per line: <url> <version|testing>
-        # Override the file path with SLATE_REPOS_FILE=...
         REPOS_FILE="${SLATE_REPOS_FILE:-/etc/slate.conf/repos}"
-        [ -r "$REPOS_FILE" ] || die "cannot read repository list from $REPOS_FILE"
+
+        [ -r "$REPOS_FILE" ] ||
+            die "cannot read repository list from $REPOS_FILE"
 
         REPO_URLS=()
         REPO_TAGS=()
         REPO_REFS=()
+
         lineno=0
+
         while IFS= read -r line || [ -n "$line" ]; do
             lineno=$((lineno + 1))
-            line="${line%%#*}"          # strip comments
-            line="${line//$'\r'/}"      # strip CRs
-            url=""; tag=""
-            read -r url tag _ <<< "$line"
-            [ -n "$url" ] || continue   # blank line
-            tag="${tag//[\"\']/}"       # drop quotes
 
-            [[ "$url" =~ ^(https?|git|ssh)://[^[:space:]]+$ ]] \
-                || die "$REPOS_FILE:$lineno: invalid repository URL: '$url'"
-            [ -n "$tag" ] \
-                || die "$REPOS_FILE:$lineno: missing release (a version tag or 'testing')"
-            ref=$(channel_to_ref "$tag") \
-                || die "$REPOS_FILE:$lineno: invalid release '$tag' (use a version tag like 0.42, or 'testing')"
+            line="${line%%#*}"
+            line="${line//$'\r'/}"
+
+            url=""
+            tag=""
+
+            read -r url tag _ <<< "$line"
+
+            [ -n "$url" ] || continue
+
+            tag="${tag//[\"\']/}"
+
+            [[ "$url" =~ ^(https?|git|ssh)://[^[:space:]]+$ ]] ||
+                die "$REPOS_FILE:$lineno: invalid repository URL: '$url'"
+
+            [ -n "$tag" ] ||
+                die "$REPOS_FILE:$lineno: missing release (a version tag or 'testing')"
+
+            ref=$(channel_to_ref "$tag") ||
+                die "$REPOS_FILE:$lineno: invalid release '$tag' (use a version tag like 0.42, or 'testing')"
 
             REPO_URLS+=("$url")
             REPO_TAGS+=("$tag")
             REPO_REFS+=("$ref")
+
         done < "$REPOS_FILE"
 
-        [ "${#REPO_URLS[@]}" -gt 0 ] || die "no repositories listed in $REPOS_FILE"
+        [ "${#REPO_URLS[@]}" -gt 0 ] ||
+            die "no repositories listed in $REPOS_FILE"
 
-        # Build the new ports tree next to the old one so the final swap is
-        # a rename. The old tree is only touched once everything downloaded.
-        UPDATE_WORK=$(mktemp -d "$(dirname "$PORTS_DIR")/.slate-update.XXXXXX") \
-            || die "cannot create work directory next to $PORTS_DIR"
+        UPDATE_WORK=$(mktemp -d "$(dirname "$PORTS_DIR")/.slate-update.XXXXXX") ||
+            die "cannot create work directory next to $PORTS_DIR"
+
         trap cleanup_update EXIT
+
         NEW_PORTS="$UPDATE_WORK/new"
-        mkdir "$NEW_PORTS" || die "cannot create $NEW_PORTS"
+
+        mkdir "$NEW_PORTS" ||
+            die "cannot create $NEW_PORTS"
+
         chmod 755 "$NEW_PORTS"
+
         : > "$NEW_PORTS/.sources"
 
         shopt -s nullglob
+
         for i in "${!REPO_URLS[@]}"; do
             url="${REPO_URLS[$i]}"
             tag="${REPO_TAGS[$i]}"
             ref="${REPO_REFS[$i]}"
+
             dest="$UPDATE_WORK/clone-$i"
 
-            # A version must be a real tag; git clone --branch alone would
-            # also accept a branch with that name.
+            # Verify version tags.
             if [[ "${tag,,}" != "testing" ]]; then
                 GIT_TERMINAL_PROMPT=0 git ls-remote --exit-code -q --tags -- \
-                    "$url" "refs/tags/$ref" </dev/null >/dev/null 2>&1 \
-                    || die "no tag '$ref' in $url; existing ports preserved"
+                    "$url" "refs/tags/$ref" </dev/null >/dev/null 2>&1 ||
+                    die "no tag '$ref' in $url; existing ports preserved"
             fi
 
             say "==> Downloading $url ($tag)..."
+
             if ! GIT_TERMINAL_PROMPT=0 git clone --depth 1 -q \
-                    --branch "$ref" -- "$url" "$dest" </dev/null; then
+                --branch "$ref" -- "$url" "$dest" </dev/null; then
+
                 die "failed to download '$tag' from $url; existing ports preserved"
             fi
 
             commit=$(git -C "$dest" rev-parse --short HEAD 2>/dev/null)
+
             printf '%s\t%s\t%s\n' "$url" "$tag" "$commit" >> "$NEW_PORTS/.sources"
 
-            # Merge <category>/<package> dirs; earlier repositories win.
+            # Merge categories and packages.
+            # Earlier repositories take priority.
+
             for catdir in "$dest"/*/; do
                 catdir="${catdir%/}"
+
                 [ -L "$catdir" ] && continue
+
                 cname="${catdir##*/}"
+
                 for pkgdir in "$catdir"/*/; do
                     pkgdir="${pkgdir%/}"
+
                     [ -L "$pkgdir" ] && continue
                     [ -f "$pkgdir/port.sh" ] || continue
+
                     pname="${pkgdir##*/}"
 
                     if [ -e "$NEW_PORTS/$cname/$pname" ]; then
                         say "==> Skipping $cname/$pname from $url (provided by an earlier repository)"
                         continue
                     fi
-                    mkdir -p "$NEW_PORTS/$cname" \
-                        && cp -a -- "$pkgdir" "$NEW_PORTS/$cname/" \
-                        || die "failed to copy $cname/$pname from $url; existing ports preserved"
+
+                    mkdir -p "$NEW_PORTS/$cname" &&
+                        cp -a -- "$pkgdir" "$NEW_PORTS/$cname/" ||
+                        die "failed to copy $cname/$pname from $url; existing ports preserved"
                 done
             done
 
             rm -rf -- "$dest"
         done
+
         shopt -u nullglob
 
+        # Replace the old ports tree.
         say "==> Replacing ports directory..."
+
         OLD_PORTS="$UPDATE_WORK/old"
+
         if [ -e "$PORTS_DIR" ]; then
-            mv -- "$PORTS_DIR" "$OLD_PORTS" || die "failed to move old ports aside; existing ports preserved"
+            mv -- "$PORTS_DIR" "$OLD_PORTS" ||
+                die "failed to move old ports aside; existing ports preserved"
         fi
+
         if ! mv -- "$NEW_PORTS" "$PORTS_DIR"; then
             [ -e "$OLD_PORTS" ] && mv -- "$OLD_PORTS" "$PORTS_DIR"
             die "failed to install updated ports; previous ports restored"
         fi
 
         count=$(find "$PORTS_DIR" -mindepth 2 -maxdepth 2 -type f -name port.sh | wc -l)
+
         say "==> Slate ports updated ($count ports from ${#REPO_URLS[@]} repositories)."
         ;;
+
+    # ==============================================
+    # LIST
+    # ==============================================
+
     list)
-        if [ ! -d "$PORTS_DIR" ]; then
+        [ -d "$PORTS_DIR" ] ||
             die "ports directory not found"
-        fi
 
         if [ -z "$2" ]; then
+
             for f in "$PORTS_DIR"/*; do
                 if [ -d "$f" ] && [ "$f" != "$PORTS_DIR/installed" ]; then
-                    echo $(basename $f) | grep -v "^[.]"
+                    basename "$f" | grep -v "^[.]"
                 fi
             done
-        elif [ -z "$3"]; then
+
+        elif [ -z "$3" ]; then
+
             case "$2" in
                 */*)
                     die "invalid input '$2'"
-                ;;
-
+                    ;;
                 installed)
                     die "category '$2' not found"
-                ;;
+                    ;;
             esac
 
             CATEGORY_DIR="$PORTS_DIR/$2"
 
-            if [ ! -d "$CATEGORY_DIR" ]; then
+            [ -d "$CATEGORY_DIR" ] ||
                 die "category '$2' not found"
-            fi
 
             for f in "$CATEGORY_DIR"/*; do
                 if [ -d "$f" ]; then
-                    echo $(basename $f) | grep -v "^[.]"
+                    basename "$f" | grep -v "^[.]"
                 fi
             done
+
         else
             die "invalid amount of options"
         fi
         ;;
+
+    # ==============================================
+    # INVALID COMMAND
+    # ==============================================
+
     *)
         usage
         ;;
 esac
+

@@ -10,5 +10,5 @@ cd font-misc-misc-1.1.3
     --prefix=/usr \
     --with-fontrootdir=/usr/share/fonts/X11
 
-make -j"$(nproc)"
+make -j"$MAKETHREADS"
 make DESTDIR="$DESTDIR" install

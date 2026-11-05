@@ -8,6 +8,6 @@ tar -xf pkgconf-2.5.1.tar.xz
 
 cd pkgconf-2.5.1
 ./configure --prefix=/usr --disable-static
-make -j"$(nproc)"
+make -j"$MAKETHREADS"
 make DESTDIR="$DESTDIR" install
 

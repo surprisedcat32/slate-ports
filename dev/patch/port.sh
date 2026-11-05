@@ -11,5 +11,5 @@ cd patch-2.8
     --prefix=/usr \
     --disable-nls
 
-make
+make -j"$MAKETHREADS"
 make DESTDIR="$DESTDIR" install

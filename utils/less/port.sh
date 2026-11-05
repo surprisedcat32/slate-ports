@@ -7,6 +7,6 @@ tar -xf less-668.tar.gz
 
 cd less-668
 ./configure --prefix=/usr
-make -j"$(nproc)"
+make -j"$MAKETHREADS"
 make DESTDIR="$DESTDIR" install
 

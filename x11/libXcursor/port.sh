@@ -10,6 +10,6 @@ cd libXcursor-1.2.3
 
 ./configure --prefix=/usr
 
-make -j"$(nproc)"
+make -j"$MAKETHREADS"
 
 make DESTDIR="$DESTDIR" install

@@ -5,5 +5,5 @@ cd htop
 ./autogen.sh
 make clean
 ./configure --disable-unicode
-make -j"$(nproc)"
+make -j"$MAKETHREADS"
 make DESTDIR="$DESTDIR" install

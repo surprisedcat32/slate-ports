@@ -4,5 +4,5 @@ git clone https://bitmath.se/org/git/mtdev.git/
 cd mtdev
 ./autogen.sh
 ./configure --prefix=/usr
-make -j"$(nproc)"
+make -j"$MAKETHREADS"
 make DESTDIR="$DESTDIR" install

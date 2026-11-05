@@ -4,5 +4,5 @@ curl -LO https://mirror.csclub.uwaterloo.ca/x.org/individual/lib/libfontenc-1.1.
 tar -xf libfontenc-1.1.7.tar.xz
 cd libfontenc-1.1.7
 ./configure --prefix=/usr
-make -j"$(nproc)"
+make -j"$MAKETHREADS"
 make DESTDIR="$DESTDIR" install

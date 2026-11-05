@@ -14,6 +14,6 @@ meson configure build \
   -Dsystemd_notify=false \
   -Dglamor=true
 
-meson compile -C build -j"$(nproc)"
+meson compile -C build -j"$MAKETHREADS" -j"$(nproc)"
 
 DESTDIR="$DESTDIR" meson install -C build

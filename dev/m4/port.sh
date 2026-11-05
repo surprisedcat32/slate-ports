@@ -12,6 +12,6 @@ cd m4-1.4.21
     --prefix=/usr \
     --disable-nls
 
-make -j"$(nproc)"
+make -j"$MAKETHREADS" 
 make DESTDIR="$DESTDIR" install
 

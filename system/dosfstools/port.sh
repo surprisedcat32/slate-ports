@@ -8,6 +8,6 @@ tar -xf dosfstools-4.2.tar.gz
 
 cd dosfstools-4.2
 ./configure --prefix=/usr --sbindir=/usr/sbin
-make -j"$(nproc)"
+make -j"$MAKETHREADS"
 make DESTDIR="$DESTDIR" install
 

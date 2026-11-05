@@ -8,6 +8,6 @@ cd libevdev-1.12.0
 
 meson setup build --prefix=/usr -Ddocumentation=disabled -Dtests=disabled
 
-meson compile -C build -j"$(nproc)"
+meson compile -C build -j"$MAKETHREADS" -j"$(nproc)"
 
 DESTDIR="$DESTDIR" meson install -C build

@@ -6,5 +6,5 @@ git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libpciaccess.git
 
 cd libpciaccess
 meson setup build --prefix=/usr
-meson compile -C build -j"$(nproc)"
+meson compile -C build -j"$MAKETHREADS" -j"$(nproc)"
 DESTDIR="$DESTDIR" meson install -C build

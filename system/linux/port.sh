@@ -6,5 +6,5 @@ tar -xf linux-6.18.55.tar.xz
 cd linux-6.18.55
 cp /boot/slate-kernel.config .
 make olddefconfig
-make -j"$(nproc)"
+make -j"$MAKETHREADS"
 cp arch/x86/boot/bzImage /boot/slate-kernel

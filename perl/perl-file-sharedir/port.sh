@@ -8,5 +8,5 @@ cd File-ShareDir-1.118
 
 perl Makefile.PL PREFIX=/usr
 
-make -j"$(nproc)"
+make -j"$MAKETHREADS"
 make DESTDIR="$DESTDIR" install

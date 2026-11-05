@@ -8,5 +8,5 @@ cd xcb-util-0.4.1
 
 ./configure --prefix=/usr --disable-static
 
-make -j"$(nproc)"
+make -j"$MAKETHREADS"
 make DESTDIR="$DESTDIR" install

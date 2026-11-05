@@ -23,6 +23,6 @@ cd build
     --without-babeltrace \
     --without-lzma
 
-make -j"$(nproc)"
+make -j"$MAKETHREADS" 
 make DESTDIR="$DESTDIR" install
 

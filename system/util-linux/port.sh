@@ -27,6 +27,6 @@ cd util-linux-2.42.4
     --without-slang \
     --without-utempter
 
-make -j"$(nproc)"
+make -j"$MAKETHREADS"
 make DESTDIR="$DESTDIR" install
 

@@ -10,6 +10,6 @@ meson setup build \
     --prefix=/usr \
     --buildtype=release \
     -Dtests=disabled
-meson compile -C build -j"$(nproc)"
+meson compile -C build -j"$MAKETHREADS" -j"$(nproc)"
 
 DESTDIR="$DESTDIR" meson install -C build

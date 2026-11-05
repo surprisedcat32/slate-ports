@@ -8,5 +8,5 @@ cd Class-Inspector-1.36
 
 perl Makefile.PL PREFIX=/usr
 
-make -j"$(nproc)"
+make -j"$MAKETHREADS"
 make DESTDIR="$DESTDIR" install

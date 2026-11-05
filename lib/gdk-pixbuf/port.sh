@@ -21,5 +21,5 @@ meson setup build \
     -Dtiff=disabled \
     -Dthumbnailer=disabled
 
-ninja -C build -j"$(nproc)"
-DESTDIR="$DESTDIR" ninja -C build install
+ninja -C build -j"$MAKETHREADS" -j"$(nproc)"
+DESTDIR="$DESTDIR" ninja -C build -j"$MAKETHREADS" install
