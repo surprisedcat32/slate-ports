@@ -7,9 +7,9 @@ tar -xf linux-6.18.60.tar.xz
 
 cd linux-6.18.60
 
-make mrproper
+make mrproper -j"$MAKETHREADS"
 
-make headers_install \
+make headers_install \ -j"$MAKETHREADS"
     ARCH=x86 \
     INSTALL_HDR_PATH=/usr \
     DESTDIR="$DESTDIR"

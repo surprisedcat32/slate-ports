@@ -21,7 +21,7 @@ cd openssh-10.6p1
     --without-kerberos5 \
     --without-libedit
 
-make
+make -j"$MAKETHREADS"
 
-make DESTDIR="$DESTDIR" install
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
 

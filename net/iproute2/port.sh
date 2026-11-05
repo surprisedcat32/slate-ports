@@ -8,5 +8,5 @@ cd iproute2-7.3.0
 
 ./configure
 
-make
-make DESTDIR="$DESTDIR" install
+make -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"

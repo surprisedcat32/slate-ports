@@ -8,5 +8,5 @@ cd xcb-util-cursor-0.1.5
 
 ./configure --prefix=/usr --disable-static
 
-make
-make DESTDIR="$DESTDIR" install
+make -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"

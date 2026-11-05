@@ -10,5 +10,5 @@ cd alsa-lib-1.2.16.1
     --prefix=/usr \
     --disable-static
 
-make
-make DESTDIR="$DESTDIR" install
+make -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"

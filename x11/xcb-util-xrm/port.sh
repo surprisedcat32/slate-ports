@@ -7,5 +7,5 @@ cd xcb-util-xrm-1.3
 
 ./configure --prefix=/usr --disable-static
 
-make
-make DESTDIR="$DESTDIR" install
+make -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"

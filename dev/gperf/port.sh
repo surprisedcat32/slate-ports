@@ -6,5 +6,5 @@ tar -xf gperf-3.3.tar.gz
 
 cd gperf-3.3
 ./configure --prefix=/usr
-make
-make install DESTDIR="${DESTDIR:-}"
+make -j"$MAKETHREADS"
+make install DESTDIR="${DESTDIR:-}" -j"$MAKETHREADS"

@@ -14,6 +14,6 @@ meson setup .. \
     --wrap-mode=nofallback \
     -Ddocs=false \
     -Dmans=false
-ninja
+ninja -j"$MAKETHREADS"
 DESTDIR="$DESTDIR" ninja install
 

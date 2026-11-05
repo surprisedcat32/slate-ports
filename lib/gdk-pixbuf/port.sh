@@ -21,5 +21,5 @@ meson setup build \
     -Dtiff=disabled \
     -Dthumbnailer=disabled
 
-ninja -C build
+ninja -C build -j"$MAKETHREADS"
 DESTDIR="$DESTDIR" ninja -C build install

@@ -8,6 +8,6 @@ tar -xf pkgconf-2.5.1.tar.xz
 
 cd pkgconf-2.5.1
 ./configure --prefix=/usr --disable-static
-make
-make DESTDIR="$DESTDIR" install
+make -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
 

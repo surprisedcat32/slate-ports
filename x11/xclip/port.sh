@@ -10,5 +10,5 @@ cd xclip-0.13
 autoreconf -fi
 ./configure --prefix=/usr
 
-make
-make DESTDIR="$DESTDIR" install install.man
+make -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install install.man -j"$MAKETHREADS"

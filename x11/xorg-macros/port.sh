@@ -8,6 +8,6 @@ cd util-macros-1.20.2
 
 ./autogen.sh --prefix=/usr
 
-make
+make -j"$MAKETHREADS"
 
-make DESTDIR="$DESTDIR" install
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"

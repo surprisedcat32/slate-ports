@@ -10,6 +10,6 @@ cd xrandr-1.5.4
 
 ./configure --prefix=/usr
 
-make
+make -j"$MAKETHREADS"
 
-make DESTDIR="$DESTDIR" install
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"

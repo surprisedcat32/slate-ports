@@ -6,5 +6,5 @@ curl -LO https://xorg.freedesktop.org/releases/individual/data/xkeyboard-config-
 tar -xf xkeyboard-config-2.5.1.tar.gz
 cd xkeyboard-config-2.5.1
 ./configure --prefix=/usr
-make
-make DESTDIR="$DESTDIR" install
+make -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"

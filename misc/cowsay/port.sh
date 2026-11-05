@@ -11,6 +11,6 @@ curl -fsSL "$URL" -o "$WORK/src.tar.gz"
 tar -xzf "$WORK/src.tar.gz" -C "$WORK" --strip-components=1
 
 cd "$WORK"
-make PREFIX=/usr
+make PREFIX=/usr -j"$MAKETHREADS"
 
-make DESTDIR="$DESTDIR" PREFIX=/usr install
+make DESTDIR="$DESTDIR" PREFIX=/usr install -j"$MAKETHREADS"

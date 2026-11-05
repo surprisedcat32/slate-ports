@@ -8,5 +8,5 @@ cd xcb-util-errors-1.0.1
 
 ./configure --prefix=/usr --disable-static
 
-make
-make DESTDIR="$DESTDIR" install
+make -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"

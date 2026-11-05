@@ -13,5 +13,5 @@ cd libxcrypt-4.4.38
     --enable-obsolete-api=glibc \
     --disable-static
 
-make
-make DESTDIR="$DESTDIR" install
+make -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"

@@ -13,6 +13,6 @@ cd cmake-4.4.5
     --parallel="$(nproc)" \
     -- -DCMAKE_USE_OPENSSL=OFF
 
-make 
-make DESTDIR="$DESTDIR" install
+make  -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
 

@@ -12,5 +12,5 @@ meson setup build \
     --buildtype=release \
     -Dintrospection=disabled
 
-ninja -C build
+ninja -C build -j"$MAKETHREADS"
 DESTDIR="$DESTDIR" ninja -C build install

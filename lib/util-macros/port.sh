@@ -10,4 +10,4 @@ cd util-macros-1.20.2
 
 ./configure --prefix=/usr
 
-make DESTDIR="$DESTDIR" install
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"

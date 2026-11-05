@@ -4,4 +4,4 @@ curl -LO https://xorg.freedesktop.org/archive/individual/proto/xcb-proto-1.17.0.
 tar -xf xcb-proto-1.17.0.tar.xz
 cd xcb-proto-1.17.0
 PYTHON=python3 ./configure --prefix=/usr
-make DESTDIR="$DESTDIR" install
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"

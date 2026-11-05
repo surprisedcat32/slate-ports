@@ -4,7 +4,7 @@ curl -LO https://github.com/mtoyoda/sl/archive/refs/tags/5.02.tar.gz
 tar -xf 5.02.tar.gz
 cd sl-5.02
 
-make CC="${CC:-gcc}" \
+make CC="${CC:-gcc}" \ -j"$MAKETHREADS"
     CFLAGS="${CFLAGS:--O2}" \
     LDFLAGS="-lncurses"
 

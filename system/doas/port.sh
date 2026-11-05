@@ -4,7 +4,7 @@ curl -LO https://github.com/Duncaen/OpenDoas/releases/download/v6.8.2/opendoas-6
 tar -xf opendoas-6.8.2.tar.gz
 cd opendoas-6.8.2
 ./configure --prefix=/usr --sysconfdir=/etc --with-shadow --without-pam
-make clean
-make nproc)"
-make DESTDIR="$DESTDIR" install
+make clean -j"$MAKETHREADS"
+make nproc)" -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
 echo "Doas install completed"

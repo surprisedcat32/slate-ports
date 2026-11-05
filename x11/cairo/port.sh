@@ -26,6 +26,6 @@ meson setup .. \
     -Dspectre=disabled \
     -Dsymbol-lookup=disabled
 
-ninja
+ninja -j"$MAKETHREADS"
 DESTDIR="$DESTDIR" ninja install
 

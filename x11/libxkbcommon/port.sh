@@ -18,6 +18,6 @@ meson setup build \
     -Denable-tools=true \
     -Denable-bash-completion=false
 
-ninja -C build
+ninja -C build -j"$MAKETHREADS"
 DESTDIR="$DESTDIR" ninja -C build install
 

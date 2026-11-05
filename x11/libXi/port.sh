@@ -7,6 +7,6 @@ cd libXi-1.8.4
 
 ./configure --prefix=/usr
 
-make
+make -j"$MAKETHREADS"
 
-make DESTDIR="$DESTDIR" install
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"

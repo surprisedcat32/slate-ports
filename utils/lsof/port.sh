@@ -5,5 +5,5 @@ curl -LO https://github.com/lsof-org/lsof/releases/download/4.99.5/lsof-4.99.5.t
 tar -xf lsof-4.99.5.tar.gz
 cd lsof-4.99.5
 ./configure --prefix=/usr --disable-static
-make
-make DESTDIR="$DESTDIR" install
+make -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"

@@ -36,8 +36,8 @@ build_driver() {
             --libdir="$LIBDIR" \
             --with-xorg-module-dir="$MODULEDIR"
 
-        make
-        make DESTDIR="$DESTDIR" install
+        make -j"$MAKETHREADS"
+        make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
     else
         echo "ERROR: $src has no configure script"
         exit 1

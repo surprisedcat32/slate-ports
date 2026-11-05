@@ -13,7 +13,7 @@ meson setup .. \
     --buildtype=release \
     --wrap-mode=nofallback
 
-ninja
+ninja -j"$MAKETHREADS"
 DESTDIR="$DESTDIR" ninja install
 echo '#!/bin/sh
 

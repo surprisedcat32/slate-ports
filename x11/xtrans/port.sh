@@ -4,5 +4,5 @@ git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libxtrans.git
 cd libxtrans
 ./autogen.sh
 ./configure --prefix=/usr
-make
-make DESTDIR="$DESTDIR" install
+make -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"

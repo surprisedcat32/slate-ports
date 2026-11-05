@@ -23,5 +23,5 @@ meson setup .. \
     -Dlibthai=disabled \
     -Dsysprof=disabled
 
-ninja
+ninja -j"$MAKETHREADS"
 DESTDIR="$DESTDIR" ninja install

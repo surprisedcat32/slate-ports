@@ -8,6 +8,6 @@ tar -xf procps-ng-4.0.4.tar.xz
 
 cd procps-ng-4.0.4
 ./configure --prefix=/usr
-make
-make DESTDIR="$DESTDIR" install
+make -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
 

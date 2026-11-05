@@ -22,8 +22,8 @@ cd "shadow-${VERSION}" || exit 1
     --without-acl \
     --without-attr
 
-make
-make DESTDIR="$DESTDIR" install
+make -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
 
 chmod 4755 "$DESTDIR/usr/bin/passwd"
 chmod 4755 "$DESTDIR/usr/bin/su"

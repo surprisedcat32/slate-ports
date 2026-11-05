@@ -8,5 +8,5 @@ cd mkfontscale-1.2.4
 
 ./configure --prefix=/usr
 
-make
-make DESTDIR="$DESTDIR" install
+make -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"

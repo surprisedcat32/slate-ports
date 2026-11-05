@@ -12,5 +12,5 @@ cd libnl-3.11.0
     --disable-static 
     --disable-cli
 
-make
-make DESTDIR="$DESTDIR" install
+make -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"

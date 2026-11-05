@@ -8,6 +8,6 @@ tar -xf openssl-3.5.4.tar.gz
 
 cd openssl-3.5.4
 ./Configure --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared
-make
-make DESTDIR="$DESTDIR" install
+make -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
 

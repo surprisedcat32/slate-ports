@@ -9,5 +9,5 @@ cd lxterminal-0.4.1
 
 ./configure --prefix=/usr --sysconfdir=/etc --disable-static
 
-make
-make DESTDIR="$DESTDIR" install
+make -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install -j"$MAKETHREADS"
