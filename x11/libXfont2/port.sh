@@ -9,6 +9,6 @@ export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/lib/pkgconfig:/usr/local/lib/pk
 ./autogen.sh
 ./configure --prefix=/usr
 
-make -j"$MAKETHREADS"
+make
 
 make DESTDIR="$DESTDIR" install

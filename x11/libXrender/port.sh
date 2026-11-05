@@ -10,6 +10,6 @@ cd libXrender-0.9.13
 
 ./configure --prefix=/usr
 
-make -j"$MAKETHREADS"
+make
 
 make DESTDIR="$DESTDIR" install

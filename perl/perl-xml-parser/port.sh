@@ -8,5 +8,5 @@ cd XML-Parser-2.59
 
 perl Makefile.PL PREFIX=/usr
 
-make -j"$MAKETHREADS"
+make
 make DESTDIR="$DESTDIR" install

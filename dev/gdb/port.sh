@@ -23,6 +23,6 @@ cd build
     --without-babeltrace \
     --without-lzma
 
-make -j"$MAKETHREADS" 
+make 
 make DESTDIR="$DESTDIR" install
 

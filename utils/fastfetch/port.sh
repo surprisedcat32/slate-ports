@@ -11,5 +11,5 @@ cmake -B build \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_BUILD_TYPE=Release
 
-cmake --build build --target fastfetch -j"$(nproc)"
+cmake --build build --target fastfetch
 DESTDIR="$DESTDIR" cmake --install build

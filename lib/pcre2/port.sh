@@ -4,5 +4,5 @@ curl -LO https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.44/pcr
 tar -xjf pcre2-10.44.tar.bz2
 cd pcre2-10.44
 ./configure --prefix=/usr
-make -j"$MAKETHREADS"
+make
 make DESTDIR="$DESTDIR" install

@@ -8,6 +8,6 @@ cd libxcvt-0.1.3
 
 meson setup build --prefix=/usr
 
-meson compile -C build -j"$MAKETHREADS" -j"$(nproc)"
+meson compile -C build -j"$MAKETHREADS"
 
 DESTDIR="$DESTDIR" meson install -C build

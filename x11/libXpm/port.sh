@@ -10,6 +10,6 @@ cd libXpm-3.5.20
 
 ./configure --prefix=/usr
 
-make -j"$MAKETHREADS"
+make
 
 make DESTDIR="$DESTDIR" install

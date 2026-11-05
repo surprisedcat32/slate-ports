@@ -31,6 +31,6 @@ cd curl-8.23.0
     --without-nghttp2 \
     --without-nghttp3
 
-make -j"$MAKETHREADS"
+make
 make DESTDIR="$DESTDIR" install
 

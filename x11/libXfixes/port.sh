@@ -10,6 +10,6 @@ cd libXfixes-6.0.2
 
 ./configure --prefix=/usr
 
-make -j"$MAKETHREADS"
+make
 
 make DESTDIR="$DESTDIR" install

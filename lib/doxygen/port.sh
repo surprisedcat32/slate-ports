@@ -6,5 +6,5 @@ cd doxygen-1.14.0
 mkdir build
 cd build
 cmake .. -DCMAKE_INSTALL_PREFIX=/usr
-make -j"$MAKETHREADS"
+make
 make DESTDIR="$DESTDIR" install

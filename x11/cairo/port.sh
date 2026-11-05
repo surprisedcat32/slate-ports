@@ -26,6 +26,6 @@ meson setup .. \
     -Dspectre=disabled \
     -Dsymbol-lookup=disabled
 
-ninja -j"$(nproc)"
+ninja
 DESTDIR="$DESTDIR" ninja install
 

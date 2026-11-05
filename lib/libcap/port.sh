@@ -8,7 +8,7 @@ curl -LO https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libc
 tar -xf libcap-2.78.tar.xz
 cd libcap-2.78
 
-make -j"$MAKETHREADS" \
+make \
     prefix=/usr \
     lib=lib \
     RAISE_SETFCAP=no

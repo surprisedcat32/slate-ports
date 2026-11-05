@@ -13,6 +13,6 @@ meson setup .. \
     --buildtype=release \
     --wrap-mode=nofallback
 
-ninja -j"$(nproc)"
+ninja
 DESTDIR="$DESTDIR" ninja install
 

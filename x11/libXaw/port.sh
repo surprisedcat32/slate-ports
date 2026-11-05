@@ -13,6 +13,6 @@ cd libXaw
     --enable-shared 
     --enable-static
 
-make -j"$MAKETHREADS"
+make
 
 make DESTDIR="$DESTDIR" install

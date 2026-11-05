@@ -9,6 +9,6 @@ cd libXinerama-1.1.6
 
 ./configure --prefix=/usr
 
-make -j"$MAKETHREADS"
+make
 
 make DESTDIR="$DESTDIR" install

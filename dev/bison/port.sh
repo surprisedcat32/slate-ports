@@ -12,6 +12,6 @@ cd bison-3.8.2
     --prefix=/usr \
     --disable-nls
 
-make -j"$MAKETHREADS"
+make
 make DESTDIR="$DESTDIR" install
 

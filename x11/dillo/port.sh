@@ -15,6 +15,6 @@ LIBS="-lssl -lcrypto" ./configure \
     --enable-openssl \
     --disable-mbedtls 
 
-make -j"$MAKETHREADS"
+make
 make DESTDIR="$DESTDIR" install
 

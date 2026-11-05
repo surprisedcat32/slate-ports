@@ -16,7 +16,7 @@ cmake -S . -B build \
     -DBUILD_SHARED_LIBS=ON \
     -DBUILD_TESTING=OFF
 
-cmake --build build -j"$(nproc)"
+cmake --build build
 
 DESTDIR="$DESTDIR" cmake --install build
 

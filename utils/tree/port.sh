@@ -6,6 +6,6 @@ git clone --depth=1 https://gitlab.com/OldManProgrammer/unix-tree.git
 
 cd unix-tree
 
-make -j"$MAKETHREADS"
+make
 
 make DESTDIR="$DESTDIR" install

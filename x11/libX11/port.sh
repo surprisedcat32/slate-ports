@@ -10,6 +10,6 @@ cd libX11-1.8
 
 ./configure --prefix=/usr
 
-make -j"$MAKETHREADS"
+make
 
 make DESTDIR="$DESTDIR" install

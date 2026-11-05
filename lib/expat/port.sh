@@ -11,5 +11,5 @@ cd expat-2.9.0
     --disable-static \
     --enable-shared
 
-make -j"$MAKETHREADS"
+make
 make DESTDIR="$DESTDIR" install

@@ -10,6 +10,6 @@ cd libXcursor-1.2.3
 
 ./configure --prefix=/usr
 
-make -j"$MAKETHREADS"
+make
 
 make DESTDIR="$DESTDIR" install

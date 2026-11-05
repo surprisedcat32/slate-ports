@@ -18,7 +18,7 @@ cmake -S . -B build \
     -DWITH_JAVA=OFF \
     -DWITH_TESTS=OFF
 
-cmake --build build -j"$(nproc)"
+cmake --build build
 
 DESTDIR="$DESTDIR" cmake --install build
 

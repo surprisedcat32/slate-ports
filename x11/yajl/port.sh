@@ -17,6 +17,6 @@ cmake -S . -B build \
     -DBUILD_SHARED_LIBS=ON \
     -DCMAKE_SKIP_INSTALL_RPATH=ON
 
-ninja -C build -j"$MAKETHREADS" -j"$(nproc)"
-DESTDIR="$DESTDIR" ninja -C build -j"$MAKETHREADS" install
+ninja -C build
+DESTDIR="$DESTDIR" ninja -C build install
 

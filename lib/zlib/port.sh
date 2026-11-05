@@ -8,6 +8,6 @@ cd zlib-1.3.2
 
 ./configure --prefix=/usr
 
-make -j"$MAKETHREADS"
+make
 
 make DESTDIR="$DESTDIR" install

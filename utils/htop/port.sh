@@ -5,5 +5,5 @@ cd htop
 ./autogen.sh
 make clean
 ./configure --disable-unicode
-make -j"$MAKETHREADS"
+make
 make DESTDIR="$DESTDIR" install

@@ -37,7 +37,7 @@ CXX=g++ \
     --disable-libgomp \
     --disable-libatomic
 
-make -j"$MAKETHREADS" 
+make 
 
 make DESTDIR="$DESTDIR" install
 

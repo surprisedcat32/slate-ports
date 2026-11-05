@@ -7,6 +7,6 @@ tar -xf less-668.tar.gz
 
 cd less-668
 ./configure --prefix=/usr
-make -j"$MAKETHREADS"
+make
 make DESTDIR="$DESTDIR" install
 

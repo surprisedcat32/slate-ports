@@ -8,5 +8,5 @@ cd startup-notification-0.12
 
 ./configure --prefix=/usr --disable-static
 
-make -j"$MAKETHREADS"
+make
 make DESTDIR="$DESTDIR" install

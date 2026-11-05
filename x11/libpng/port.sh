@@ -10,6 +10,6 @@ cd libpng-1.6.53
     --libdir=/usr/lib \
     --disable-static
 
-make -j"$MAKETHREADS"
+make
 make DESTDIR="$DESTDIR" install
 

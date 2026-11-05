@@ -15,7 +15,7 @@ cmake -S . -B build \
     -DFLTK_BUILD_TEST=OFF \
     -DFLTK_BUILD_EXAMPLES=OFF
 
-cmake --build build -j"$(nproc)"
+cmake --build build
 
 DESTDIR="$DESTDIR" cmake --install build
 

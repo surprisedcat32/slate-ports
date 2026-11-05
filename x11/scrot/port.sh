@@ -9,5 +9,5 @@ cd scrot-2.0.0
 
 ./configure --prefix=/usr
 
-make -j"$MAKETHREADS"
+make
 make DESTDIR="$DESTDIR" install

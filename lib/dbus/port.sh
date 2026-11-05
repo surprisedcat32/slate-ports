@@ -20,6 +20,6 @@ meson setup build \
     -Dman=enabled \
     -Dembedded_tests=false
 
-ninja -C build -j"$MAKETHREADS" -j"$(nproc)"
-DESTDIR="$DESTDIR" ninja -C build -j"$MAKETHREADS" install
+ninja -C build
+DESTDIR="$DESTDIR" ninja -C build install
 

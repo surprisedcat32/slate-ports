@@ -12,6 +12,6 @@ cd flex-2.6.4
     --prefix=/usr \
     --disable-nls
 
-make -j"$MAKETHREADS" 
+make 
 make DESTDIR="$DESTDIR" install
 

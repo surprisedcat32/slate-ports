@@ -8,6 +8,6 @@ cd feh
 
 make clean
 
-make -j"$MAKETHREADS" PREFIX=/usr
+make PREFIX=/usr
 
 make DESTDIR="$DESTDIR" install PREFIX=/usr

@@ -7,7 +7,7 @@ cd freetype-2.15.0
 
 meson setup build --prefix=/usr
 
-meson compile -C build -j"$MAKETHREADS" -j"$(nproc)"
+meson compile -C build -j"$MAKETHREADS"
 
 DESTDIR="$DESTDIR" meson install -C build
 ln -sf /usr/lib64/pkgconfig/freetype2.pc ${DESTDIR:-}/usr/lib64/pkgconfig/freetype.pc

@@ -14,6 +14,6 @@ cd rsync-3.5.1
     --disable-zstd \
     --disable-lz4
 
-make -j"$MAKETHREADS"
+make
 make DESTDIR="$DESTDIR" install
 

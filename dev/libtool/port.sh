@@ -12,6 +12,6 @@ cd libtool-2.5.4
     --prefix=/usr \
     --disable-nls
 
-make -j"$MAKETHREADS" 
+make 
 make DESTDIR="$DESTDIR" install
 

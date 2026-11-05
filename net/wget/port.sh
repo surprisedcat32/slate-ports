@@ -12,6 +12,6 @@ cd wget
     --prefix=/usr \
     --with-ssl=openssl
 
-make -j"$MAKETHREADS"
+make
 
 make DESTDIR="$DESTDIR" install

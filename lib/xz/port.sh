@@ -8,6 +8,6 @@ tar -xf xz-5.8.1.tar.gz
 
 cd xz-5.8.1
 ./configure --prefix=/usr --disable-static
-make -j"$MAKETHREADS"
+make
 make DESTDIR="$DESTDIR" install
 
