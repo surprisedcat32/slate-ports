@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+slate install meta/web-deps
 slate install meta/gtk3
 slate install lib/icu
 slate install lib/lcms2
