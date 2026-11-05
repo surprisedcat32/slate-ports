@@ -26,5 +26,6 @@ make DESTDIR="$DESTDIR" install
 
 ln -sf python3.13 "$DESTDIR/usr/bin/python"
 ln -sf python3.13 "$DESTDIR/usr/bin/python3"
+mkdir -p "$DESTDIR/usr/lib/python3.13"
 cp Lib/* "$DESTDIR/usr/lib/python3.13"
 
