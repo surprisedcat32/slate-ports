@@ -3,9 +3,9 @@ set -e
 
 cd /usr/ports/net/openssh
 
-curl -LO https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.6p1.tar.gz
-tar -xf openssh-10.6p1.tar.gz
-cd openssh-10.6p1
+curl -LO https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.6p2.tar.gz
+tar -xf openssh-10.6p2.tar.gz
+cd openssh-10.6p2
 
 ./configure \
     --prefix=/usr \
