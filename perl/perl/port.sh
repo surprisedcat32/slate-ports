@@ -6,6 +6,7 @@ cd "/$PORTS_DIR"
 curl -LO https://www.cpan.org/src/5.0/perl-5.42.0.tar.gz
 
 tar -xf perl-5.42.0.tar.gz
+cd "$(tar -tf perl-5.42.0.tar.gz | head -1 | cut -d/ -f1)"
 
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 sh Configure -des -Dprefix=/usr

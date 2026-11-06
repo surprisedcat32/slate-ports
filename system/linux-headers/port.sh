@@ -5,6 +5,7 @@ PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 cd "/$PORTS_DIR"
 curl -LO https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.60.tar.xz
 tar -xf linux-6.18.60.tar.xz
+cd "$(tar -tf linux-6.18.60.tar.xz | head -1 | cut -d/ -f1)"
 
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 

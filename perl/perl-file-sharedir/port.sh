@@ -5,6 +5,7 @@ PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 cd "/$PORTS_DIR"
 curl -LO https://cpan.metacpan.org/authors/id/R/RE/REHSACK/File-ShareDir-1.118.tar.gz
 tar -xf File-ShareDir-1.118.tar.gz
+cd "$(tar -tf File-ShareDir-1.118.tar.gz | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 
 perl Makefile.PL PREFIX=/usr

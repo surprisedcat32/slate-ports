@@ -6,6 +6,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.6p2.tar.gz
 tar -xf openssh-10.6p2.tar.gz
+cd "$(tar -tf openssh-10.6p2.tar.gz | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 
 ./configure \

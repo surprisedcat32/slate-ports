@@ -6,6 +6,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://github.com/simdutf/simdutf/archive/refs/tags/v9.3.0.tar.gz
 tar -xf v9.3.0.tar.gz
+cd "$(tar -tf v9.3.0.tar.gz | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 
 cmake -S . -B build \

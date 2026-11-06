@@ -6,6 +6,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://github.com/fastfetch-cli/fastfetch/archive/refs/tags/2.70.0.tar.gz
 tar -xf 2.70.0.tar.gz
+cd "$(tar -tf 2.70.0.tar.gz | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 
 cmake -B build \

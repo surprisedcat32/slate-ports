@@ -4,6 +4,7 @@ PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 cd "/$PORTS_DIR"
 curl -LO https://github.com/uclouvain/openjpeg/archive/refs/tags/v2.5.4.tar.gz
 tar -xf v2.5.4.tar.gz
+cd "$(tar -tf v2.5.4.tar.gz | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 cmake -S . -B build -G Ninja \
     -DCMAKE_INSTALL_PREFIX=/usr \

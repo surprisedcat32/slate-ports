@@ -9,6 +9,7 @@ cd "/$PORTS_DIR"
 curl -fLO https://musl.libc.org/releases/musl-1.2.6.tar.gz
 
 tar -xf musl-1.2.6.tar.gz
+cd "$(tar -tf musl-1.2.6.tar.gz | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 mkdir -p patches
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}

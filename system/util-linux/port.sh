@@ -7,6 +7,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://cdn.kernel.org/pub/linux/utils/util-linux/v2.42/util-linux-2.42.4.tar.xz
 tar -xf util-linux-2.42.4.tar.xz
+cd "$(tar -tf util-linux-2.42.4.tar.xz | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 
 ./configure \

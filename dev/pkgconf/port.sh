@@ -6,6 +6,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://distfiles.ariadne.space/pkgconf/pkgconf-3.0.10.tar.xz
 tar -xf pkgconf-3.0.10.tar.xz
+cd "$(tar -tf pkgconf-3.0.10.tar.xz | head -1 | cut -d/ -f1)"
 
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 

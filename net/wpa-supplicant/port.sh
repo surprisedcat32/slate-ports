@@ -5,6 +5,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://w1.fi/releases/wpa_supplicant-2.11.tar.gz
 tar -xf wpa_supplicant-2.11.tar.gz
+cd "$(tar -tf wpa_supplicant-2.11.tar.gz | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 
 cat > .config <<'EOF'

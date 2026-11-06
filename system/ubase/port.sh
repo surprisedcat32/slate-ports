@@ -4,6 +4,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://dl.suckless.org/tools/ubase-0.1.tar.gz
 tar -xf ubase-0.1.tar.gz
+cd "$(tar -tf ubase-0.1.tar.gz | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 
 make -j"$MAKETHREADS"

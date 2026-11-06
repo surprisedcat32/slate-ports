@@ -5,6 +5,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://www.alsa-project.org/files/pub/utils/alsa-utils-1.2.16.tar.bz2
 tar -xf alsa-utils-1.2.16.tar.bz2
+cd "$(tar -tf alsa-utils-1.2.16.tar.bz2 | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 
 ./configure \

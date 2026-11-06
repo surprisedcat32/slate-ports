@@ -7,6 +7,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://curl.se/download/curl-8.23.0.tar.xz
 tar -xf curl-8.23.0.tar.xz
+cd "$(tar -tf curl-8.23.0.tar.xz | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 
 ./configure \

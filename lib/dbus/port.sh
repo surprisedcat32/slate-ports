@@ -7,6 +7,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://dbus.freedesktop.org/releases/dbus/dbus-1.16.2.tar.xz
 tar -xf dbus-1.16.2.tar.xz
+cd "$(tar -tf dbus-1.16.2.tar.xz | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 
 meson setup build \

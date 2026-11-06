@@ -7,6 +7,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://github.com/libjpeg-turbo/libjpeg-turbo/releases/download/3.2.1/libjpeg-turbo-3.2.1.tar.gz
 tar -xf libjpeg-turbo-3.2.1.tar.gz
+cd "$(tar -tf libjpeg-turbo-3.2.1.tar.gz | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 
 cmake -S . -B build \

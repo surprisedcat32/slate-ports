@@ -7,6 +7,7 @@ URL="https://github.com/shadow-maint/shadow/releases/download/${VERSION}/${ARCHI
 
 curl -LO "$URL"
 tar -xf "$ARCHIVE"
+cd "$(tar -tf "$ARCHIVE" | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 cd "/$PORTS_DIR"
 

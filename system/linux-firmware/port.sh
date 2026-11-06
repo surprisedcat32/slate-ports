@@ -7,6 +7,7 @@ cd "/$PORTS_DIR"
 
 if [ ! -d linux-firmware/.git ]; then
     git clone --depth 1 https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git linux-firmware
+cd "$(basename "$(echo "$(grep -oE "https?://[^ ]+" <<< "&" | tail -1)" | sed "s/.git$//" | sed "s|.*/||")")"
 else
     git -C linux-firmware pull --ff-only
 fi

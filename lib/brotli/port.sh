@@ -7,6 +7,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://github.com/google/brotli/archive/refs/tags/v1.2.0.tar.gz
 tar -xf v1.2.0.tar.gz
+cd "$(tar -tf v1.2.0.tar.gz | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 
 cmake -S . -B build \

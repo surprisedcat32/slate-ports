@@ -6,6 +6,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://github.com/besser82/libxcrypt/releases/download/v4.4.38/libxcrypt-4.4.38.tar.xz
 tar -xf libxcrypt-4.4.38.tar.xz
+cd "$(tar -tf libxcrypt-4.4.38.tar.xz | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 
 ./configure \

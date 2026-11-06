@@ -7,6 +7,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://ftp.gnu.org/gnu/gdb/gdb-18.1.tar.xz
 tar -xf gdb-18.1.tar.xz
+cd "$(tar -tf gdb-18.1.tar.xz | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 
 mkdir -p build

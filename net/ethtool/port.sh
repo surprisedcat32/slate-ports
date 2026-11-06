@@ -4,6 +4,7 @@ PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 cd "/$PORTS_DIR"
 curl -LO https://kernel.org/pub/software/network/ethtool/ethtool-7.2.tar.xz
 tar -xf ethtool-7.2.tar.xz
+cd "$(tar -tf ethtool-7.2.tar.xz | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 ./configure --prefix=/usr
 make -j"$MAKETHREADS"

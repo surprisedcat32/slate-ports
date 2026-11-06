@@ -7,6 +7,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://downloads.sourceforge.net/project/e2fsprogs/e2fsprogs/1.47.4/e2fsprogs-1.47.4.tar.gz
 tar -xf e2fsprogs-1.47.4.tar.gz
+cd "$(tar -tf e2fsprogs-1.47.4.tar.gz | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 
 ./configure \

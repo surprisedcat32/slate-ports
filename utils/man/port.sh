@@ -5,6 +5,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://mandoc.bsd.lv/snapshots/mandoc-1.14.6.tar.gz
 tar -xf mandoc-1.14.6.tar.gz
+cd "$(tar -tf mandoc-1.14.6.tar.gz | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 
 cat > configure.local <<'EOF'

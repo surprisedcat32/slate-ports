@@ -6,6 +6,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://github.com/c-ares/c-ares/releases/download/v1.34.9/c-ares-1.34.9.tar.gz
 tar -xf c-ares-1.34.9.tar.gz
+cd "$(tar -tf c-ares-1.34.9.tar.gz | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 
 cmake -S . -B build \

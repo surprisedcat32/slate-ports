@@ -5,6 +5,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://github.com/polkit-org/polkit/archive/refs/tags/127.tar.gz
 tar -xf 127.tar.gz
+cd "$(tar -tf 127.tar.gz | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 
 meson setup build \

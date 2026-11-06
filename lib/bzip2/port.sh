@@ -4,6 +4,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
 tar -xf bzip2-1.0.8.tar.gz
+cd "$(tar -tf bzip2-1.0.8.tar.gz | head -1 | cut -d/ -f1)"
 
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 

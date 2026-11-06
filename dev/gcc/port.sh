@@ -6,6 +6,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://ftp.gnu.org/gnu/gcc/gcc-15.2.0/gcc-15.2.0.tar.xz
 tar -xf gcc-15.2.0.tar.xz
+cd "$(tar -tf gcc-15.2.0.tar.xz | head -1 | cut -d/ -f1)"
 
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 

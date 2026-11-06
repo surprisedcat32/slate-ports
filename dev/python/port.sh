@@ -4,6 +4,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://www.python.org/ftp/python/3.13.7/Python-3.13.7.tgz
 tar -xf Python-3.13.7.tgz
+cd "$(tar -tf Python-3.13.7.tgz | head -1 | cut -d/ -f1)"
 
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 make distclean

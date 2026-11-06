@@ -4,6 +4,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://www.libarchive.org/downloads/libarchive-3.8.1.tar.xz
 tar -xf libarchive-3.8.1.tar.xz
+cd "$(tar -tf libarchive-3.8.1.tar.xz | head -1 | cut -d/ -f1)"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
 
 cmake -S . -B build \

@@ -6,6 +6,7 @@ cd "/$PORTS_DIR"
 
 curl -LO https://download.gnome.org/sources/libxml2/2.15/libxml2-2.15.4.tar.xz
 tar -xf libxml2-2.15.4.tar.xz
+cd "$(tar -tf libxml2-2.15.4.tar.xz | head -1 | cut -d/ -f1)"
 
 ./configure \
     --prefix=/usr \
