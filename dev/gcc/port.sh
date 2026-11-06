@@ -8,13 +8,11 @@ curl -LO https://ftp.gnu.org/gnu/gcc/gcc-15.2.0/gcc-15.2.0.tar.xz
 tar -xf gcc-15.2.0.tar.xz
 
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd "/$PORTS_DIR"
 
 ./contrib/download_prerequisites
 
 mkdir -p build
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd "/$PORTS_DIR"
 
 TARGET=x86_64-linux-musl
 BUILD="$(../config.guess)"

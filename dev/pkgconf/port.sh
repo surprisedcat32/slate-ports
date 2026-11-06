@@ -8,7 +8,6 @@ curl -LO https://distfiles.ariadne.space/pkgconf/pkgconf-3.0.10.tar.xz
 tar -xf pkgconf-3.0.10.tar.xz
 
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd "/$PORTS_DIR"
 
 CC=cross-musl-gcc \
 ./configure \

@@ -5,7 +5,6 @@ cd "/$PORTS_DIR"
 curl -LO https://github.com/linuxwacom/libwacom/releases/download/libwacom-2.14.0/libwacom-2.14.0.tar.xz
 tar -xf libwacom-2.14.0.tar.xz
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd "/$PORTS_DIR"
 export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/share/pkgconfig
 python3 -m pip install libevdev pyudev pytest evdev
 sed -i "s/if get_option('b_sanitize') == 'none'/if false/" meson.build

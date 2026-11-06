@@ -12,7 +12,6 @@ else
 fi
 
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd "/$PORTS_DIR"
 
 mkdir -p ${DESTDIR:-}/usr/lib/firmware
 

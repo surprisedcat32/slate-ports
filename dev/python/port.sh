@@ -6,7 +6,6 @@ curl -LO https://www.python.org/ftp/python/3.13.7/Python-3.13.7.tgz
 tar -xf Python-3.13.7.tgz
 
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd "/$PORTS_DIR"
 make distclean
 
 export CPPFLAGS="-I/usr/include"

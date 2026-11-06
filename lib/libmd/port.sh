@@ -5,7 +5,6 @@ cd "/$PORTS_DIR"
 curl -LO https://libbsd.freedesktop.org/releases/libmd-1.1.0.tar.xz
 tar -xf libmd-1.1.0.tar.xz
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd "/$PORTS_DIR"
 
 ./configure \
     --prefix=/usr \

@@ -8,7 +8,6 @@ curl -LO https://sourceforge.net/projects/procps-ng/files/Production/procps-ng-4
 tar -xf procps-ng-4.0.4.tar.xz
 
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd "/$PORTS_DIR"
 ./configure --prefix=/usr
 make -j"$MAKETHREADS"
 make DESTDIR="$DESTDIR" install
