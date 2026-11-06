@@ -2,14 +2,14 @@
 set -e
 
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd $PORTS_DIR
+cd "/$PORTS_DIR"
 
 VERSION=1.0.16
 
 curl -LO https://github.com/fribidi/fribidi/releases/download/v${VERSION}/fribidi-${VERSION}.tar.xz
 tar -xf fribidi-${VERSION}.tar.xz
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd $PORTS_DIR
+cd "/$PORTS_DIR"
 
 ./configure --prefix=/usr
 

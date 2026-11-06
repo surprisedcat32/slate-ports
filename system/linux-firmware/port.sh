@@ -3,7 +3,7 @@
 set -e
 
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd $PORTS_DIR
+cd "/$PORTS_DIR"
 
 if [ ! -d linux-firmware/.git ]; then
     git clone --depth 1 https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git linux-firmware
@@ -12,7 +12,7 @@ else
 fi
 
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd $PORTS_DIR
+cd "/$PORTS_DIR"
 
 mkdir -p ${DESTDIR:-}/usr/lib/firmware
 

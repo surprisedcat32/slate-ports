@@ -11,7 +11,7 @@ curl -fsSL "$URL" -o "$WORK/src.tar.gz"
 tar -xzf "$WORK/src.tar.gz" -C "$WORK" --strip-components=1
 
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd $PORTS_DIR
+cd "/$PORTS_DIR"
 make PREFIX=/usr -j"$MAKETHREADS"
 
 make DESTDIR="$DESTDIR" PREFIX=/usr install

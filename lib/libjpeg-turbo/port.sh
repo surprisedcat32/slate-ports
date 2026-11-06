@@ -3,12 +3,12 @@
 set -e
 
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd $PORTS_DIR
+cd "/$PORTS_DIR"
 
 curl -LO https://github.com/libjpeg-turbo/libjpeg-turbo/releases/download/3.2.1/libjpeg-turbo-3.2.1.tar.gz
 tar -xf libjpeg-turbo-3.2.1.tar.gz
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd $PORTS_DIR
+cd "/$PORTS_DIR"
 
 cmake -S . -B build \
     -DCMAKE_BUILD_TYPE=Release \

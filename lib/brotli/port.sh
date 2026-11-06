@@ -3,12 +3,12 @@
 set -e
 
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd $PORTS_DIR
+cd "/$PORTS_DIR"
 
 curl -LO https://github.com/google/brotli/archive/refs/tags/v1.2.0.tar.gz
 tar -xf v1.2.0.tar.gz
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd $PORTS_DIR
+cd "/$PORTS_DIR"
 
 cmake -S . -B build \
     -DCMAKE_BUILD_TYPE=Release \

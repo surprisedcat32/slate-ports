@@ -2,12 +2,12 @@
 set -e
 
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd $PORTS_DIR
+cd "/$PORTS_DIR"
 
 curl -LO https://github.com/lloyd/yajl/archive/refs/tags/2.1.0.tar.gz
 tar -xf 2.1.0.tar.gz
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd $PORTS_DIR
+cd "/$PORTS_DIR"
 
 patch -p1 < /usr/ports/lib/yajl/patches/0001-cmake4-compatibility.patch
 

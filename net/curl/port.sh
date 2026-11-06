@@ -3,12 +3,12 @@
 set -e
 
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd $PORTS_DIR
+cd "/$PORTS_DIR"
 
 curl -LO https://curl.se/download/curl-8.23.0.tar.xz
 tar -xf curl-8.23.0.tar.xz
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd $PORTS_DIR
+cd "/$PORTS_DIR"
 
 ./configure \
     --prefix=/usr \

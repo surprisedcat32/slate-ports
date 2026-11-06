@@ -8,7 +8,7 @@ URL="https://github.com/shadow-maint/shadow/releases/download/${VERSION}/${ARCHI
 curl -LO "$URL"
 tar -xf "$ARCHIVE"
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd $PORTS_DIR
+cd "/$PORTS_DIR"
 
 ./configure \
     --build=x86_64-pc-linux-gnu \

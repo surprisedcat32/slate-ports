@@ -3,12 +3,12 @@
 set -e
 
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd $PORTS_DIR
+cd "/$PORTS_DIR"
 
 curl -LO https://downloads.sourceforge.net/project/e2fsprogs/e2fsprogs/1.47.4/e2fsprogs-1.47.4.tar.gz
 tar -xf e2fsprogs-1.47.4.tar.gz
 PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
-cd $PORTS_DIR
+cd "/$PORTS_DIR"
 
 ./configure \
     --prefix=/usr \
