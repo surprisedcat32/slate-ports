@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/lib/openjpeg
+cd "${PORT_DIR:-/usr/ports}/lib/openjpeg"
 curl -LO https://github.com/uclouvain/openjpeg/archive/refs/tags/v2.5.4.tar.gz
 tar -xf v2.5.4.tar.gz
 cd openjpeg-2.5.4

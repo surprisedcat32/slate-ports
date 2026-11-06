@@ -1,5 +1,5 @@
 #!/bin/sh
-cd "${PORT_DIR:-/usr/ports}/utils/htop
+cd "${PORT_DIR:-/usr/ports}/utils/htop"
 git clone --depth=1 https://github.com/htop-dev/htop.git
 cd htop
 ./autogen.sh

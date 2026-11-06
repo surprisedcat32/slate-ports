@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd "${PORT_DIR:-/usr/ports}/utils/tree
+cd "${PORT_DIR:-/usr/ports}/utils/tree"
 
 git clone --depth=1 https://gitlab.com/OldManProgrammer/unix-tree.git
 

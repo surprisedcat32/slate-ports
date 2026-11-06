@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd "${PORT_DIR:-/usr/ports}/x11/libxkbfile
+cd "${PORT_DIR:-/usr/ports}/x11/libxkbfile"
 
 curl -LO https://xorg.freedesktop.org/releases/individual/lib/libxkbfile-1.2.0.tar.xz
 tar -xf libxkbfile-1.2.0.tar.xz

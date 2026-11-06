@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/lib/sqlite
+cd "${PORT_DIR:-/usr/ports}/lib/sqlite"
 curl -LO https://www.sqlite.org/2025/sqlite-autoconf-3500400.tar.gz
 tar -xf sqlite-autoconf-3500400.tar.gz
 cd sqlite-autoconf-3500400

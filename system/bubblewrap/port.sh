@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/system/bubblewrap
+cd "${PORT_DIR:-/usr/ports}/system/bubblewrap"
 curl -LO https://github.com/containers/bubblewrap/releases/download/v0.13.1/bubblewrap-0.13.1.tar.xz
 tar -xf bubblewrap-0.13.1.tar.xz
 cd bubblewrap-0.13.1

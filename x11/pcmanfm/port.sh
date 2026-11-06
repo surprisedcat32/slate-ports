@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/x11/pcmanfm
+cd "${PORT_DIR:-/usr/ports}/x11/pcmanfm"
 
 curl -LO https://downloads.sourceforge.net/pcmanfm/pcmanfm-1.3.2.tar.xz
 tar -xf pcmanfm-1.3.2.tar.xz

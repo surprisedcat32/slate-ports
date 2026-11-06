@@ -1,5 +1,5 @@
 #!/bin/sh
-cd "${PORT_DIR:-/usr/ports}/misc/sl
+cd "${PORT_DIR:-/usr/ports}/misc/sl"
 curl -LO https://github.com/mtoyoda/sl/archive/refs/tags/5.02.tar.gz
 tar -xf 5.02.tar.gz
 cd sl-5.02

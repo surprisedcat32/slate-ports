@@ -1,5 +1,5 @@
 #!/bin/sh
-cd "${PORT_DIR:-/usr/ports}/lib/libarchive
+cd "${PORT_DIR:-/usr/ports}/lib/libarchive"
 
 curl -LO https://www.libarchive.org/downloads/libarchive-3.8.1.tar.xz
 tar -xf libarchive-3.8.1.tar.xz

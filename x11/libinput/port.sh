@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd "${PORT_DIR:-/usr/ports}/x11/libinput
+cd "${PORT_DIR:-/usr/ports}/x11/libinput"
 
 git clone --depth 1 https://gitlab.freedesktop.org/libinput/libinput.git
 

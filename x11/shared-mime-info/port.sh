@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd "${PORT_DIR:-/usr/ports}/desktop/shared-mime-info
+cd "${PORT_DIR:-/usr/ports}/desktop/shared-mime-info"
 
 curl -LO https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/2.5.1/shared-mime-info-2.5.1.tar.bz2
 

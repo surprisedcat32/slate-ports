@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/net/iw
+cd "${PORT_DIR:-/usr/ports}/net/iw"
 curl -LO https://www.kernel.org/pub/software/network/iw/iw-6.17.tar.xz
 tar -xf iw-6.17.tar.xz
 cd iw-6.17

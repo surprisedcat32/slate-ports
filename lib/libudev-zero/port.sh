@@ -1,5 +1,5 @@
 #!/bin/sh
-cd "${PORT_DIR:-/usr/ports}/lib/libudev-zero
+cd "${PORT_DIR:-/usr/ports}/lib/libudev-zero"
 git clone --depth 1 https://github.com/illiliti/libudev-zero.git
 cd libudev-zero
 meson setup build --prefix=/usr

@@ -1,5 +1,5 @@
 #!/bin/sh
-cd "${PORT_DIR:-/usr/ports}/lib/glib
+cd "${PORT_DIR:-/usr/ports}/lib/glib"
 curl -LO https://download.gnome.org/sources/glib/2.90/glib-2.90.1.tar.xz
 tar -xf glib-2.90.1.tar.xz
 cd glib-2.90.1

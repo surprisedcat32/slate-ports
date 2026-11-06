@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd "${PORT_DIR:-/usr/ports}/x11/feh
+cd "${PORT_DIR:-/usr/ports}/x11/feh"
 
 git clone --depth 1 https://github.com/derf/feh.git
 

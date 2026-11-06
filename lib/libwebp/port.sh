@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/lib/libwebp
+cd "${PORT_DIR:-/usr/ports}/lib/libwebp"
 curl -LO https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-1.6.0.tar.gz
 tar -xf libwebp-1.6.0.tar.gz
 cd libwebp-1.6.0

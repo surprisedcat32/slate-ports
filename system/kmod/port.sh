@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/system/kmod
+cd "${PORT_DIR:-/usr/ports}/system/kmod"
 
 curl -LO https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-34.2.tar.xz
 tar -xf kmod-34.2.tar.xz

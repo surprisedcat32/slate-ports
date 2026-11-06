@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/media/gstreamer
+cd "${PORT_DIR:-/usr/ports}/media/gstreamer"
 curl -LO https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.28.8.tar.xz
 tar -xf gstreamer-1.28.8.tar.xz
 cd gstreamer-1.28.8

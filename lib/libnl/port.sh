@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/lib/libnl
+cd "${PORT_DIR:-/usr/ports}/lib/libnl"
 
 curl -LO https://github.com/thom311/libnl/releases/download/libnl3_11_0/libnl-3.11.0.tar.gz
 tar -xf libnl-3.11.0.tar.gz

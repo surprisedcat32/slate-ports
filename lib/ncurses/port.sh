@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd "${PORT_DIR:-/usr/ports}/lib/ncurses
+cd "${PORT_DIR:-/usr/ports}/lib/ncurses"
 
 curl -LO https://ftp.gnu.org/gnu/ncurses/ncurses-6.5.tar.gz
 

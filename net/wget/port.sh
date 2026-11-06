@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd "${PORT_DIR:-/usr/ports}/net/wget
+cd "${PORT_DIR:-/usr/ports}/net/wget"
 
 git clone --depth=1 https://git.savannah.gnu.org/git/wget.git
 

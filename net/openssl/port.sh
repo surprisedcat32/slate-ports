@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd "${PORT_DIR:-/usr/ports}/net/openssl
+cd "${PORT_DIR:-/usr/ports}/net/openssl"
 
 curl -LO https://www.openssl.org/source/openssl-3.5.4.tar.gz
 

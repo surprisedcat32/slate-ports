@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd "${PORT_DIR:-/usr/ports}/x11/mesa
+cd "${PORT_DIR:-/usr/ports}/x11/mesa"
 
 curl -LO https://archive.mesa3d.org/mesa-26.2.6.tar.xz
 tar -xf mesa-26.2.6.tar.xz

@@ -1,5 +1,5 @@
 #!/bin/sh
-cd "${PORT_DIR:-/usr/ports}/dev/python
+cd "${PORT_DIR:-/usr/ports}/dev/python"
 
 curl -LO https://www.python.org/ftp/python/3.13.7/Python-3.13.7.tgz
 tar -xf Python-3.13.7.tgz

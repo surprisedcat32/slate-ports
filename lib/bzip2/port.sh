@@ -1,5 +1,5 @@
 #!/bin/sh
-cd "${PORT_DIR:-/usr/ports}/lib/bzip2
+cd "${PORT_DIR:-/usr/ports}/lib/bzip2"
 
 curl -LO https://sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
 tar -xf bzip2-1.0.8.tar.gz

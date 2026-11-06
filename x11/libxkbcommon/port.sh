@@ -2,7 +2,7 @@
 #!/bin/sh
 set -e
 
-cd "${PORT_DIR:-/usr/ports}/x11/libxkbcommon
+cd "${PORT_DIR:-/usr/ports}/x11/libxkbcommon"
 
 curl -LO https://github.com/xkbcommon/libxkbcommon/archive/refs/tags/xkbcommon-1.13.2.tar.gz
 tar -xf xkbcommon-1.13.2.tar.gz

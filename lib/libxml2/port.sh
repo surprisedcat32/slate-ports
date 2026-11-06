@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-cd "${PORT_DIR:-/usr/ports}/lib/libxml2
+cd "${PORT_DIR:-/usr/ports}/lib/libxml2"
 
 curl -LO https://download.gnome.org/sources/libxml2/2.15/libxml2-2.15.4.tar.xz
 tar -xf libxml2-2.15.4.tar.xz

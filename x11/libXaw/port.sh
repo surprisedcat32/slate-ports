@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd "${PORT_DIR:-/usr/ports}/x11/libXaw
+cd "${PORT_DIR:-/usr/ports}/x11/libXaw"
 
 git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libXaw.git
 

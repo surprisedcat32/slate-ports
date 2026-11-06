@@ -2,7 +2,7 @@
 #!/bin/sh
 set -e
 
-cd "${PORT_DIR:-/usr/ports}/x11/fltk
+cd "${PORT_DIR:-/usr/ports}/x11/fltk"
 curl -LO https://github.com/fltk/fltk/releases/download/release-1.3.11/fltk-1.3.11-source.tar.gz
 tar -xf fltk-1.3.11-source.tar.gz
 cd fltk-1.3.11

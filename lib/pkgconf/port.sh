@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd "${PORT_DIR:-/usr/ports}/lib/pkgconf
+cd "${PORT_DIR:-/usr/ports}/lib/pkgconf"
 
 curl -LO https://distfiles.dereferenced.org/pkgconf/pkgconf-2.5.1.tar.xz
 

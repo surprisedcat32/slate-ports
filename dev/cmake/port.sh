@@ -2,7 +2,7 @@
 #!/bin/sh
 set -e
 
-cd "${PORT_DIR:-/usr/ports}/dev/cmake
+cd "${PORT_DIR:-/usr/ports}/dev/cmake"
 
 curl -LO https://github.com/Kitware/CMake/releases/download/v4.4.5/cmake-4.4.5.tar.gz
 tar -xf cmake-4.4.5.tar.gz

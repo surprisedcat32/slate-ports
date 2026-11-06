@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/x11/picom
+cd "${PORT_DIR:-/usr/ports}/x11/picom"
 
 curl -LO https://github.com/yshui/picom/archive/refs/tags/v13.tar.gz
 tar -xf v13.tar.gz

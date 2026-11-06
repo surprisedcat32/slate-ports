@@ -2,7 +2,7 @@
 #!/bin/sh
 set -e
 
-cd "${PORT_DIR:-/usr/ports}/dev/m4
+cd "${PORT_DIR:-/usr/ports}/dev/m4"
 
 curl -LO https://ftp.gnu.org/gnu/m4/m4-1.4.21.tar.xz
 tar -xf m4-1.4.21.tar.xz

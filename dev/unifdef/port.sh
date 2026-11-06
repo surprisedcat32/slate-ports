@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/dev/unifdef
+cd "${PORT_DIR:-/usr/ports}/dev/unifdef"
 curl -LO https://dotat.at/prog/unifdef/unifdef-2.12.tar.gz
 tar -xf unifdef-2.12.tar.gz
 cd unifdef-2.12

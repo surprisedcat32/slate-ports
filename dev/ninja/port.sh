@@ -1,5 +1,5 @@
 #!/bin/sh
-cd "${PORT_DIR:-/usr/ports}/dev/ninja
+cd "${PORT_DIR:-/usr/ports}/dev/ninja"
 curl -LO https://github.com/ninja-build/ninja/archive/refs/tags/v1.13.2.tar.gz
 tar -xf v1.13.2.tar.gz
 cd ninja-1.13.2/

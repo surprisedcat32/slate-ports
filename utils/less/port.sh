@@ -1,5 +1,5 @@
 #!/bin/sh
-cd "${PORT_DIR:-/usr/ports}/utils/less
+cd "${PORT_DIR:-/usr/ports}/utils/less"
 
 curl -LO https://www.greenwoodsoftware.com/less/less-668.tar.gz
 

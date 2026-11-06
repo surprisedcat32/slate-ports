@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd "${PORT_DIR:-/usr/ports}/x11/xproto
+cd "${PORT_DIR:-/usr/ports}/x11/xproto"
 
 # Fetch a shallow copy of xorgproto. Mesa clones git; xorgproto also
 # publishes release tarballs, which are safer to pin.

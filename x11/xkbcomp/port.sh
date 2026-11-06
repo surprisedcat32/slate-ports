@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd "${PORT_DIR:-/usr/ports}/x11/xkbcomp
+cd "${PORT_DIR:-/usr/ports}/x11/xkbcomp"
 
 curl -LO https://xorg.freedesktop.org/releases/individual/app/xkbcomp-1.5.0.tar.xz
 tar -xf xkbcomp-1.5.0.tar.xz

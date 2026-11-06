@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/x11/libXdamage
+cd "${PORT_DIR:-/usr/ports}/x11/libXdamage"
 
 curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXdamage-1.2.1.tar.xz
 tar -xf libXdamage-1.2.1.tar.xz

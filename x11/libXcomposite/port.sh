@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/x11/libXcomposite
+cd "${PORT_DIR:-/usr/ports}/x11/libXcomposite"
 
 curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXcomposite-0.4.7.tar.xz
 tar -xf libXcomposite-0.4.7.tar.xz
