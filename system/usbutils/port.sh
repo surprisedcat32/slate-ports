@@ -1,10 +1,12 @@
 #!/bin/sh
 set -e
 
-cd "${PORT_DIR:-/usr/ports}/system/usbutils"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 curl -LO https://www.kernel.org/pub/linux/utils/usb/usbutils/usbutils-019.tar.xz
 tar -xf usbutils-019.tar.xz
-cd usbutils-019
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 meson setup build \
     --prefix=/usr \

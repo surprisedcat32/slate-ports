@@ -1,9 +1,11 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/system/grub"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 curl -LO https://ftp.gnu.org/gnu/grub/grub-2.14.tar.xz
 tar -xf grub-2.14.tar.xz
-cd grub-2.14
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 ./configure --prefix=/usr --sysconfdir=/etc --disable-werror --disable-nls --with-platform=efi --target=x86_64
 make -j"$MAKETHREADS"
 make DESTDIR="$DESTDIR" install

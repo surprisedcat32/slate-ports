@@ -1,9 +1,11 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/media/gstreamer"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 curl -LO https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.28.8.tar.xz
 tar -xf gstreamer-1.28.8.tar.xz
-cd gstreamer-1.28.8
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 meson setup build --prefix=/usr \
     -Dtests=disabled -Dexamples=disabled -Dbenchmarks=disabled
 ninja -C build -j"$MAKETHREADS"

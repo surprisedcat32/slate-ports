@@ -1,12 +1,14 @@
 #!/bin/sh
 
-cd "${PORT_DIR:-/usr/ports}/lib/xz"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 curl -LO https://tukaani.org/xz/xz-5.8.1.tar.gz
 
 tar -xf xz-5.8.1.tar.gz
 
-cd xz-5.8.1
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 ./configure --prefix=/usr --disable-static
 make -j"$MAKETHREADS"
 make DESTDIR="$DESTDIR" install

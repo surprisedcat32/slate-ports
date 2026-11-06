@@ -1,10 +1,12 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/lib/libbsd"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 curl -LO https://libbsd.freedesktop.org/releases/libbsd-0.12.2.tar.xz
 tar -xf libbsd-0.12.2.tar.xz
-cd libbsd-0.12.2
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 ./configure \
     --prefix=/usr \
     --disable-static

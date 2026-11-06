@@ -1,9 +1,11 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/lib/lcms2"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 curl -LO https://downloads.sourceforge.net/project/lcms/lcms/2.19/lcms2-2.19.tar.gz
 tar -xf lcms2-2.19.tar.gz
-cd lcms2-2.19
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 ./configure --prefix=/usr --disable-static
 make -j"$MAKETHREADS"
 make DESTDIR="$DESTDIR" install

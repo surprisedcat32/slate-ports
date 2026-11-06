@@ -1,11 +1,13 @@
 #!/bin/sh
 set -e
 
-cd "${PORT_DIR:-/usr/ports}/lib/simdutf"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 curl -LO https://github.com/simdutf/simdutf/archive/refs/tags/v9.3.0.tar.gz
 tar -xf v9.3.0.tar.gz
-cd simdutf-9.3.0
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 cmake -S . -B build \
     -DCMAKE_BUILD_TYPE=Release \

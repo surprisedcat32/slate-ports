@@ -1,9 +1,11 @@
 #!/bin/sh
-cd "${PORT_DIR:-/usr/ports}/net/chrony"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 curl -LO https://chrony-project.org/releases/chrony-4.7.tar.gz
 tar -xf chrony-4.7.tar.gz
-cd chrony-4.7
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 ./configure \
     --prefix=/usr \

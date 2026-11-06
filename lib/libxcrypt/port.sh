@@ -1,11 +1,13 @@
 #!/bin/sh
 set -e
 
-cd "${PORT_DIR:-/usr/ports}/lib/libxcrypt"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 curl -LO https://github.com/besser82/libxcrypt/releases/download/v4.4.38/libxcrypt-4.4.38.tar.xz
 tar -xf libxcrypt-4.4.38.tar.xz
-cd libxcrypt-4.4.38
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 ./configure \
     --prefix=/usr \

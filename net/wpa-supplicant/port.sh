@@ -1,10 +1,12 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/net/wpa-supplicant"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 curl -LO https://w1.fi/releases/wpa_supplicant-2.11.tar.gz
 tar -xf wpa_supplicant-2.11.tar.gz
-cd wpa_supplicant-2.11/wpa_supplicant
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 cat > .config <<'EOF'
 CONFIG_DRIVER_WEXT=y

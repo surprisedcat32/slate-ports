@@ -1,11 +1,13 @@
 #!/bin/sh
 
-cd "${PORT_DIR:-/usr/ports}/doc/xmlto"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 curl -LO https://anduin.linuxfromscratch.org/BLFS/xmlto/xmlto-0.0.29.tar.gz
 
 tar -xf xmlto-0.0.29.tar.gz
-cd xmlto-0.0.29
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 autoreconf -fiv
 

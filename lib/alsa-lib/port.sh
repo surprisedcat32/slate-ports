@@ -1,10 +1,12 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/lib/alsa-lib"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 curl -LO https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.16.1.tar.bz2
 tar -xf alsa-lib-1.2.16.1.tar.bz2
-cd alsa-lib-1.2.16.1
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 ./configure \
     --prefix=/usr \

@@ -1,9 +1,11 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/dev/which"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 curl -LO https://ftp.gnu.org/gnu/which/which-2.25.tar.gz
 tar -xf which-2.25.tar.gz
-cd which-2.25
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 ./configure --prefix=/usr
 make -j"$MAKETHREADS"
 make DESTDIR="$DESTDIR" install

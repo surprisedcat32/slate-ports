@@ -1,9 +1,11 @@
 #!/bin/sh
-cd "${PORT_DIR:-/usr/ports}/system/mdevd"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 curl -LO https://skarnet.org/software/mdevd/mdevd-0.1.5.0.tar.gz
 tar -xf mdevd-0.1.5.0.tar.gz
-cd mdevd-0.1.5.0
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 ./configure \
     --prefix=/usr

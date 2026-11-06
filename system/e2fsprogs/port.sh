@@ -2,11 +2,13 @@
 #!/bin/sh
 set -e
 
-cd "${PORT_DIR:-/usr/ports}/system/e2fsprogs"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 curl -LO https://downloads.sourceforge.net/project/e2fsprogs/e2fsprogs/1.47.4/e2fsprogs-1.47.4.tar.gz
 tar -xf e2fsprogs-1.47.4.tar.gz
-cd e2fsprogs-1.47.4
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 ./configure \
     --prefix=/usr \

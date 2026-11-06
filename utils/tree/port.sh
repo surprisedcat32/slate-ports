@@ -1,10 +1,12 @@
 #!/bin/sh
 
-cd "${PORT_DIR:-/usr/ports}/utils/tree"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 git clone --depth=1 https://gitlab.com/OldManProgrammer/unix-tree.git
 
-cd unix-tree
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 make -j"$MAKETHREADS"
 

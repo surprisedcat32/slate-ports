@@ -10,7 +10,8 @@ trap 'rm -rf "$WORK"' EXIT
 curl -fsSL "$URL" -o "$WORK/src.tar.gz"
 tar -xzf "$WORK/src.tar.gz" -C "$WORK" --strip-components=1
 
-cd "$WORK"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 make PREFIX=/usr -j"$MAKETHREADS"
 
 make DESTDIR="$DESTDIR" PREFIX=/usr install

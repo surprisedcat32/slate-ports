@@ -1,11 +1,13 @@
 #!/bin/sh
 set -e
 
-cd "${PORT_DIR:-/usr/ports}/system/linux"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 curl -LO https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.60.tar.xz
 tar -xf linux-6.18.60.tar.xz
 
-cd linux-6.18.60
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 make mrproper -j"$MAKETHREADS"
 

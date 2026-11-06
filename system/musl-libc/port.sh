@@ -2,15 +2,18 @@
 #!/bin/sh
 set -e
 
-cd "${PORT_DIR:-/usr/ports}/system/musl-libc"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 # Download musl
 curl -fLO https://musl.libc.org/releases/musl-1.2.6.tar.gz
 
 tar -xf musl-1.2.6.tar.gz
-cd musl-1.2.6
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 mkdir -p patches
-cd patches
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 curl -fL -o 0001-regex-overflow.patch \
     "https://git.musl-libc.org/cgit/musl/patch/?id=7813e9119eb5fe681b6750b8a033a0490bca0941"
@@ -27,7 +30,8 @@ curl -fL -o 0004-qsort-bounds.patch \
 curl -fL -o 0005-qsort-shift.patch \
     "https://git.musl-libc.org/cgit/musl/patch/?id=5122f9f3c99fee366167c5de98b31546312921ab"
 
-cd ..
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 for patchfile in patches/*.patch; do
     echo "Applying ${patchfile}..."

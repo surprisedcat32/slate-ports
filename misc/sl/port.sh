@@ -1,8 +1,10 @@
 #!/bin/sh
-cd "${PORT_DIR:-/usr/ports}/misc/sl"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 curl -LO https://github.com/mtoyoda/sl/archive/refs/tags/5.02.tar.gz
 tar -xf 5.02.tar.gz
-cd sl-5.02
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 make CC="${CC:-gcc}" \ -j"$MAKETHREADS"
     CFLAGS="${CFLAGS:--O2}" \

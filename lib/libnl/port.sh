@@ -1,10 +1,12 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/lib/libnl"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 curl -LO https://github.com/thom311/libnl/releases/download/libnl3_11_0/libnl-3.11.0.tar.gz
 tar -xf libnl-3.11.0.tar.gz
-cd libnl-3.11.0
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 ./configure 
     --prefix=/usr 

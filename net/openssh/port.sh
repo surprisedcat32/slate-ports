@@ -1,11 +1,13 @@
 #!/bin/sh
 set -e
 
-cd "${PORT_DIR:-/usr/ports}/net/openssh"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 curl -LO https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.6p2.tar.gz
 tar -xf openssh-10.6p2.tar.gz
-cd openssh-10.6p2
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 ./configure \
     --prefix=/usr \

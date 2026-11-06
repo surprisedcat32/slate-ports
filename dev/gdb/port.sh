@@ -2,14 +2,17 @@
 #!/bin/sh
 set -e
 
-cd "${PORT_DIR:-/usr/ports}/dev/gdb"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 curl -LO https://ftp.gnu.org/gnu/gdb/gdb-18.1.tar.xz
 tar -xf gdb-18.1.tar.xz
-cd gdb-18.1
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 mkdir -p build
-cd build
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 ../configure \
     --prefix=/usr \

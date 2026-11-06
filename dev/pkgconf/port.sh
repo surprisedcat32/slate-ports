@@ -1,12 +1,14 @@
 #!/bin/sh
 set -e
 
-cd "${PORT_DIR:-/usr/ports}/dev/pkgconf"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 curl -LO https://distfiles.ariadne.space/pkgconf/pkgconf-3.0.10.tar.xz
 tar -xf pkgconf-3.0.10.tar.xz
 
-cd pkgconf-3.0.10
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 CC=cross-musl-gcc \
 ./configure \

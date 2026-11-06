@@ -1,9 +1,11 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/lib/libsoup"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 curl -LO https://download.gnome.org/sources/libsoup/3.8/libsoup-3.8.1.tar.xz
 tar -xf libsoup-3.8.1.tar.xz
-cd libsoup-3.8.1
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 meson setup build --prefix=/usr \
     -Ddocs=disabled -Dintrospection=disabled \
     -Dtests=false -Dvapi=disabled

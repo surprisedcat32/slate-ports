@@ -1,10 +1,12 @@
 #!/bin/sh
-cd "${PORT_DIR:-/usr/ports}/lib/bzip2"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 curl -LO https://sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
 tar -xf bzip2-1.0.8.tar.gz
 
-cd bzip2-1.0.8
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 make -f Makefile-libbz2_so
 make clean

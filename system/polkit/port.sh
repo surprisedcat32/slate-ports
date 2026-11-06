@@ -1,10 +1,12 @@
 #!/bin/sh
 set -e
-cd "${PORT_DIR:-/usr/ports}/system/polkit"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 curl -LO https://github.com/polkit-org/polkit/archive/refs/tags/127.tar.gz
 tar -xf 127.tar.gz
-cd polkit-127
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 meson setup build \
     --prefix=/usr \

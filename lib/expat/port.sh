@@ -1,10 +1,12 @@
 #!/bin/sh
 set -e
 
-cd "${PORT_DIR:-/usr/ports}/lib/expat"
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 curl -LO https://github.com/libexpat/libexpat/releases/download/R_2_9_0/expat-2.9.0.tar.xz
 tar -xf expat-2.9.0.tar.xz
-cd expat-2.9.0
+PORTS_DIR=${PORTS_DIR:-"/usr/ports"}
+cd $PORTS_DIR
 
 ./configure \
     --prefix=/usr \
