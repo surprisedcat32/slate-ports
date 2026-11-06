@@ -10,7 +10,8 @@ make distclean
 export CPPFLAGS="-I/usr/include"
 export LDFLAGS="-L/usr/lib64 -L/usr/lib"
 export LD_LIBRARY_PATH=/usr/lib64:/usr/lib
-
+export BZIP2_CFLAGS="-I/usr/include"
+export BZIP2_LIBS="-L/usr/lib -lbz2"
 ac_cv_func_uuid_generate_time_safe=no ./configure \
   --prefix=/usr \
   --libdir=/usr/lib \
