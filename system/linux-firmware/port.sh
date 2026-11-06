@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 #!!!!!!!!!!!!!!!! Experimental
 set -e
 
-cd /usr/ports/system/linux-firmware
+cd "${PORT_DIR:-/usr/ports}/system/linux-firmware
 
 if [ ! -d linux-firmware/.git ]; then
     git clone --depth 1 https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git linux-firmware

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 slate install lib/glib
 slate install lib/atk
 slate install lib/pango

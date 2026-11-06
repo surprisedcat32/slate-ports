@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-cd /usr/ports/x11/libXfixes
+cd "${PORT_DIR:-/usr/ports}/x11/libXfixes
 
 curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXfixes-6.0.2.tar.xz
 tar -xf libXfixes-6.0.2.tar.xz

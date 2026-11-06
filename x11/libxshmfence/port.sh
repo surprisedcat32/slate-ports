@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
-cd /usr/ports/x11/libxshmfence
+cd "${PORT_DIR:-/usr/ports}/x11/libxshmfence
 curl -LO https://xorg.freedesktop.org/releases/individual/lib/libxshmfence-1.3.tar.gz
 tar -xf libxshmfence-1.3.tar.gz
 cd libxshmfence-1.3

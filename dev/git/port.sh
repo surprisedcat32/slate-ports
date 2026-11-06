@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-cd /usr/ports/dev/git
+cd "${PORT_DIR:-/usr/ports}/dev/git
 
 curl -LO https://www.kernel.org/pub/software/scm/git/git-2.51.0.tar.xz
 

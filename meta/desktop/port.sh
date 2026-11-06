@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 slate install x11/xorgproto
 slate install lib/util-macros
 slate install x11/xtrans

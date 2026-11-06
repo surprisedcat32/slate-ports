@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-cd /usr/ports/x11/libICE
+cd "${PORT_DIR:-/usr/ports}/x11/libICE
 
 curl -LO https://xorg.freedesktop.org/releases/individual/lib/libICE-1.1.2.tar.xz
 tar -xf libICE-1.1.2.tar.xz

@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 set -e
-cd /usr/ports/lib/libsoup
+cd "${PORT_DIR:-/usr/ports}/lib/libsoup
 curl -LO https://download.gnome.org/sources/libsoup/3.8/libsoup-3.8.1.tar.xz
 tar -xf libsoup-3.8.1.tar.xz
 cd libsoup-3.8.1

@@ -1,5 +1,5 @@
-#!/bin/bash
-cd /usr/ports/system/mtdev
+#!/bin/sh
+cd "${PORT_DIR:-/usr/ports}/system/mtdev
 git clone https://bitmath.se/org/git/mtdev.git/ 
 cd mtdev
 ./autogen.sh

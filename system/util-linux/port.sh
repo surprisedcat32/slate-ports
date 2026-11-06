@@ -1,8 +1,8 @@
 
-#!/bin/bash
+#!/bin/sh
 set -e
 
-cd /usr/ports/system/util-linux
+cd "${PORT_DIR:-/usr/ports}/system/util-linux
 
 curl -LO https://cdn.kernel.org/pub/linux/utils/util-linux/v2.42/util-linux-2.42.4.tar.xz
 tar -xf util-linux-2.42.4.tar.xz

@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-cd /usr/ports/x11/libXrender
+cd "${PORT_DIR:-/usr/ports}/x11/libXrender
 
 curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXrender-0.9.13.tar.xz
 tar -xf libXrender-0.9.13.tar.xz

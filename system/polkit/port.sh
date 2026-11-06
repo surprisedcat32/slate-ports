@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 set -e
-cd /usr/ports/system/polkit
+cd "${PORT_DIR:-/usr/ports}/system/polkit
 
 curl -LO https://github.com/polkit-org/polkit/archive/refs/tags/127.tar.gz
 tar -xf 127.tar.gz

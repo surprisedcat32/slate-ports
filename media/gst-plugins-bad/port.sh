@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 set -e
-cd /usr/ports/media/gst-plugins-bad
+cd "${PORT_DIR:-/usr/ports}/media/gst-plugins-bad
 curl -LO https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.28.8.tar.xz
 tar -xf gst-plugins-bad-1.28.8.tar.xz
 cd gst-plugins-bad-1.28.8

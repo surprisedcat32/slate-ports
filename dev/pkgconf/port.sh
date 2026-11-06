@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
-cd /usr/ports/dev/pkgconf
+cd "${PORT_DIR:-/usr/ports}/dev/pkgconf
 
 curl -LO https://distfiles.ariadne.space/pkgconf/pkgconf-3.0.10.tar.xz
 tar -xf pkgconf-3.0.10.tar.xz

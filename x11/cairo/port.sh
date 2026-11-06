@@ -1,5 +1,5 @@
 
-#!/bin/bash
+#!/bin/sh
 
 curl -LO https://cairographics.org/releases/cairo-1.18.6.tar.xz
 tar -xf cairo-1.18.6.tar.xz

@@ -1,8 +1,8 @@
 
-#!/bin/bash
+#!/bin/sh
 set -e
 
-cd /usr/ports/system/musl-libc
+cd "${PORT_DIR:-/usr/ports}/system/musl-libc
 
 # Download musl
 curl -fLO https://musl.libc.org/releases/musl-1.2.6.tar.gz

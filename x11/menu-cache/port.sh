@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 set -e
-cd /usr/ports/x11/menu-cache
+cd "${PORT_DIR:-/usr/ports}/x11/menu-cache
 
 curl -LO https://downloads.sourceforge.net/lxde/menu-cache-1.1.0.tar.xz
 tar -xf menu-cache-1.1.0.tar.xz

@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-cd /usr/ports/doc/xmlto
+cd "${PORT_DIR:-/usr/ports}/doc/xmlto
 
 curl -LO https://anduin.linuxfromscratch.org/BLFS/xmlto/xmlto-0.0.29.tar.gz
 

@@ -1,5 +1,5 @@
 
-#!/bin/bash
+#!/bin/sh
 
 curl -LO https://github.com/kennylevinsen/seatd/archive/0.9.3/seatd-0.9.3.tar.gz
 tar -xf seatd-0.9.3.tar.gz

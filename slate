@@ -566,7 +566,7 @@ case "$1" in
 
         count=$(find "$PORTS_DIR" -mindepth 2 -maxdepth 2 -type f -name port.sh | wc -l)
 
-        say "> Slate ports updated ($count ports from ${#REPO_URLS[@]} repositories)."
+        say "> Slate ports updated from ${#REPO_URLS[@]} repo(s)."
         ;;
 
     # ==============================================

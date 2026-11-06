@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 set -e
-cd /usr/ports/x11/libfm
+cd "${PORT_DIR:-/usr/ports}/x11/libfm
 
 curl -LO https://downloads.sourceforge.net/pcmanfm/libfm-1.3.2.tar.xz
 tar -xf libfm-1.3.2.tar.xz

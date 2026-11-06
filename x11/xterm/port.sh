@@ -1,5 +1,5 @@
-#!/bin/bash
-cd /usr/ports/x11/xterm
+#!/bin/sh
+cd "${PORT_DIR:-/usr/ports}/x11/xterm
 curl -LO https://invisible-mirror.net/archives/xterm/xterm-412.tgz
 tar -xf xterm-412.tgz
 cd xterm-412

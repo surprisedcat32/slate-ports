@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 set -e
-cd /usr/ports/dev/ruby
+cd "${PORT_DIR:-/usr/ports}/dev/ruby
 curl -LO https://cache.ruby-lang.org/pub/ruby/4.0/ruby-4.0.9.tar.xz
 tar -xf ruby-4.0.9.tar.xz
 cd ruby-4.0.9

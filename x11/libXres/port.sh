@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 set -e
-cd /usr/ports/x11/libXres
+cd "${PORT_DIR:-/usr/ports}/x11/libXres
 
 curl -LO https://xorg.freedesktop.org/releases/individual/lib/libXres-1.2.3.tar.xz
 tar -xf libXres-1.2.3.tar.xz

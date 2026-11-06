@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 curl -LO https://download.gnome.org/sources/pango/1.58/pango-1.58.2.tar.xz
 tar -xf pango-1.58.2.tar.xz

@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-cd /usr/ports/x11/xkeyboard-config
+cd "${PORT_DIR:-/usr/ports}/x11/xkeyboard-config
 
 curl -LO https://xorg.freedesktop.org/releases/individual/data/xkeyboard-config-2.5.1.tar.gz
 tar -xf xkeyboard-config-2.5.1.tar.gz

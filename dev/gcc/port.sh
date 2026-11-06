@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
-cd /usr/ports/dev/gcc
+cd "${PORT_DIR:-/usr/ports}/dev/gcc
 
 curl -LO https://ftp.gnu.org/gnu/gcc/gcc-15.2.0/gcc-15.2.0.tar.xz
 tar -xf gcc-15.2.0.tar.xz

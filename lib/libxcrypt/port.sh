@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
-cd /usr/ports/lib/libxcrypt
+cd "${PORT_DIR:-/usr/ports}/lib/libxcrypt
 
 curl -LO https://github.com/besser82/libxcrypt/releases/download/v4.4.38/libxcrypt-4.4.38.tar.xz
 tar -xf libxcrypt-4.4.38.tar.xz

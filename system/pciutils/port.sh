@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
-cd /usr/ports/system/pciutils
+cd "${PORT_DIR:-/usr/ports}/system/pciutils
 curl -LO https://www.kernel.org/pub/software/utils/pciutils/pciutils-3.15.0.tar.xz
 tar -xf pciutils-3.15.0.tar.xz
 cd pciutils-3.15.0

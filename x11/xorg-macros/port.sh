@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-cd /usr/ports/x11/xorg-macros
+cd "${PORT_DIR:-/usr/ports}/x11/xorg-macros
 
 curl -LO https://xorg.freedesktop.org/releases/individual/util/util-macros-1.20.2.tar.xz
 tar -xf util-macros-1.20.2.tar.xz

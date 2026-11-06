@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 set -e
-cd /usr/ports/lib/libsecret
+cd "${PORT_DIR:-/usr/ports}/lib/libsecret
 curl -LO https://download.gnome.org/sources/libsecret/0.21/libsecret-0.21.8.2.tar.xz
 tar -xf libsecret-0.21.8.2.tar.xz
 cd libsecret-0.21.8.2

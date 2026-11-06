@@ -1,8 +1,8 @@
 
-#!/bin/bash
+#!/bin/sh
 set -e
 
-cd /usr/ports/dev/gdb
+cd "${PORT_DIR:-/usr/ports}/dev/gdb
 
 curl -LO https://ftp.gnu.org/gnu/gdb/gdb-18.1.tar.xz
 tar -xf gdb-18.1.tar.xz

@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-cd /usr/ports/utils/procps-ng
+cd "${PORT_DIR:-/usr/ports}/utils/procps-ng
 
 curl -LO https://sourceforge.net/projects/procps-ng/files/Production/procps-ng-4.0.4.tar.xz/download -o procps-ng-4.0.4.tar.xz
 

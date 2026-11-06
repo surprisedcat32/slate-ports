@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-cd /usr/ports/x11/libXdmcp
+cd "${PORT_DIR:-/usr/ports}/x11/libXdmcp
 
 curl -LO https://www.x.org/pub/individual/lib/libXdmcp-1.1.5.tar.xz 
 tar -xf libXdmcp-1.1.5.tar.xz

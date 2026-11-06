@@ -1,5 +1,5 @@
 
-#!/bin/bash
+#!/bin/sh
 
 curl -LO https://i3wm.org/downloads/i3-4.25.1.tar.xz
 tar -xf i3-4.25.1.tar.xz

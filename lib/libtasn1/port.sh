@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 set -e
-cd /usr/ports/lib/libtasn1
+cd "${PORT_DIR:-/usr/ports}/lib/libtasn1
 curl -LO https://ftp.gnu.org/gnu/libtasn1/libtasn1-4.21.0.tar.gz
 tar -xf libtasn1-4.21.0.tar.gz
 cd libtasn1-4.21.0

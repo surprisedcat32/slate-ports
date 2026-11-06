@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-cd /usr/ports/x11
+cd "${PORT_DIR:-/usr/ports}/x11
 curl -LO https://xorg.freedesktop.org/archive/individual/lib/libxcb-1.17.0.tar.xz
 tar -xf libxcb-1.17.0.tar.xz
 cd libxcb-1.17.0

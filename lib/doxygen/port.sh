@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 cd /usr/ports
 curl -LO https://www.doxygen.nl/files/doxygen-1.14.0.src.tar.gz
 tar -xf doxygen-1.14.0.src.tar.gz

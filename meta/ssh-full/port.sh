@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 slate install net/openssl
 slate install lib/zlib

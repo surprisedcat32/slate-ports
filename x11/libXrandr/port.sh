@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-cd /usr/ports/x11/libXrandr
+cd "${PORT_DIR:-/usr/ports}/x11/libXrandr
 
 git clone --depth 1 https://gitlab.freedesktop.org/xorg/lib/libXrandr.git
 

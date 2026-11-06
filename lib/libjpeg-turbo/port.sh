@@ -1,8 +1,8 @@
 
-#!/bin/bash
+#!/bin/sh
 set -e
 
-cd /usr/ports/lib/libjpeg-turbo
+cd "${PORT_DIR:-/usr/ports}/lib/libjpeg-turbo
 
 curl -LO https://github.com/libjpeg-turbo/libjpeg-turbo/releases/download/3.2.1/libjpeg-turbo-3.2.1.tar.gz
 tar -xf libjpeg-turbo-3.2.1.tar.gz

@@ -1,5 +1,5 @@
-#!/bin/bash
-cd /usr/ports/utils/farbfeld
+#!/bin/sh
+cd "${PORT_DIR:-/usr/ports}/utils/farbfeld
 
 curl -LO https://dl.suckless.org/farbfeld/farbfeld-4.tar.gz
 tar -xf farbfeld-4.tar.gz

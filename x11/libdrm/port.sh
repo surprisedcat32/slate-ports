@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-cd /usr/ports/x11/libdrm
+cd "${PORT_DIR:-/usr/ports}/x11/libdrm
 #thanks LFS for this!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111!1!
 curl -LO https://dri.freedesktop.org/libdrm/libdrm-2.4.134.tar.xz
 tar -xf libdrm-2.4.134.tar.xz

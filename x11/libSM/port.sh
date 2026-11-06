@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-cd /usr/ports/x11/libSM
+cd "${PORT_DIR:-/usr/ports}/x11/libSM
 
 curl -LO https://xorg.freedesktop.org/releases/individual/lib/libSM-1.2.6.tar.xz
 tar -xf libSM-1.2.6.tar.xz

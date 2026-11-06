@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 slate install dev/dev
 slate install meta/python
 slate install dev/ninja

@@ -1,5 +1,5 @@
-#!/bin/bash
-cd /usr/ports/utils/sent
+#!/bin/sh
+cd "${PORT_DIR:-/usr/ports}/utils/sent
 
 curl -LO https://dl.suckless.org/tools/sent-1.3.tar.gz
 tar -xf sent-1.3.tar.gz

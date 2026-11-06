@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-cd /usr/ports/x11/xorg-server
+cd "${PORT_DIR:-/usr/ports}/x11/xorg-server
 curl -LO https://xorg.freedesktop.org/releases/individual/xserver/xorg-server-21.1.25.tar.xz
 tar -xf xorg-server-21.1.25.tar.xz
 

@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
-cd /usr/ports/x11/scrot
+cd "${PORT_DIR:-/usr/ports}/x11/scrot
 
 curl -LO https://github.com/resurrecting-open-source-projects/scrot/releases/download/2.0.0/scrot-2.0.0.tar.gz
 tar -xf scrot-2.0.0.tar.gz

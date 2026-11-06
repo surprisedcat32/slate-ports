@@ -1,5 +1,5 @@
-#!/bin/bash
-cd /usr/ports/net/chrony
+#!/bin/sh
+cd "${PORT_DIR:-/usr/ports}/net/chrony
 
 curl -LO https://chrony-project.org/releases/chrony-4.7.tar.gz
 tar -xf chrony-4.7.tar.gz
