@@ -328,7 +328,7 @@ case "$1" in
 
         write_manifest "$STAGE" "$MANIFEST_TMP"
 
-        say "==> Copying files into $SYSROOT"
+        say "> Copying files into $SYSROOT"
 
         if ! transplant "$STAGE"; then
             echo "slate: copy failed; some files may be partly copied into $SYSROOT" >&2
@@ -347,7 +347,7 @@ case "$1" in
 
         count=$(grep -c '^[fl]' "$MANIFEST_DIR/$PORT_NAME")
 
-        say "==> Finished installing $PORT_NAME ($count files)"
+        say "> Finished installing $PORT_NAME ($count files)"
         ;;
 
     # ==============================================
@@ -398,7 +398,7 @@ case "$1" in
             "$(dirname "$STATE_DIR/$PORT_NAME")" \
             2>/dev/null
 
-        say "==> Finished uninstalling $PORT_NAME"
+        say "> Finished uninstalling $PORT_NAME"
         ;;
 
     # ==============================================
@@ -550,7 +550,7 @@ case "$1" in
         shopt -u nullglob
 
         # Replace the old ports tree.
-        say "==> Replacing ports directory..."
+        say "> Replacing ports directory..."
 
         OLD_PORTS="$UPDATE_WORK/old"
 
@@ -566,7 +566,7 @@ case "$1" in
 
         count=$(find "$PORTS_DIR" -mindepth 2 -maxdepth 2 -type f -name port.sh | wc -l)
 
-        say "==> Slate ports updated ($count ports from ${#REPO_URLS[@]} repositories)."
+        say "> Slate ports updated ($count ports from ${#REPO_URLS[@]} repositories)."
         ;;
 
     # ==============================================
